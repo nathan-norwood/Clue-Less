@@ -122,7 +122,7 @@ public class Game {
 		}
 		/*TODO: currently players are added in order of join making
 		 * the host the first player always - if we want them in a different
-		 * order then we need to do an additional step here 
+		 * order then we need to do an additional step here. 
 		 */
 	
 	}	
@@ -147,38 +147,56 @@ public class Game {
 		}
 	}
 	
-	public boolean makeSuggestion(){
+	public boolean makeSuggestion(int s, int w, int r){
 		boolean successful = false;
-		
+		/* TODO:
+		 * 1. Update board, move game components
+		 * 2. Update state of game components (isOccupied)
+		 * 3. maintain state of "Suggestion"
+		 * 3. Start loop
+		 * */
 		
 		return successful;
 	}
 	
-	public boolean disproveSuggestion(){
+	public boolean disproveSuggestion(int id){
 		boolean successful = false;
-		
+		/* TODO:
+		 * 1. compare input to "Suggestion"
+		 * 2. Notify players based on response
+		 * 3. move to next player unless suggesting player reached
+		 */
 		
 		return successful;
 
 	}
-	public boolean makeAccusation(){
+	public boolean makeAccusation(int s, int w, int r){
 		boolean successful = false;
-		
+		/* TODO:
+		 * 1. Compare accusation against case file
+		 * 2. if valid, end game, notify players of win
+		 * 3. if invalid, deactivate player, notify players of deactivation
+		 */
 		
 		return successful;
 
 	}
+	
+	/*TODO: where are available moves identified... it changes based on
+	 * game state...
+	 */
 	public void makeMove(){
-		
+		/*TODO:
+		 * 1. Update board with move
+		 * 2. Notify all players
+		 */
 	}
+	
 	public void nextPlayer(){
-		
+		/* TODO: Move current player to next player & notify them*/
 	}
-
 	public boolean isOpen(){
 		return openGame;
 	}
-	
-	
 	
 }
