@@ -1,5 +1,12 @@
 package game;
 
+/* It seems like it would be useful to keep the friendly names
+ * for each of these in the GamePieces object, and use an ID to 
+ * reference them... this way the same suspect ID used here to 
+ * reference the name of the suspect could be used in Player to
+ * reference the suspect being played... 
+ */
+
 public class Card {
 	private CardType type;
 	private int unique_id;

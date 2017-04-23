@@ -8,6 +8,7 @@ public class Game {
 	private int unique_id;
 	private Vector<Card> card_deck;
 	private Vector<Card> case_file;
+	private Vector<Player> players;
 	
 	public Game(int id){
 		unique_id = id;
@@ -62,7 +63,7 @@ public class Game {
 	public Card getNextCard(){
 		
 		Random randomDeck = new Random();
-		
+		/*TODO: validate nextInt doesnt over reach index */
 		int next = randomDeck.nextInt(card_deck.size());
 		Card card = card_deck.remove(next);
 		return card;
@@ -85,16 +86,23 @@ public class Game {
 		
 	}
 
-	public void addPlayer(int playerID){
+	public void addPlayer(int playerID, int suspectID){
 		/*TODO: what do we need to send in to add a player to this game?
 		 * 1. Player ID - where GameServelet keeps ID + socket map,
 		 * 	and game keeps ID + player object?
-		 * */
-		
+		 */
+		 
+		players.add(new Player(playerID, suspectID));
+
+		/*TODO: currently players are added in order of join making
+		 * the host the first player always - if we want them in a different
+		 * order then we need to do an additional step here 
+		 */
+	
 	}	
 	
 	public void configureGame(){
-		
+		/* TODO: assign cards to players */
 	}
 	
 	public void startGame(){
