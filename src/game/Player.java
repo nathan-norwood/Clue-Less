@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class Player {
 	private int unique_id;
-	private int suspect_id; /*TODO Currently set in GameBoard*/
+	private int suspect_id; /*TODO Currently established in GameBoard*/
 	private boolean active = false;
 	
 	private Vector<Card> cards;

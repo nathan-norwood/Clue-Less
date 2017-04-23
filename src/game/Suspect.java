@@ -1,9 +1,12 @@
 package game; 
 
-public class Suspect {
+public class Suspect extends GameComponent{
 
-	public Suspect(int i, String string) {
-		// TODO Auto-generated constructor stub
+	public Suspect(int i, String s) {
+
+		super(i, s);
 	}
+
+	
 
 }

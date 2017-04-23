@@ -1,9 +1,12 @@
 package game;
 
-public class Weapon {
+public class Weapon extends GameComponent{
 
-	public Weapon(int i, String string) {
-		// TODO Auto-generated constructor stub
+	
+	public Weapon(int i, String s) {
+		super(i, s);
 	}
+
+
 
 }

@@ -1,6 +1,6 @@
 package game;
 
-public enum CardType {
+public enum GameComponentType {
 	SUSPECT,
 	WEAPON,
 	ROOM

@@ -8,23 +8,23 @@ package game;
  */
 
 public class Card {
-	private CardType type;
+	private GameComponentType type;
 	private int unique_id;
 	private String name;
 	
 	private static Integer cnt;
 	
-	public Card(CardType t, int i, String n){
+	public Card(GameComponentType t, int i, String n){
 		setId(i);
 		setType(t);
 		setName(n);
 	}
 
-	public CardType getType() {
+	public GameComponentType getType() {
 		return type;
 	}
 
-	private void setType(CardType type) {
+	private void setType(GameComponentType type) {
 		this.type = type;
 	}
 

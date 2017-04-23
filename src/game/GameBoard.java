@@ -7,7 +7,7 @@ public class GameBoard {
 
 	public Vector<Suspect> suspects;
 	public Vector<Weapon> weapons;
-	public Vector<Location> locations;
+	public Vector<Room> rooms;
 	
 	
 	public GameBoard(){
@@ -27,18 +27,48 @@ public class GameBoard {
 		weapons.add(new Weapon(5, "Candlestick"));
 		weapons.add(new Weapon(6, "Revolver"));
 		
-		locations = new Vector<Location>();
-		locations.add(new Room(1, "Study"));
-		locations.add(new Room(2, "Hall"));
-		locations.add(new Room(3, "Lounge"));
-		locations.add(new Room(4, "Library"));
-		locations.add(new Room(5, "Billiard Room"));
-		locations.add(new Room(6, "Dining Room"));
-		locations.add(new Room(7, "Conservatory"));
-		locations.add(new Room(8, "Ballroom"));
-		locations.add(new Room(9, "Kitchen"));
+		rooms = new Vector<Room>();
+		rooms.add(new Room(1, "Study"));
+		rooms.add(new Room(2, "Hall"));
+		rooms.add(new Room(3, "Lounge"));
+		rooms.add(new Room(4, "Library"));
+		rooms.add(new Room(5, "Billiard Room"));
+		rooms.add(new Room(6, "Dining Room"));
+		rooms.add(new Room(7, "Conservatory"));
+		rooms.add(new Room(8, "Ballroom"));
+		rooms.add(new Room(9, "Kitchen"));
 		
 		
+	}
+	
+	public GameComponent getById(GameComponentType t, int id){
+		switch(t){
+			case SUSPECT:
+				for( Suspect s : suspects ){
+					if( s.hasID(id) ){
+						return s;
+					}
+				}
+				break;
+				
+			case ROOM:
+				for( Room r : rooms ){
+					if( r.hasID(id) ){
+						return r;
+					}
+				}
+				break;
+				
+			case WEAPON:
+				for( Weapon w : weapons ){
+					if( w.hasID(id) ){
+						return w;
+					}
+				}
+				break;
+			
+		}
+		return null;
 	}
 	
 	

@@ -1,8 +1,9 @@
 package game;
 
-public class Room implements Location{
+public class Room extends GameComponent{
 
-	public Room(int i, String string) {
+	public Room(int i, String s) {
+		super(i,s);
 		// TODO Auto-generated constructor stub
 	}
 
