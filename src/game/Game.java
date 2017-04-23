@@ -14,9 +14,10 @@ public class Game {
 	
 	public Game(int id){
 		unique_id = id;
+		board = new GameBoard();
 		initCardDeck();	
 		initCaseFile();
-		board = new GameBoard();
+		
 		openGame = true;
 
 	}
@@ -117,6 +118,8 @@ public class Game {
 	
 	public void configureGame(){
 		/* TODO: assign cards to players */
+		
+		
 	}
 	
 	public boolean startGame(){
