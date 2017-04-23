@@ -1,22 +1,39 @@
 package game;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
 
 public class Game {
 
 	private int unique_id;
+	private String name;
 	private Vector<Card> card_deck;
 	private Vector<Card> case_file;
 	private Vector<Player> players;
 	private GameBoard board;
-	private boolean openGame;
 	
-	public Game(int id, int h_id, int s_id){
+	/* TODO: Order of play is:
+	 * scarlet, mustard, white, green, peacock, plum
+	 * How should this be represented?
+	 * 
+	 */
+	
+	
+	/* State variables */
+	private boolean openGame;
+	private Player current_player;
+	private HashMap<Integer, String> available_suspects;
+	
+	
+	public Game(int id, String n, int h_id, int s_id){
 		unique_id = id;
+		name = n;
 		board = new GameBoard();
-		initCardDeck();	
-		initCaseFile();
+		available_suspects = board.getSuspects();
+		initCardDeck();	// Must happen after board is initialized
+		initCaseFile();	// Must happen after card_deck is initialized
 		
 		addPlayer(h_id, s_id);
 		
@@ -31,30 +48,22 @@ public class Game {
 	private void initCardDeck(){
 		card_deck = new Vector<Card>();
 		int id = 0;
-		card_deck.add(new Card(GameComponentType.SUSPECT, id++, "Miss Scarlet"));
-		card_deck.add(new Card(GameComponentType.SUSPECT, id++, "Colonel Mustard"));
-		card_deck.add(new Card(GameComponentType.SUSPECT, id++, "Professor Plum"));
-		card_deck.add(new Card(GameComponentType.SUSPECT, id++, "Mr. Green"));
-		card_deck.add(new Card(GameComponentType.SUSPECT, id++, "Mrs. White"));
-		card_deck.add(new Card(GameComponentType.SUSPECT, id++, "Mrs. Peacock"));
 		
-		card_deck.add(new Card(GameComponentType.WEAPON, id++, "Rope"));
-		card_deck.add(new Card(GameComponentType.WEAPON, id++, "Lead Pipe"));
-		card_deck.add(new Card(GameComponentType.WEAPON, id++, "Knife"));
-		card_deck.add(new Card(GameComponentType.WEAPON, id++, "Wrench"));
-		card_deck.add(new Card(GameComponentType.WEAPON, id++, "Candlestick"));
-		card_deck.add(new Card(GameComponentType.WEAPON, id++, "Revolver"));
+		/*TODO: Note that instead of getting the id/name, we could just
+		 * use the object... Decide later.
+		 */
+		for(Entry<Integer, String> e: available_suspects.entrySet()){	
+			card_deck.add(new Card(GameComponentType.SUSPECT, e.getKey().intValue(), e.getValue()));
+		}
 		
-		card_deck.add(new Card(GameComponentType.ROOM, id++, "Study"));
-		card_deck.add(new Card(GameComponentType.ROOM, id++, "Hall"));
-		card_deck.add(new Card(GameComponentType.ROOM, id++, "Lounge"));
-		card_deck.add(new Card(GameComponentType.ROOM, id++, "Library"));
-		card_deck.add(new Card(GameComponentType.ROOM, id++, "Billiard Room"));
-		card_deck.add(new Card(GameComponentType.ROOM, id++, "Dining Room"));
-		card_deck.add(new Card(GameComponentType.ROOM, id++, "Conservatory"));
-		card_deck.add(new Card(GameComponentType.ROOM, id++, "Ballroom"));
-		card_deck.add(new Card(GameComponentType.ROOM, id++, "Kitchen"));
-	
+		for(Entry<Integer, String> e: board.getWeapons().entrySet()){
+			card_deck.add(new Card(GameComponentType.WEAPON, e.getKey().intValue(), e.getValue()));
+			
+		}
+		for(Entry<Integer, String> e: board.getRooms().entrySet()){
+			card_deck.add(new Card(GameComponentType.ROOM, e.getKey().intValue(), e.getValue()));
+			
+		}
 		
 	}
 	 

@@ -1,5 +1,6 @@
 package game;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 /* TODO: Should we shift how we do IDs? so they can be shared with cards? */
@@ -15,17 +16,17 @@ public class GameBoard {
 		locations = new Vector<Location>();
 		suspects = new Vector<Suspect>();
 		
-		setupBoard();
+		int id = 0;
 
 		weapons = new Vector<Weapon>();
-		weapons.add(new Weapon(1, "Rope"));
-		weapons.add(new Weapon(2, "Lead Pipe"));
-		weapons.add(new Weapon(3, "Knife"));
-		weapons.add(new Weapon(4, "Wrench"));
-		weapons.add(new Weapon(5, "Candlestick"));
-		weapons.add(new Weapon(6, "Revolver"));
+		weapons.add(new Weapon(id++, "Rope"));
+		weapons.add(new Weapon(id++, "Lead Pipe"));
+		weapons.add(new Weapon(id++, "Knife"));
+		weapons.add(new Weapon(id++, "Wrench"));
+		weapons.add(new Weapon(id++, "Candlestick"));
+		weapons.add(new Weapon(id++, "Revolver"));
 		
-		
+				setupBoard(id);
 		
 		/*TODO: Layout Game Components on board */
 		/* Suspects go in defined rooms
@@ -65,7 +66,7 @@ public class GameBoard {
 		return null;
 	}
 	
-	private void setupBoard(){
+	private void setupBoard(int i){
 		
 		/* TODO: I found it easier to use a single Location with a few flags
 		 * to differentiate behavior between rooms/hallways - we can shift this 
@@ -76,7 +77,7 @@ public class GameBoard {
 		 * locations - we can give them a position # or we can assign the board 
 		 * IDs... either way.
 		 */
-		int id = 0;
+		int id = i;
 		Location study = new Location(id++, "Study");
 		study.setIsRoom();
 		
@@ -211,30 +212,53 @@ public class GameBoard {
 		kitchen.addLocation(study);
 		locations.add(kitchen);
 		
-		Suspect scarlet = new Suspect(1, "Miss Scarlet"); 
+		Suspect scarlet = new Suspect(id++, "Miss Scarlet"); 
 		scarlet.setLocation(h2);
 		suspects.add(scarlet);
 		
-		Suspect mustard = new Suspect(2, "Colonel Mustard");
+		Suspect mustard = new Suspect(id++, "Colonel Mustard");
 		mustard.setLocation(h5);
 		suspects.add(mustard);
 		
-		Suspect plum = new Suspect(3, "Professor Plum");
+		Suspect plum = new Suspect(id++, "Professor Plum");
 		plum.setLocation(h3);
 		suspects.add(plum);
 		
-		Suspect green = new Suspect(4, "Mr. Green");
+		Suspect green = new Suspect(id++, "Mr. Green");
 		green.setLocation(h11);
 		suspects.add(green);
 		
-		Suspect white = new Suspect(5, "Mrs. White");
+		Suspect white = new Suspect(id++, "Mrs. White");
 		white.setLocation(h12);
 		suspects.add(white);
 		
-		Suspect peacock = new Suspect(6, "Mrs. Peacock");
+		Suspect peacock = new Suspect(id++, "Mrs. Peacock");
 		peacock.setLocation(h8);
 		suspects.add(peacock);
 	}
 	
+	public HashMap<Integer, String> getSuspects(){
+		HashMap<Integer, String> list = new HashMap<Integer,String>();
+		for(Suspect s:suspects){
+			list.put(s.getId(), s.getName());
+		}	
+		return list;
+	}
+	public HashMap<Integer, String> getRooms(){
+		HashMap<Integer, String> list = new HashMap<Integer,String>();
+		for(Location l:locations){
+			if(l.isRoom()){
+				list.put(l.getId(), l.getName());
+			}
+		}	
+		return list;
+	}
+	public HashMap<Integer, String> getWeapons(){
+		HashMap<Integer, String> list = new HashMap<Integer,String>();
+		for(Weapon w:weapons){
+			list.put(w.getId(), w.getName());
+		}	
+		return list;
+	}
 	
 }

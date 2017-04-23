@@ -20,4 +20,9 @@ public class Location extends GameComponent{
 		reachableLocations.add(l);
 	}
 
+	public boolean isRoom() {
+		// TODO Auto-generated method stub
+		return isRoom;
+	}
+
 }

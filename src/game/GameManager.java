@@ -20,10 +20,14 @@ public class GameManager {
 		return instance;
 	}
 	
-	public void newGame(int hostPlayerId, int suspectId){
+	public void newGame(String name, int hostPlayerId, int suspectId){
 		/*Create a new game*/
 		
-		games.add(new Game(id, hostPlayerId, suspectId));
+		/*TODO: Instead of creating the game and deleting it if the host doesn't join,
+		 * This function only creates a game with the host player joined to it. 
+		 * Update later if time allows
+		 */
+		games.add(new Game(id, name, hostPlayerId, suspectId));
 		id++;
 		
 	}
