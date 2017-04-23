@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import game.Game;
+import game.GameManager;
 
 /**
  * Servlet implementation class GameServlet
@@ -17,7 +17,7 @@ import game.Game;
 public class GameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private Vector<Game> games;
+	private GameManager game_manager;
 	
 	/* PlayerID, Socket for Player */
 	//private HashMap<Integer, Socket> players;
@@ -27,7 +27,7 @@ public class GameServlet extends HttpServlet {
      */
     public GameServlet() {
     	super();
-    	games = new Vector<Game>();
+    	game_manager = GameManager.getInstance();
         // TODO Auto-generated constructor stub
     }
 
@@ -35,7 +35,11 @@ public class GameServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		/*
+		 * On Get - send back the base page. Should have the ability to add
+		 * game or join game.
+		 * 
+		 */
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

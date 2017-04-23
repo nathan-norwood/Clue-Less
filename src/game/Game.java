@@ -9,11 +9,16 @@ public class Game {
 	private Vector<Card> card_deck;
 	private Vector<Card> case_file;
 	private Vector<Player> players;
+	private GameBoard board;
+	private boolean openGame;
 	
 	public Game(int id){
 		unique_id = id;
 		initCardDeck();	
 		initCaseFile();
+		board = new GameBoard();
+		openGame = true;
+
 	}
 	
 	public int getId() {
@@ -86,14 +91,23 @@ public class Game {
 		
 	}
 
-	public void addPlayer(int playerID, int suspectID){
+	public boolean addPlayer(int playerID, int suspectID){
 		/*TODO: what do we need to send in to add a player to this game?
 		 * 1. Player ID - where GameServelet keeps ID + socket map,
 		 * 	and game keeps ID + player object?
 		 */
-		 
-		players.add(new Player(playerID, suspectID));
-
+		if(players.size()< 6){ 
+			players.add(new Player(playerID, suspectID));
+			
+			if(players.size() == 6){
+				/* close game once max reached */
+				openGame = false;
+			}
+			return true;
+		}
+		else{
+			return false;
+		}
 		/*TODO: currently players are added in order of join making
 		 * the host the first player always - if we want them in a different
 		 * order then we need to do an additional step here 
@@ -105,9 +119,18 @@ public class Game {
 		/* TODO: assign cards to players */
 	}
 	
-	public void startGame(){
-		/* this would be a state update */
+	public boolean startGame(){
 		
+		if(players.size()>=2){
+			openGame = false;
+			
+			/* start the game... */
+			
+			return true;
+		}else{
+			/* not enough people to start the game */
+			return false;
+		}
 	}
 	
 	public boolean makeSuggestion(){
@@ -138,6 +161,9 @@ public class Game {
 		
 	}
 
+	public boolean isOpen(){
+		return openGame;
+	}
 	
 	
 	
