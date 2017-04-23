@@ -15,6 +15,9 @@ public class Location extends GameComponent{
 	public void setIsRoom(){
 		isRoom = true;
 	}
+	public void setOccupied(boolean state){
+		occupied = state;
+	}
 	
 	public void addLocation(Location l){
 		reachableLocations.add(l);
@@ -24,5 +27,10 @@ public class Location extends GameComponent{
 		// TODO Auto-generated method stub
 		return isRoom;
 	}
+	
+	public boolean isOccupied(){
+		return occupied;
+	}
+	
 
 }

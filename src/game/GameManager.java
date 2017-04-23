@@ -24,7 +24,7 @@ public class GameManager {
 		/*Create a new game*/
 		
 		/*TODO: Instead of creating the game and deleting it if the host doesn't join,
-		 * This function only creates a game with the host player joined to it. 
+		 * this function only creates a game with the host player joined to it. 
 		 * Update later if time allows
 		 */
 		games.add(new Game(id, name, hostPlayerId, suspectId));

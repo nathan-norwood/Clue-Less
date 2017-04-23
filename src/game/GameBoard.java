@@ -215,26 +215,32 @@ public class GameBoard {
 		Suspect scarlet = new Suspect(id++, "Miss Scarlet"); 
 		scarlet.setLocation(h2);
 		suspects.add(scarlet);
+		h2.setOccupied(true);
 		
 		Suspect mustard = new Suspect(id++, "Colonel Mustard");
 		mustard.setLocation(h5);
 		suspects.add(mustard);
+		h5.setOccupied(true);
 		
 		Suspect plum = new Suspect(id++, "Professor Plum");
 		plum.setLocation(h3);
 		suspects.add(plum);
+		h3.setOccupied(true);
 		
 		Suspect green = new Suspect(id++, "Mr. Green");
 		green.setLocation(h11);
 		suspects.add(green);
+		h11.setOccupied(true);
 		
 		Suspect white = new Suspect(id++, "Mrs. White");
 		white.setLocation(h12);
 		suspects.add(white);
+		h12.setOccupied(true);
 		
 		Suspect peacock = new Suspect(id++, "Mrs. Peacock");
 		peacock.setLocation(h8);
 		suspects.add(peacock);
+		h8.setOccupied(true);
 	}
 	
 	public HashMap<Integer, String> getSuspects(){
