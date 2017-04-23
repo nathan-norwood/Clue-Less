@@ -12,14 +12,11 @@ public class GameBoard {
 	
 	public GameBoard(){
 		/* Create Game Components */
+		locations = new Vector<Location>();
 		suspects = new Vector<Suspect>();
-		suspects.add(new Suspect(1, "Miss Scarlet"));
-		suspects.add(new Suspect(2, "Colonel Mustard"));
-		suspects.add(new Suspect(3, "Professor Plum"));
-		suspects.add(new Suspect(4, "Mr. Green"));
-		suspects.add(new Suspect(5, "Mrs. White"));
-		suspects.add(new Suspect(6, "Mrs. Peacock"));
 		
+		setupBoard();
+
 		weapons = new Vector<Weapon>();
 		weapons.add(new Weapon(1, "Rope"));
 		weapons.add(new Weapon(2, "Lead Pipe"));
@@ -28,7 +25,6 @@ public class GameBoard {
 		weapons.add(new Weapon(5, "Candlestick"));
 		weapons.add(new Weapon(6, "Revolver"));
 		
-		setupBoard();
 		
 		
 		/*TODO: Layout Game Components on board */
@@ -80,7 +76,6 @@ public class GameBoard {
 		 * locations - we can give them a position # or we can assign the board 
 		 * IDs... either way.
 		 */
-		locations = new Vector<Location>();
 		int id = 0;
 		Location study = new Location(id++, "Study");
 		study.setIsRoom();
@@ -216,6 +211,29 @@ public class GameBoard {
 		kitchen.addLocation(study);
 		locations.add(kitchen);
 		
+		Suspect scarlet = new Suspect(1, "Miss Scarlet"); 
+		scarlet.setLocation(h2);
+		suspects.add(scarlet);
+		
+		Suspect mustard = new Suspect(2, "Colonel Mustard");
+		mustard.setLocation(h5);
+		suspects.add(mustard);
+		
+		Suspect plum = new Suspect(3, "Professor Plum");
+		plum.setLocation(h3);
+		suspects.add(plum);
+		
+		Suspect green = new Suspect(4, "Mr. Green");
+		green.setLocation(h11);
+		suspects.add(green);
+		
+		Suspect white = new Suspect(5, "Mrs. White");
+		white.setLocation(h12);
+		suspects.add(white);
+		
+		Suspect peacock = new Suspect(6, "Mrs. Peacock");
+		peacock.setLocation(h8);
+		suspects.add(peacock);
 	}
 	
 	

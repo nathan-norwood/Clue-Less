@@ -12,11 +12,13 @@ public class Game {
 	private GameBoard board;
 	private boolean openGame;
 	
-	public Game(int id){
+	public Game(int id, int h_id, int s_id){
 		unique_id = id;
 		board = new GameBoard();
 		initCardDeck();	
 		initCaseFile();
+		
+		addPlayer(h_id, s_id);
 		
 		openGame = true;
 

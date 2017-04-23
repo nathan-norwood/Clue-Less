@@ -7,6 +7,7 @@ public class GameManager {
 
 	private Vector<Game> games;
 	private static GameManager instance;
+	private int id = 0;
 	
 	private GameManager(){
 		games = new Vector<Game>();
@@ -19,8 +20,12 @@ public class GameManager {
 		return instance;
 	}
 	
-	public void newGame(){
+	public void newGame(int hostPlayerId, int suspectId){
 		/*Create a new game*/
+		
+		games.add(new Game(id, hostPlayerId, suspectId));
+		id++;
+		
 	}
 	
 	public Game getGameById(int id){
