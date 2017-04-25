@@ -3,7 +3,9 @@ package servlet;
 import java.io.IOException;
 import java.util.Vector;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +42,11 @@ public class GameServlet extends HttpServlet {
 		 * game or join game.
 		 * 
 		 */
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		RequestDispatcher view = request.getRequestDispatcher("/dashboard.html");
+		Cookie cookie = new Cookie("testCookie", "success!");
+		response.addCookie(cookie);
+		view.forward(request, response);
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**

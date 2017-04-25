@@ -26,7 +26,7 @@ public class GameBoard {
 		weapons.add(new Weapon(id++, "Candlestick"));
 		weapons.add(new Weapon(id++, "Revolver"));
 		
-				setupBoard(id);
+		setupBoard(id);
 		
 		/*TODO: Layout Game Components on board */
 		/* Suspects go in defined rooms
