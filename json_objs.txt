@@ -1,0 +1,21 @@
+JSON Objects:
+TODO: preload the HTML page with "ID/Familar Name" data for all cards - these IDs are shared with game objects too - that way you donned to send as much data back and forth with the server for the MSGs. Just look up based on the ID.
+To User:
+{ type: CARDS, cards:[ 5, 6 ] }
+{ type: GAMES, games: [ {name: "My Game", id: 1}, {name: "My Game2", id: 2} ]
+{ type: SUSPECTS, suspects:[ 5, 6 ] }
+{ type: TURN, options:[ {}, {}, {} ] }
+{ type: BOARD_STATE, ??? }
+{ type: MSG, msg: "Text of the msg" }
+
+
+From User:
+
+{ type: CREATE, name: "Game Name", suspect: 5 }
+{ type: JOIN, game_id: 2 }
+{ type: SELECT_PLAYER, suspect: 5, game_id: 2 }
+{ type: MOVE, location: 3, suggestion: [ 3, 12, 6], game_id: 2 }
+{ type: DISPROVE, game_id: 2, card: 6 }
+{ type: ACCUSE, game_id: 2, accusation: [3, 12, 6] }
+
+
