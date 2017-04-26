@@ -1,6 +1,12 @@
 package game;
 
+import java.io.IOException;
 import java.util.Vector;
+
+import javax.websocket.Session;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 /* Singleton that manages games */
 public class GameManager {
@@ -8,6 +14,7 @@ public class GameManager {
 	private Vector<Game> games;
 	private static GameManager instance;
 	private int id = 0;
+	private BiMap<Session, Integer> playerSessions = HashBiMap.create();
 	
 	private GameManager(){
 		games = new Vector<Game>();
@@ -52,6 +59,22 @@ public class GameManager {
 			}
 		}
 		return openGames;
+		
+	}
+	public void addSession(Session session, int id){
+		this.playerSessions.put(session,id);
+		System.out.println("Added to BiMap" + playerSessions.get(session));
+	}
+
+	public void handleMessage(Session session, String message) {
+		
+		System.out.println(message);
+		try {
+			session.getBasicRemote().sendText("From Game Manager");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 }

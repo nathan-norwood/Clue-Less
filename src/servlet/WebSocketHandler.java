@@ -8,28 +8,24 @@ import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import game.GameManager;
+
 @ServerEndpoint(value = "/socket")
 public class WebSocketHandler {
+	GameManager gameManager = GameManager.getInstance();
 	private Session session;
+	public static int baseID = 0;
 	@OnOpen
 	public void onOpen(Session session){
 		this.session = session;
+		gameManager.addSession(this.session, baseID++);
 	}
 	@OnMessage
-	public void onMessage(String message){
-		System.out.println(message);
-		sendMessage(message + " Server Says hi");
-	}
-	
-	
-	public void sendMessage(String message){
-		try {
-			session.getBasicRemote().sendText(message);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
+	public void onMessage(Session session, String message){
+		gameManager.handleMessage(session, message);
 		
 	}
+	
+	
 	
 }

@@ -1,19 +1,18 @@
 
-var clueless = angular.module('clueless', ['ngCookies', 'angular-websocket']).controller('ctrlr', ['$scope', '$cookies', '$websocket', function($scope, $cookies, $websocket){
+var clueless = angular.module('clueless', ['angular-websocket']).controller('ctrlr', ['$scope', '$websocket', function($scope,  $websocket){
 	
-	$scope.test = "You have passed the test: "+$cookies.get("testCookie");
+	$scope.test = "Response from server: ";
 	
 	$scope.isValid = function(){
 		return true;
 	}
 	
-
 	
 	 // var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
 	var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
 	  //Not sure how to hook this in
-	  ws.onMessage(function(message) {
-	    $scope.test = message;
+	  ws.onMessage(function(event) {
+	    $scope.test += event.data;
 	  });
 
 	   ws.onError(function(event) {
@@ -23,6 +22,8 @@ var clueless = angular.module('clueless', ['ngCookies', 'angular-websocket']).co
 	  ws.onClose(function(event) {
 	    console.log('connection closed', event);
 	  });
+	  
+	 
 
 	 
 	  
