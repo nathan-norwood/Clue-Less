@@ -7,15 +7,26 @@
 <script src="scripts/angular-cookies.js" type="text/javascript"></script>
 <script src="scripts/clueless-controller.js" type="text/javascript"></script>
 <script src="scripts/angular-websocket.js" type="text/javascript"></script>
+
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body ng-controller="ctrlr">
 
-<div ng-show="isValid()">
-{{test}}
-</div>
-<form ng-submit = "submit(input_text)">
-	<input type = "text" ng-model="input_text">
-	<button type="submit">Send</button>
-</form>
+	<div ng-show="isValid()">{{test}}</div>
+	<form ng-submit="submit(input_text)">
+		<input type="text" ng-model="input_text">
+		<button type="submit">Send</button>
+	</form>
+
+
+	<div id="gameSelect" ng-show="game_id == undefined">
+		<h1>Welcome to Clue-Less!</h1>
+		<p>Please select from the list of available games:</p>
+		<div ng-repeat="g in games">
+			<input type="radio" name="select_game" value="{{g.id}}" ng-model="selected_game" ng-value="{{g.id}}"/> g.name
+		</div>
+	</div>
+	<div id="gameDashboard" ng-show="game_id != undefined"></div>
+
 </body>
 </html>

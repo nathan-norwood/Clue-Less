@@ -1,8 +1,12 @@
 package game;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Vector;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.websocket.Session;
 
 import com.google.common.collect.BiMap;
@@ -69,6 +73,12 @@ public class GameManager {
 	public void handleMessage(Session session, String message) {
 		
 		System.out.println(message);
+		JsonReader reader = Json.createReader(new StringReader(message));
+		JsonObject input = reader.readObject();
+		reader.close();
+		
+		//Check to see what the "type" is and perform operations accordingly
+		
 		try {
 			session.getBasicRemote().sendText("From Game Manager");
 		} catch (IOException e) {
