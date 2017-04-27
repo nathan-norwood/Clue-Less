@@ -31,6 +31,21 @@ public class Location extends GameComponent{
 	public boolean isOccupied(){
 		return occupied;
 	}
+	public Vector<Location> getAvailableLocationMoves(){
+		Vector<Location> options = new Vector<Location>();
+		for(Location l: reachableLocations){
+			if(l.isRoom){
+				options.add(l);
+			}
+			else{
+				//if it is an empty hallway
+				if(!l.isOccupied()){
+					options.add(l);
+				}
+			}
+		}
+		return options;
+	}
 	
 
 }

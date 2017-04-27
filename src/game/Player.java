@@ -21,5 +21,17 @@ public class Player {
 		cards.add(c);
 		
 	}
+	public int getUniqueId(){
+		return unique_id;
+	}
+	public int getSuspectId(){
+		return suspect_id;
+	}
+	public boolean isActive(){
+		return active;
+	}
+	public void setInactive(){
+		active = false;
+	}
 
 }

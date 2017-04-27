@@ -36,33 +36,33 @@ public class GameBoard {
 		
 	}
 	
-	public GameComponent getById(GameComponentType t, int id){
-		switch(t){
-			case SUSPECT:
-				for( Suspect s : suspects ){
-					if( s.hasID(id) ){
-						return s;
-					}
-				}
-				break;
-				
-			case ROOM:
-				for( Location r : locations ){
-					if( r.hasID(id) ){
-						return r;
-					}
-				}
-				break;
-				
-			case WEAPON:
-				for( Weapon w : weapons ){
-					if( w.hasID(id) ){
-						return w;
-					}
-				}
-				break;
-			
+	public Suspect getSuspectById(int id) {
+
+		for (Suspect s : suspects) {
+			if (s.hasID(id)) {
+				return s;
+			}
 		}
+		return null;
+
+	}
+
+	public Location getLocationById(int id) {
+		for (Location r : locations) {
+			if (r.hasID(id)) {
+				return r;
+			}
+		}
+		return null;
+	}
+
+	public Weapon getWeaponById(int id) {
+		for (Weapon w : weapons) {
+			if (w.hasID(id)) {
+				return w;
+			}
+		}
+
 		return null;
 	}
 	

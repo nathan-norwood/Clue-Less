@@ -98,8 +98,6 @@ public class Game {
 		int next = randomDeck.nextInt(card_deck.size());
 		Card card = card_deck.remove(next);
 		return card;
-		
-		
 	}
 	
 	/* TODO: Use this function to select the case file */
@@ -113,8 +111,6 @@ public class Game {
 		}
 		Card card = card_deck.remove(next);
 		return card;
-		
-		
 	}
 
 	public boolean addPlayer(int playerID, int suspectID){
@@ -204,6 +200,48 @@ public class Game {
 		 * 1. Update board with move
 		 * 2. Notify all players
 		 */
+	}
+	
+	
+
+	/*First Move
+	 * check to see if suspect is in room
+	 *  check to see if player is there by suggestion
+	 *  check to see if hallways occupied
+	 *  options: move to empty hallway/room
+	 *  		make suggestion (if there by suggestion)
+	 *  		make accusation
+	 * check to see if suspect is in hallway
+	 * 	options: move to available rooms, make suggestion
+	 * 			make accusation
+	 * 
+	 *Second Move
+	 * Make accusation
+	 * 
+	 */
+
+	public void getNextMove(){
+		Suspect s = board.getSuspectById(current_player.getSuspectId());
+
+		if(s.getLocation().isRoom()){
+			for(Location l:s.getLocation().getAvailableLocationMoves()){
+				if(l.isRoom()){
+					//add Room options
+				}else{
+					//add Hallway options
+				}
+				
+				if(s.wasMovedBySuggestion()){
+					//add option to Suggest in current location
+				}
+			}
+		}
+		else{ //hallway
+			for(Location l:s.getLocation().getAvailableLocationMoves()){
+				//add Room options
+			}	
+		}
+		//add make accusation option
 	}
 	
 	public void nextPlayer(){
