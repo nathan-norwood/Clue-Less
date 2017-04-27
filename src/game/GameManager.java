@@ -110,8 +110,6 @@ public class GameManager {
 			}
 			obuilder.add("rooms", abuilder);
 
-
-			
 			try {
 				session.getBasicRemote().sendText(obuilder.build().toString());
 			} catch (IOException e) {
@@ -149,7 +147,9 @@ public class GameManager {
 			g.addPlayer(playerSessions.get(session), input.getInt("suspect"));
 			
 		}else if(input.getString("type").equals("MOVE")){
-			
+			// Send 'game' with each msg.
+			Game g = games.get(Integer.parseInt(input.getString("game")));
+			g.makeMove();
 		}else if(input.getString("type").equals("DISPROVE")){
 			
 		}else if(input.getString("type").equals("ACCUSE")){

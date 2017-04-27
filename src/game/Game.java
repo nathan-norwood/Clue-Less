@@ -7,7 +7,6 @@ import java.util.Vector;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import javax.json.JsonValue;
 
 public class Game {
 
@@ -29,6 +28,7 @@ public class Game {
 	/* State variables */
 	private boolean openGame = false;
 	private Player current_player;
+	private Player disproving_player = null;
 	private HashMap<Integer, String> available_suspects;
 	
 	
@@ -138,9 +138,20 @@ public class Game {
 	}	
 	
 	public void configureGame(){
-		/* TODO: assign cards to players */
-		
-		
+		/* TODO: Base logic is here, Validate this works! */
+		boolean cont = true;
+		do{
+			for(Player p: players){
+				Card c = getNextCard();
+				if(c != null){
+					p.addCard(c);
+				}else{
+					cont = false;
+					break;
+				}
+			}
+		}while(cont);
+			
 	}
 	
 	public boolean startGame(){
@@ -149,6 +160,10 @@ public class Game {
 			openGame = false;
 			
 			/* start the game... */
+			// set current_player
+			// call getNextMove() and send JSON to player
+			// on player callback, makeMove(). 
+			
 			
 			return true;
 		}else{
@@ -160,10 +175,11 @@ public class Game {
 	public boolean makeSuggestion(int s, int w, int r){
 		boolean successful = false;
 		/* TODO:
+		 * 0. Only if disproving_player == null, can make a suggestion
 		 * 1. Update board, move game components
 		 * 2. Update state of game components (isOccupied)
-		 * 3. maintain state of "Suggestion"
-		 * 3. Start loop
+		 * 3. set disproving_player, send msg.
+		 * 4. Start loop
 		 * */
 		
 		return successful;
@@ -172,9 +188,11 @@ public class Game {
 	public boolean disproveSuggestion(int id){
 		boolean successful = false;
 		/* TODO:
+		 * 0. Only if disproving_player != null, can disprove
 		 * 1. compare input to "Suggestion"
 		 * 2. Notify players based on response
 		 * 3. move to next player unless suggesting player reached
+		 * 4. if reached, set disproving player to null
 		 */
 		
 		return successful;
@@ -183,6 +201,7 @@ public class Game {
 	public boolean makeAccusation(int s, int w, int r){
 		boolean successful = false;
 		/* TODO:
+		 * 0. Only if disproving_player == null, can make a accusation
 		 * 1. Compare accusation against case file
 		 * 2. if valid, end game, notify players of win
 		 * 3. if invalid, deactivate player, notify players of deactivation
@@ -197,8 +216,10 @@ public class Game {
 	 */
 	public void makeMove(){
 		/*TODO:
+		 * 0. Only if disproving_player == null, can make a move
 		 * 1. Update board with move
 		 * 2. Notify all players
+		 * 3. If suggestion made, call make suggestion.
 		 */
 	}
 	
