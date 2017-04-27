@@ -11,6 +11,9 @@ public class Weapon extends GameComponent{
 	public void setLocation(Location locationById) {
 		currentLocation = locationById;
 	}
+	public Location getLocation(){
+		return currentLocation;
+	}
 
 
 

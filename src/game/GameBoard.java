@@ -272,5 +272,10 @@ public class GameBoard {
 		}	
 		return list;
 	}
-	
+	public Vector<Weapon> getWeaponSet(){
+		return weapons;
+	}
+	public Vector<Suspect> getSuspectSet(){
+		return suspects;
+	}
 }

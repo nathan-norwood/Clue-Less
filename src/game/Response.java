@@ -5,6 +5,11 @@ public class Response {
 
 	private int session_id; //session_id=0 means all players
 	
+	public Response(int i, JsonObject boardState) {
+		// TODO Auto-generated constructor stub
+		setSession_id(i);
+		setMsgs(boardState);
+	}
 	public int getSession_id() {
 		return session_id;
 	}

@@ -1,6 +1,7 @@
 package game;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.json.Json;
@@ -172,8 +173,9 @@ public class Game {
 			
 	}
 	
-	public boolean startGame(){
+	public Response startGame(){
 		//Should never happen, validation on front end
+
 		if(players.size()>=2){
 			openGame = false;
 			
@@ -188,15 +190,11 @@ public class Game {
 				current_player = players.get(0);
 			
 						/* start the game... */
-			// set current_player
-			// call getNextMove() and send JSON to player
-			// on player callback, makeMove(). 
+			return new Response(current_player.getSuspectId(), getNextMove());
 			
-			
-			return true;
 		}else{
 			/* not enough people to start the game */
-			return false;
+			return null;
 		}
 	}
 	
@@ -213,8 +211,8 @@ public class Game {
 		return successful;
 	}
 	
-	public boolean disproveSuggestion(int id){
-		boolean successful = false;
+	public Response disproveSuggestion(int id){
+		Response disprove=null;
 		/* TODO:
 		 * 0. Only if disproving_player != null, can disprove
 		 * 1. compare input to "Suggestion"
@@ -227,7 +225,7 @@ public class Game {
 		 JsonObject json= Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build();
 		 //TODO: Notify current_player of their next turn
 		 
-		return successful;
+		return disprove;
 
 	}
 	public boolean makeAccusation(JsonObject turn){
@@ -248,7 +246,8 @@ public class Game {
 	/*TODO: where are available moves identified... it changes based on
 	 * game state...
 	 */
-	public JsonObject makeMove(JsonObject turn){
+	public Vector<Response> makeMove(JsonObject turn){
+		Vector<Response> responses = new Vector<Response>();
 		JsonObject json= null;
 		// { location: 3, suggestion:{suspect:2, weapon 4, location: 6}}
 
@@ -278,6 +277,7 @@ public class Game {
 						cur_suspect.getLocation().setOccupied(true);
 					}
 					//TODO: Notify Players of board
+					responses.add(new Response(0, getBoardState()));
 				}else{
 					//TODO Error!
 				}
@@ -299,7 +299,11 @@ public class Game {
 					w.setLocation(board.getLocationById(l_id));
 					
 					//TODO Notify Players of board updates & suggestion
+					responses.add(new Response(0, getBoardState()));
+					responses.add(new Response(0, suggestion));
+
 					//TODO Start Disprove Process
+					responses.add(disproveSuggestion(1));
 					
 				}else{
 					//TODO Error!
@@ -308,7 +312,9 @@ public class Game {
 			}else{
 
 				/* If no suggestion made, send back option to accuse */
-				 json= Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build();
+				json= Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build();
+
+				responses.add(new Response(current_player.getUniqueId(), json));
 				 //TODO: Notify current_player of their next turn
 			}
 
@@ -316,11 +322,27 @@ public class Game {
 			//TODO Error!
 		}
 				
-		return json;
+		return responses;
 	
 	}
 	
 	
+
+	private JsonObject getBoardState() {
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		builder.add("type", "BOARD_STATE");
+		
+		JsonArrayBuilder abuilder = Json.createArrayBuilder();
+		for(Weapon w: board.getWeaponSet()){
+			abuilder.add(Json.createObjectBuilder().add("r_id", w.getLocation().getId()).add("type", "weapons").add("id", w.getId()));
+		}
+		for(Suspect s: board.getSuspectSet()){
+			abuilder.add(Json.createObjectBuilder().add("r_id", s.getLocation().getId()).add("type", "suspects").add("id", s.getId()));
+		}
+		
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	/*First Move
 	 * check to see if suspect is in room
