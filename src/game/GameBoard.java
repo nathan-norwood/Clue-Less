@@ -6,9 +6,10 @@ import java.util.Vector;
 /* TODO: Should we shift how we do IDs? so they can be shared with cards? */
 public class GameBoard {
 
-	public Vector<Suspect> suspects;
-	public Vector<Weapon> weapons;
-	public Vector<Location> locations;
+	private Vector<Suspect> suspects;
+	private Vector<Weapon> weapons;
+	private Vector<Location> locations;
+	private Suspect scarlet;
 	
 	
 	public GameBoard(){
@@ -64,6 +65,10 @@ public class GameBoard {
 		}
 
 		return null;
+	}
+	
+	public int getScarlet(){
+		return scarlet.getId();
 	}
 	
 	private void setupBoard(int i){
@@ -216,6 +221,7 @@ public class GameBoard {
 		scarlet.setLocation(h2);
 		suspects.add(scarlet);
 		h2.setOccupied(true);
+		this.scarlet = scarlet;
 		
 		Suspect mustard = new Suspect(id++, "Colonel Mustard");
 		mustard.setLocation(h5);
