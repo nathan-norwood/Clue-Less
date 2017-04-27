@@ -270,7 +270,7 @@ public class Game {
 					if(!cur_suspect.getLocation().isRoom()){
 						cur_suspect.getLocation().setOccupied(true);
 					}
-					//TODO: Notify Players
+					//TODO: Notify Players of board
 				}else{
 					//TODO Error!
 				}
@@ -291,7 +291,7 @@ public class Game {
 					Weapon w = board.getWeaponById(suggestion.getInt("weapon"));
 					w.setLocation(board.getLocationById(l_id));
 					
-					//TODO Notify Players
+					//TODO Notify Players of board updates & suggestion
 					//TODO Start Disprove Process
 					
 				}else{
