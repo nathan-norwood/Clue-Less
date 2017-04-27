@@ -2,10 +2,15 @@ package game;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
+import java.util.Map.Entry;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.websocket.Session;
 
@@ -16,12 +21,15 @@ import com.google.common.collect.HashBiMap;
 public class GameManager {
 
 	private Vector<Game> games;
+	private GameBoard game_board;
 	private static GameManager instance;
 	private int id = 0;
 	private BiMap<Session, Integer> playerSessions = HashBiMap.create();
 	
 	private GameManager(){
 		games = new Vector<Game>();
+		game_board = new GameBoard();
+		games.add(new Game(1 , "test", 1, 1));
 	}
 	
 	public static GameManager getInstance(){
@@ -54,17 +62,6 @@ public class GameManager {
 		return null;
 	}
 	
-	public Vector<Game> getOpenGames(){
-		/* Provide a list of open games */
-		Vector<Game> openGames = new Vector<Game>();
-		for(Game g:games){
-			if(g.isOpen()){
-				openGames.add(g);
-			}
-		}
-		return openGames;
-		
-	}
 	public void addSession(Session session, int id){
 		this.playerSessions.put(session,id);
 		System.out.println("Added to BiMap" + playerSessions.get(session));
@@ -72,13 +69,67 @@ public class GameManager {
 
 	public void handleMessage(Session session, String message) {
 		
-		System.out.println(message);
+		System.out.println("Game Manager handling: "+message);
 		JsonReader reader = Json.createReader(new StringReader(message));
 		JsonObject input = reader.readObject();
 		reader.close();
 		
 		//Check to see what the "type" is and perform operations accordingly
-		
+		if(input.getString("type") == "GET_SETUP"){
+			JsonObjectBuilder obuilder = Json.createObjectBuilder();
+			JsonArrayBuilder abuilder = Json.createArrayBuilder();
+			obuilder.add("type","SETUP");
+			
+			for(Game g:games){
+				if(g.isOpen()){
+					abuilder.add(Json.createObjectBuilder().add("id",g.getId()).add("name", g.getName()));
+				}
+			}
+			obuilder.add("games", abuilder);
+			abuilder = Json.createArrayBuilder();
+			
+			for(Entry<Integer, String> e: game_board.getSuspects().entrySet()){	
+				abuilder.add(Json.createObjectBuilder().add("id",e.getKey()).add("name", e.getValue()));
+				
+			}
+			obuilder.add("suspects", abuilder);
+			abuilder = Json.createArrayBuilder();
+
+			for(Entry<Integer, String> e: game_board.getWeapons().entrySet()){
+				abuilder.add(Json.createObjectBuilder().add("id",e.getKey()).add("name", e.getValue()));
+				
+			}
+			obuilder.add("weapons", abuilder);
+			abuilder = Json.createArrayBuilder();
+
+			for(Entry<Integer, String> e: game_board.getRooms().entrySet()){
+				abuilder.add(Json.createObjectBuilder().add("id",e.getKey()).add("name", e.getValue()));
+				
+			}
+			obuilder.add("rooms", abuilder);
+
+
+			
+			try {
+				session.getBasicRemote().sendText(obuilder.build().toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}else if(input.getString("type") == "CREATE"){
+			
+		}else if(input.getString("type") == "JOIN"){
+			
+		}else if(input.getString("type") == "SELECT_SUSPECT"){
+			
+		}else if(input.getString("type") == "MOVE"){
+			
+		}else if(input.getString("type") == "DISPROVE"){
+			
+		}else if(input.getString("type") == "ACCUSE"){
+			
+		}
 		try {
 			session.getBasicRemote().sendText("From Game Manager");
 		} catch (IOException e) {

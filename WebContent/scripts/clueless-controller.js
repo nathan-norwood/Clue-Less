@@ -16,8 +16,11 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 			$scope.test += event.data;
 			
 			var data = JSON.parse(event.data);
-			if(data.type == "GAMES"){
+			if(data.type == "SETUP"){
 				$scope.games = data.games;
+				$scope.suspects = data.suspects;
+				$scope.weapsons = data.weapons;
+				$scope.rooms = data.rooms;
 				
 			}else if(data.type == "CARDS"){
 				$scope.cards = data.cards;
@@ -57,6 +60,6 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 		
 		$scope.game_id = undefined;
 		/* On load, query for available games */
-		ws.send("{type:GAMES}");
+		ws.send("{\"type\":\"GET_SETUP\"}");
 
 	} ]);

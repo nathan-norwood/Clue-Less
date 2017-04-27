@@ -5,14 +5,17 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.json.JsonValue;
+
 public class Game {
 
 	private int unique_id;
 	private String name;
+	private GameBoard board;
 	private Vector<Card> card_deck;
 	private Vector<Card> case_file;
 	private Vector<Player> players;
-	private GameBoard board;
+	
 	
 	/* TODO: Order of play is:
 	 * scarlet, mustard, white, green, peacock, plum
@@ -22,7 +25,7 @@ public class Game {
 	
 	
 	/* State variables */
-	private boolean openGame;
+	private boolean openGame = false;
 	private Player current_player;
 	private HashMap<Integer, String> available_suspects;
 	
@@ -31,18 +34,23 @@ public class Game {
 		unique_id = id;
 		name = n;
 		board = new GameBoard();
-		available_suspects = board.getSuspects();
+		
 		initCardDeck();	// Must happen after board is initialized
 		initCaseFile();	// Must happen after card_deck is initialized
+		players = new Vector<Player>();
 		
 		addPlayer(h_id, s_id);
 		
 		openGame = true;
-
+		available_suspects = board.getSuspects();
+		//TODO Set Current Player
 	}
 	
 	public int getId() {
 		return unique_id;
+	}
+	public String getName() {
+		return name;
 	}
 
 	private void initCardDeck(){
@@ -52,7 +60,7 @@ public class Game {
 		/*TODO: Note that instead of getting the id/name, we could just
 		 * use the object... Decide later.
 		 */
-		for(Entry<Integer, String> e: available_suspects.entrySet()){	
+		for(Entry<Integer, String> e: board.getSuspects().entrySet()){	
 			card_deck.add(new Card(GameComponentType.SUSPECT, e.getKey().intValue(), e.getValue()));
 		}
 		
@@ -198,5 +206,7 @@ public class Game {
 	public boolean isOpen(){
 		return openGame;
 	}
+
+	
 	
 }
