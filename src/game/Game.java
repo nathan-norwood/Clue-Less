@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.json.JsonValue;
 
@@ -22,7 +24,7 @@ public class Game {
 	 * How should this be represented?
 	 * 
 	 */
-	
+	private static final Logger logger = LogManager.getLogger(Game.class);
 	
 	/* State variables */
 	private boolean openGame = false;
@@ -31,6 +33,7 @@ public class Game {
 	
 	
 	public Game(int id, String n, int h_id, int s_id){
+		logger.info("Game Constructor");
 		unique_id = id;
 		name = n;
 		board = new GameBoard();
