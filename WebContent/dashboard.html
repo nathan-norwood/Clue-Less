@@ -23,7 +23,7 @@
 		<h1>Welcome to Clue-Less!</h1>
 		<p>Please select from the list of available games:</p>
 		<div ng-repeat="g in games">
-			<input type="radio" name="select_game" value="{{g.id}}" ng-model="selected_game" ng-value="{{g.id}}"/> g.name
+			<input type="radio" name="select_game" value="{{g.id}}" ng-model="selected_game" ng-value="{{g.id}}"/> {{g.name}}
 		</div>
 	</div>
 	<div id="gameDashboard" ng-show="game_id != undefined"></div>

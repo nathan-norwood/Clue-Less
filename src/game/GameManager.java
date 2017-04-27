@@ -29,7 +29,7 @@ public class GameManager {
 	private GameManager(){
 		games = new Vector<Game>();
 		game_board = new GameBoard();
-		games.add(new Game(1 , "test", 1, 1));
+		games.add(new Game(1 , "test", 1, 27));
 	}
 	
 	public static GameManager getInstance(){
