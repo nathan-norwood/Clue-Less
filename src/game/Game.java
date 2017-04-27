@@ -211,8 +211,16 @@ public class Game {
 		return successful;
 	}
 	
-	public Response disproveSuggestion(int id){
-		Response disprove=null;
+	public Response disproveSuggestion(){
+		if(disproving_player == null){
+			disproving_player = nextPlayer();
+			
+		}else{
+			int index = players.indexOf(disproving_player);
+			disproving_player = players.get( (index+1)%players.size() );
+		}
+		
+		Response disprove = null;
 		/* TODO:
 		 * 0. Only if disproving_player != null, can disprove
 		 * 1. compare input to "Suggestion"
@@ -228,6 +236,7 @@ public class Game {
 		return disprove;
 
 	}
+	
 	public boolean makeAccusation(JsonObject turn){
 		boolean successful = false;
 		/* TODO:
@@ -303,7 +312,7 @@ public class Game {
 					responses.add(new Response(0, suggestion));
 
 					//TODO Start Disprove Process
-					responses.add(disproveSuggestion(1));
+					responses.add(disproveSuggestion());
 					
 				}else{
 					//TODO Error!
