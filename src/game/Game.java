@@ -192,6 +192,7 @@ public class Game {
 			
 						/* start the game... */
 			return new Response(current_player.getSuspectId(), sendMove());
+
 			
 		}else{
 			/* not enough people to start the game */

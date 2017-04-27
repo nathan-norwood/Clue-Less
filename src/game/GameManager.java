@@ -196,7 +196,7 @@ public class GameManager {
 			JsonObjectBuilder obuilder = Json.createObjectBuilder();
 			JsonArrayBuilder abuilder = Json.createArrayBuilder();
 			Game g = games.get(input.getInt("game"));
-			g.startGame();
+			Response res = g.startGame();
 			for(Player p : g.getPlayers()){
 				obuilder.add("type", "CARDS");
 				for(Card c : p.getCards()){
@@ -213,8 +213,17 @@ public class GameManager {
 				}
 				
 				
+				
 			}
+			Session ses = playerSessions.inverse().get(res.getSession_id());
 			
+			try {
+				//obuilder.build() clears the obuilder
+				ses.getBasicRemote().sendText(res.getMsgs().toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}else if(input.getString("type").equals("TURN")){
 			// Send 'game' with each msg.
