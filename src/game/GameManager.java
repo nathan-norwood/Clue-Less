@@ -72,10 +72,13 @@ public class GameManager {
 		System.out.println("Game Manager handling: "+message);
 		JsonReader reader = Json.createReader(new StringReader(message));
 		JsonObject input = reader.readObject();
+		
+		System.out.println("Game Manager JSON: "+input.getString("type"));
+		
 		reader.close();
 		
 		//Check to see what the "type" is and perform operations accordingly
-		if(input.getString("type") == "GET_SETUP"){
+		if(input.getString("type").equals("GET_SETUP")){
 			JsonObjectBuilder obuilder = Json.createObjectBuilder();
 			JsonArrayBuilder abuilder = Json.createArrayBuilder();
 			obuilder.add("type","SETUP");
@@ -117,17 +120,17 @@ public class GameManager {
 				e.printStackTrace();
 			}
 			
-		}else if(input.getString("type") == "CREATE"){
+		}else if(input.getString("type").equals("CREATE")){
 			
-		}else if(input.getString("type") == "JOIN"){
+		}else if(input.getString("type").equals("JOIN")){
 			
-		}else if(input.getString("type") == "SELECT_SUSPECT"){
+		}else if(input.getString("type").equals("SELECT_SUSPECT")){
 			
-		}else if(input.getString("type") == "MOVE"){
+		}else if(input.getString("type").equals("MOVE")){
 			
-		}else if(input.getString("type") == "DISPROVE"){
+		}else if(input.getString("type").equals("DISPROVE")){
 			
-		}else if(input.getString("type") == "ACCUSE"){
+		}else if(input.getString("type").equals("ACCUSE")){
 			
 		}
 		try {
