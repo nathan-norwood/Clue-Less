@@ -6,7 +6,8 @@ To User:
 { type: SUSPECTS, suspects:[ 5, 6 ] }
 { type: AVAIL_SUSPECTS, suspects[5,6]}
 { type: LOBBY, {gameId: 0, gameName: name, isHost: true, suspects : [{id: 27, name :"Ms. Scarlet"}]}
-{ type: TURN, options:[ {}, {}, {} ] }
+{ type: TURN, options:{ location:[{id:1, name:"H1", room:false}, ...], suggestion:true} //accusation is always true
+{ type: TURN, options:{ } //accusation is always true - so empty options equates to accusation only
 { type: BOARD_STATE, ??? }
 { type: MSG, msg: "Text of the msg" }
 
@@ -17,7 +18,8 @@ From User:
 { type: JOIN, game_id: 2 }
 { type:	GET_SUSPECTS, suspect: 5, game_id: 2 }
 { type: START, game: 0}
-{ type: MOVE, location: 3, suggestion: [ 3, 12, 6], game_id: 2 }
+{ type: TURN, selection:{ location: 3, suggestion:{suspect: 2, weapon:5, location:12}  , game_id: 2  }
+{ type: TURN, selection:{ suggestion:{suspect: 2, weapon:5, location:12}  , game_id: 2  } //MOVE w/o a location is just a suggestion
 { type: DISPROVE, game_id: 2, card: 6 }
 { type: ACCUSE, game_id: 2, accusation: [3, 12, 6] }  // if array is empty, assume they did not accuse.
 

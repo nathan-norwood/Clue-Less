@@ -75,6 +75,10 @@ public class GameManager {
 		
 		reader.close();
 		
+		if(!input.containsKey("type")){
+			//TODO Error!
+		}
+		
 		//Check to see what the "type" is and perform operations accordingly
 		if(input.getString("type").equals("GET_SETUP")){
 			JsonObjectBuilder obuilder = Json.createObjectBuilder();
@@ -212,10 +216,11 @@ public class GameManager {
 			}
 			
 			
-		}else if(input.getString("type").equals("MOVE")){
+		}else if(input.getString("type").equals("TURN")){
 			// Send 'game' with each msg.
 			Game g = games.get(Integer.parseInt(input.getString("game")));
-			g.makeMove();
+			g.makeMove(input.getJsonObject("selection"));
+			
 		}else if(input.getString("type").equals("DISPROVE")){
 			
 		}else if(input.getString("type").equals("ACCUSE")){

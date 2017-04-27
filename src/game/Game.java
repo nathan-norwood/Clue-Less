@@ -2,6 +2,12 @@ package game;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
 import java.util.Random;
 import java.util.Vector;
 import org.apache.logging.log4j.Logger;
@@ -210,10 +216,14 @@ public class Game {
 		 * 4. if reached, set disproving player to null
 		 */
 		
+		 /* If disprove successful OR reached end of loop, send back option to accuse */
+		 JsonObject json= Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build();
+		 //TODO: Notify current_player of their next turn
+		 
 		return successful;
 
 	}
-	public boolean makeAccusation(int s, int w, int r){
+	public boolean makeAccusation(JsonObject turn){
 		boolean successful = false;
 		/* TODO:
 		 * 0. Only if disproving_player == null, can make a accusation
@@ -223,6 +233,7 @@ public class Game {
 		 */
 		
 		//All turns end with accusation - get next player
+		current_player = nextPlayer();
 		return successful;
 
 	}
@@ -230,13 +241,76 @@ public class Game {
 	/*TODO: where are available moves identified... it changes based on
 	 * game state...
 	 */
-	public void makeMove(){
-		/*TODO:
-		 * 0. Only if disproving_player == null, can make a move
-		 * 1. Update board with move
-		 * 2. Notify all players
-		 * 3. If suggestion made, call make suggestion.
-		 */
+	public JsonObject makeMove(JsonObject turn){
+		JsonObject json= null;
+		// { location: 3, suggestion:{suspect:2, weapon 4, location: 6}}
+
+		if(disproving_player == null){
+			/*TODO:
+			 * 0. Only if disproving_player == null, can make a move
+			 * 1. Update board with move
+			 * 2. Notify all players
+			 * 3. If suggestion made, call make suggestion.
+			 */	
+			Suspect cur_suspect = board.getSuspectById(current_player.getSuspectId());
+			int l_id=cur_suspect.getLocation().getId();
+			if(turn.containsKey("location")){
+				l_id = turn.getInt("location");
+				boolean valid = false;
+				for(Location l: cur_suspect.getLocation().getAvailableLocationMoves()){
+					if(l_id == l.getId()){
+						valid = true;
+					}
+				}
+				if(valid){
+					if(!cur_suspect.getLocation().isRoom()){
+						cur_suspect.getLocation().setOccupied(false);
+					}
+					cur_suspect.setLocation(board.getLocationById(l_id));
+					if(!cur_suspect.getLocation().isRoom()){
+						cur_suspect.getLocation().setOccupied(true);
+					}
+					//TODO: Notify Players
+				}else{
+					//TODO Error!
+				}
+			}
+			if(turn.containsKey("suggestion")){
+				JsonObject suggestion = turn.getJsonObject("suggestion");
+				
+				if(suggestion.containsKey("location") && 
+						suggestion.containsKey("suspect") &&
+						suggestion.containsKey("weapon") &&
+						l_id == suggestion.getInt("location")){
+					Suspect s= board.getSuspectById(suggestion.getInt("suspect"));
+					s.getLocation().setOccupied(false);
+					s.setLocation(board.getLocationById(l_id));
+					if(!s.getLocation().isRoom()){
+						s.getLocation().setOccupied(true);
+					}
+					Weapon w = board.getWeaponById(suggestion.getInt("weapon"));
+					w.setLocation(board.getLocationById(l_id));
+					
+					//TODO Notify Players
+					//TODO Start Disprove Process
+					
+				}else{
+					//TODO Error!
+
+				}
+			}else{
+
+				/* If no suggestion made, send back option to accuse */
+				 json= Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build();
+				 //TODO: Notify current_player of their next turn
+			}
+
+		}else{
+			//TODO Error!
+		}
+				
+		return json;
+	
 	}
 	
 	
@@ -257,32 +331,28 @@ public class Game {
 	 * 
 	 */
 
-	public void getNextMove(){
+	public JsonObject getNextMove(){
 		Suspect s = board.getSuspectById(current_player.getSuspectId());
 
-		if(s.getLocation().isRoom()){
-			for(Location l:s.getLocation().getAvailableLocationMoves()){
-				if(l.isRoom()){
-					//add Room options
-				}else{
-					//add Hallway options
-				}
-				
-				if(s.wasMovedBySuggestion()){
-					//add option to Suggest in current location
-				}
-			}
+		//JSON: { type: TURN, options:{ location:[{id:1, name:"H1", room:false}, ...], suggestion:true} //accusation is always true
+
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		JsonArrayBuilder array = Json.createArrayBuilder();
+		for(Location l:s.getLocation().getAvailableLocationMoves()){
+				array.add(Json.createObjectBuilder().add("id", l.getId()).add("name", l.getName()).add("room", l.isRoom()));
 		}
-		else{ //hallway
-			for(Location l:s.getLocation().getAvailableLocationMoves()){
-				//add Room options
-			}	
-		}
-		//add make accusation option
+		builder.add("location", array);
+		builder.add("suggestion", (s.getLocation().isRoom() && s.wasMovedBySuggestion()) );
+		
+		JsonObject json = Json.createObjectBuilder().add("type", "TURN").add("options", builder).build();
+		return json;
+		
 	}
 	
-	public void nextPlayer(){
+	public Player nextPlayer(){
 		/* TODO: Move current player to next player & notify them*/
+		int index = players.indexOf(current_player);
+		return players.get( (index+1)%players.size() );
 	}
 	public boolean isOpen(){
 		return openGame;
