@@ -177,7 +177,7 @@ public class Game {
 		/* TODO:
 		 * 0. Only if disproving_player == null, can make a suggestion
 		 * 1. Update board, move game components
-		 * 2. Update state of game components (isOccupied)
+		 * 2. Update state of game components (isOccupied = false for hallway starting point)
 		 * 3. set disproving_player, send msg.
 		 * 4. Start loop
 		 * */
@@ -207,6 +207,7 @@ public class Game {
 		 * 3. if invalid, deactivate player, notify players of deactivation
 		 */
 		
+		//All turns end with accusation - get next player
 		return successful;
 
 	}
