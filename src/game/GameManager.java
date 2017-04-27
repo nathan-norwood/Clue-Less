@@ -121,6 +121,8 @@ public class GameManager {
 			}
 			
 		}else if(input.getString("type").equals("CREATE")){
+			games.add(new Game(id++, input.getString("name"), playerSessions.get(session), input.getInt("suspect")));
+			System.out.println(input.getInt("suspect"));
 			
 		}else if(input.getString("type").equals("JOIN")){
 			
@@ -132,13 +134,10 @@ public class GameManager {
 			
 		}else if(input.getString("type").equals("ACCUSE")){
 			
+		}else{
+			System.out.println("Bad JSON"  + input);
 		}
-		try {
-			session.getBasicRemote().sendText("From Game Manager");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 	}
 }
