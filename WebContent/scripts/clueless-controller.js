@@ -1,5 +1,7 @@
+//var clueless = angular.module('clueless', [ 'angular-websocket', 'ui.bootstrap']).controller(
+//		'ctrlr', [ '$scope', '$websocket','$modal', function($scope, $websocket, $modal) {
 var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
-		'ctrlr', [ '$scope', '$websocket', function($scope, $websocket) {
+		'ctrlr', [ '$scope', '$websocket', function($scope, $websocket ) {
 
 		/* TODO Delete these once we are up and running */
 		$scope.test = "Response from server: ";
@@ -61,5 +63,39 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 		$scope.game_id = undefined;
 		/* On load, query for available games */
 		ws.send("{\"type\":\"GET_SETUP\"}");
+		
+		$scope.createGame = function(){
+		$scope.test = "Button Clicked";
+//			 var modalInstance = $modal.open({
+//	                templateUrl: 'modal-form.html',
+//	                controller: ModalInstanceCtrl,
+//	                scope: $scope,
+//	                resolve: {
+//	                    userForm: function () {
+//	                        return $scope.userForm;
+//	                    }
+//	                }
+//	         });
+			
+			
+		}
+		
+		
+//		var ModalInstanceCtrl = function ($scope, $modalInstance, userForm) {
+//		    $scope.form = {}
+//		    $scope.submitForm = function () {
+//		        if ($scope.form.userForm.$valid) {
+//		            console.log('user form is in scope');
+//		            $modalInstance.close('closed');
+//		        } else {
+//		            console.log('userform is not in scope');
+//		        }
+//		    };
+//
+//		    $scope.cancel = function () {
+//		        $modalInstance.dismiss('cancel');
+//		    };
+//		};
+		
 
 	} ]);
