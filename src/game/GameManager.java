@@ -219,7 +219,7 @@ public class GameManager {
 		}else if(input.getString("type").equals("TURN")){
 			// Send 'game' with each msg.
 			Game g = games.get(Integer.parseInt(input.getString("game")));
-			g.makeMove(input.getJsonObject("selection"));
+			g.processMoveResponse(input.getJsonObject("selection"));
 			
 		}else if(input.getString("type").equals("DISPROVE")){
 			

@@ -38,6 +38,7 @@ public class Game {
 	private boolean openGame = false;
 	private Player current_player;
 	private Player disproving_player = null;
+	private JsonObject suggestion;
 	
 	
 	
@@ -190,7 +191,7 @@ public class Game {
 				current_player = players.get(0);
 			
 						/* start the game... */
-			return new Response(current_player.getSuspectId(), getNextMove());
+			return new Response(current_player.getSuspectId(), sendMove());
 			
 		}else{
 			/* not enough people to start the game */
@@ -198,46 +199,46 @@ public class Game {
 		}
 	}
 	
-	public boolean makeSuggestion(int s, int w, int r){
-		boolean successful = false;
-		/* TODO:
-		 * 0. Only if disproving_player == null, can make a suggestion
-		 * 1. Update board, move game components
-		 * 2. Update state of game components (isOccupied = false for hallway starting point)
-		 * 3. set disproving_player, send msg.
-		 * 4. Start loop
-		 * */
-		
-		return successful;
-	}
-	
-	public Response disproveSuggestion(){
-		if(disproving_player == null){
-			disproving_player = nextPlayer();
-			
-		}else{
+	/* ask Player to disprove a suggestion */
+	public Response sendDisproveSuggestion(){
+		if(disproving_player != null){
 			int index = players.indexOf(disproving_player);
 			disproving_player = players.get( (index+1)%players.size() );
+		
+			return new Response(disproving_player.getUniqueId(), Json.createObjectBuilder().add("type", "DISPROVE").add("suggestion", suggestion).build());
 		}
-		
-		Response disprove = null;
-		/* TODO:
-		 * 0. Only if disproving_player != null, can disprove
-		 * 1. compare input to "Suggestion"
-		 * 2. Notify players based on response
-		 * 3. move to next player unless suggesting player reached
-		 * 4. if reached, set disproving player to null
-		 */
-		
-		 /* If disprove successful OR reached end of loop, send back option to accuse */
-		 JsonObject json= Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build();
-		 //TODO: Notify current_player of their next turn
-		 
-		return disprove;
+		else{
+			//TODO Error!
+		}
+		return null;
+
+	}
+	/* process disprove response */
+	public Response processDisproveResponse(int id){
+		if(disproving_player != null){
+			int index = players.indexOf(disproving_player);
+			disproving_player = players.get( (index+1)%players.size() );
+			
+			/* TODO:
+			 * 0. Only if disproving_player != null, can disprove
+			 * 1. compare input to "Suggestion"
+			 * 2. Notify players based on response
+			 * 3. move to next player unless suggesting player reached
+			 * 4. if reached, set disproving player to null
+			 */
+			
+			/* If no suggestion made, send back option to accuse */
+			return new Response(disproving_player.getUniqueId(),Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build());
+
+		}
+		else{
+			//TODO Error!
+		}
+		return null;
 
 	}
 	
-	public boolean makeAccusation(JsonObject turn){
+	public boolean processAccusationReponse(JsonObject turn){
 		boolean successful = false;
 		/* TODO:
 		 * 0. Only if disproving_player == null, can make a accusation
@@ -255,9 +256,8 @@ public class Game {
 	/*TODO: where are available moves identified... it changes based on
 	 * game state...
 	 */
-	public Vector<Response> makeMove(JsonObject turn){
+	public Vector<Response> processMoveResponse(JsonObject turn){
 		Vector<Response> responses = new Vector<Response>();
-		JsonObject json= null;
 		// { location: 3, suggestion:{suspect:2, weapon 4, location: 6}}
 
 		if(disproving_player == null){
@@ -292,27 +292,29 @@ public class Game {
 				}
 			}
 			if(turn.containsKey("suggestion")){
-				JsonObject suggestion = turn.getJsonObject("suggestion");
+				JsonObject suggest = turn.getJsonObject("suggestion");
 				
-				if(suggestion.containsKey("location") && 
-						suggestion.containsKey("suspect") &&
-						suggestion.containsKey("weapon") &&
-						l_id == suggestion.getInt("location")){
-					Suspect s= board.getSuspectById(suggestion.getInt("suspect"));
+				if(suggest.containsKey("location") && 
+						suggest.containsKey("suspect") &&
+						suggest.containsKey("weapon") &&
+						l_id == suggest.getInt("location")){
+					Suspect s= board.getSuspectById(suggest.getInt("suspect"));
 					s.getLocation().setOccupied(false);
 					s.setLocation(board.getLocationById(l_id));
 					if(!s.getLocation().isRoom()){
 						s.getLocation().setOccupied(true);
 					}
-					Weapon w = board.getWeaponById(suggestion.getInt("weapon"));
+					Weapon w = board.getWeaponById(suggest.getInt("weapon"));
 					w.setLocation(board.getLocationById(l_id));
 					
 					//TODO Notify Players of board updates & suggestion
 					responses.add(new Response(0, getBoardState()));
-					responses.add(new Response(0, suggestion));
+					responses.add(new Response(0, suggest));
 
 					//TODO Start Disprove Process
-					responses.add(disproveSuggestion());
+					disproving_player = current_player;
+					this.suggestion = suggest;
+					responses.add(sendDisproveSuggestion());
 					
 				}else{
 					//TODO Error!
@@ -321,10 +323,7 @@ public class Game {
 			}else{
 
 				/* If no suggestion made, send back option to accuse */
-				json= Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build();
-
-				responses.add(new Response(current_player.getUniqueId(), json));
-				 //TODO: Notify current_player of their next turn
+				responses.add(new Response(current_player.getUniqueId(), Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build()));
 			}
 
 		}else{
@@ -369,7 +368,7 @@ public class Game {
 	 * 
 	 */
 
-	public JsonObject getNextMove(){
+	public JsonObject sendMove(){
 		Suspect s = board.getSuspectById(current_player.getSuspectId());
 
 		//JSON: { type: TURN, options:{ location:[{id:1, name:"H1", room:false}, ...], suggestion:true} //accusation is always true

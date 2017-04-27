@@ -10,7 +10,7 @@ To User:
 { type: TURN, options:{ } //accusation is always true - so empty options equates to accusation only
 { type: BOARD_STATE, ??? }
 { type: MSG, msg: "Text of the msg" }
-{ type: DISPROVE, suggestion:[1, 3, 5]}
+{ type: DISPROVE,  suggestion:{suspect: 2, weapon:5, location:12}  } 
 
 
 From User:
