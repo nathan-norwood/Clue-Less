@@ -355,7 +355,7 @@ public class Game {
 			}else{
 
 				/* If no suggestion made, send back option to accuse */
-				responses.add(new Response(current_player.getUniqueId(), Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build()));
+				responses.add(new Response(current_player.getUniqueId(), Json.createObjectBuilder().add("type", "TURN2").build()));
 			}
 
 		}else{
