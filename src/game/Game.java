@@ -269,32 +269,38 @@ public class Game {
 		 * 2. if valid, end game, notify players of win
 		 * 3. if invalid, deactivate player, notify players of deactivation
 		 */
-		if(disproving_player == null){
-			for(Card c:case_file){
-				if(!accusation.contains(c.getId())){
-					successful = false;
-				}
-			}
-			if(successful){
-				String win = "";
-						
+		if(!accusation.isEmpty()){
+			if(disproving_player == null){
 				for(Card c:case_file){
-					win += c.getName()+" ";
+					if(!accusation.contains(c.getId())){
+						successful = false;
+					}
 				}
-				responses.add( new Response(0, Json.createObjectBuilder().add("type", "ENDGAME").add("suspect", 
-						current_player.getSuspectId()).add("msg", 
-								"has won the game! Solution:"+win).build()) );
-				//end game
-			}else{
-				current_player.setInactive();
-				responses.add( new Response(0, Json.createObjectBuilder().add("type", "MSG").add("suspect", 
-						current_player.getSuspectId()).add("msg", 
-								"has made an incorrect accusation - they are now inactive").build()) );
-				responses.add(new Response(nextPlayer().getUniqueId(), sendMove()));
-				current_player = nextPlayer();
+				if(successful){
+					String win = "";
+							
+					for(Card c:case_file){
+						win += c.getName()+" ";
+					}
+					responses.add( new Response(0, Json.createObjectBuilder().add("type", "ENDGAME").add("suspect", 
+							current_player.getSuspectId()).add("msg", 
+									"has won the game! Solution:"+win).build()) );
+					//end game
+				}else{
+					current_player.setInactive();
+					responses.add( new Response(0, Json.createObjectBuilder().add("type", "MSG").add("suspect", 
+							current_player.getSuspectId()).add("msg", 
+									"has made an incorrect accusation - they are now inactive").build()) );
+					current_player = nextPlayer();
+					responses.add(new Response(current_player.getUniqueId(), sendMove()));
+					
+					
+				}
 				
 			}
-			
+		}else{
+			current_player = nextPlayer();
+			responses.add(new Response(current_player.getUniqueId(), sendMove()));
 		}
 		//All turns end with accusation - get next player
 		return responses;
