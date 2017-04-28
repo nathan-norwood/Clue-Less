@@ -3,6 +3,8 @@ package game;
 import java.util.HashMap;
 import java.util.Vector;
 
+import org.apache.logging.log4j.Logger;
+
 /* TODO: Should we shift how we do IDs? so they can be shared with cards? */
 public class GameBoard {
 
