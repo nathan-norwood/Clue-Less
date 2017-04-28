@@ -70,7 +70,7 @@ var clueless = angular
 									});  
 									
 									$scope.msgs = $scope.msgs + "\n"+
-									suspectName[0].name + data.msg;
+									suspectName[0].name +" "+ data.msg;
 
 								} else {
 

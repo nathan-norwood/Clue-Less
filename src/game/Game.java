@@ -374,7 +374,7 @@ public class Game {
 							current_player.getSuspectId()).add("msg", 
 									"has made a suggestion: "+board.getSuspectById(suggest.getInt("suspect")).getName()+
 									", "+board.getWeaponById(suggest.getInt("weapon") ).getName()+
-									", "+board.getLocationById(suggest.getInt("room") ).getName()
+									", "+board.getLocationById(suggest.getInt("location") ).getName()
 									).build()) );
 					
 
@@ -415,14 +415,14 @@ public class Game {
 		
 		JsonArrayBuilder abuilder = Json.createArrayBuilder();
 		for(Weapon w: board.getWeaponSet()){
-			abuilder.add(Json.createObjectBuilder().add("r_id", w.getLocation().getId()).add("type", "weapons").add("id", w.getId()));
+			abuilder.add(Json.createObjectBuilder().add("r_id", w.getLocation().getId()).add("type", "weapon").add("id", w.getId()));
 		}
 		for(Suspect s: board.getSuspectSet()){
-			abuilder.add(Json.createObjectBuilder().add("r_id", s.getLocation().getId()).add("type", "suspects").add("id", s.getId()));
+			abuilder.add(Json.createObjectBuilder().add("r_id", s.getLocation().getId()).add("type", "suspect").add("id", s.getId()));
 		}
+		builder.add("board", abuilder);
 		
-		// TODO Auto-generated method stub
-		return null;
+		return builder.build();
 	}
 
 	/*First Move

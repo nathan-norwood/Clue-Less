@@ -1,6 +1,7 @@
 package game;
 
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Vector;
 
 import org.apache.logging.log4j.Logger;
@@ -249,8 +250,26 @@ public class GameBoard {
 		peacock.setLocation(h8);
 		suspects.add(peacock);
 		h8.setOccupied(true);
+		
+		putWeaponsInRooms();
+		
 	}
 	
+	private void putWeaponsInRooms() {
+
+		Random rand = new Random();
+		int next;
+		for(Weapon w: weapons){
+			do{
+				next = rand.nextInt(locations.size());
+				if(locations.get(next).isRoom()){
+					w.setLocation(locations.get(next));
+				}
+			}while(w.getLocation()==null);
+		}
+		
+	}
+
 	public HashMap<Integer, String> getSuspects(){
 		HashMap<Integer, String> list = new HashMap<Integer,String>();
 		for(Suspect s:suspects){
