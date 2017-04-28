@@ -216,7 +216,7 @@ public class GameManager {
 				
 			}
 			Session ses = playerSessions.inverse().get(res.getSession_id());
-			
+			System.out.println(res.getMsgs());
 			try {
 				//obuilder.build() clears the obuilder
 				ses.getBasicRemote().sendText(res.getMsgs().toString());

@@ -6,7 +6,7 @@ To User:
 { type: SUSPECTS, suspects:[ 5, 6 ] }
 { type: AVAIL_SUSPECTS, suspects[5,6]}
 { type: LOBBY, {gameId: 0, gameName: name, isHost: true, suspects : [{id: 27, name :"Ms. Scarlet"}]}
-{ type: TURN, options:{ location:[{id:1, name:"H1", room:false}, ...], suggestion:true} //accusation is always true
+{ type: TURN, options:{ locations:[{id:1, name:"H1", room:false}, ...], suggestion:true} //accusation is always true
 { type: TURN2, suspect:1,  notice:"" } //accusation is always available, suspect =-1 means no one can prove.
 { type: BOARD_STATE, ??? }
 { type: MSG, suspect: 1, msg: "Text of the msg" } //if suspect is included, prepend to message.

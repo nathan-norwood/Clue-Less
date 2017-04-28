@@ -12,6 +12,8 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 			$scope.suspects_in_lobby =  undefined;
 			$scope.player_is_host = undefined;
 			$scope.options = undefined;
+			$scope.makingSuggestion = false;
+			$scope.moveChosen = {id : undefined};
 			
 			
 			/* Define WebSocket for Communication with Game */
@@ -47,6 +49,8 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 
 				} else if (data.type == "TURN") {
 					$scope.options = data.options;
+					
+					
 					
 
 				} else if (data.type == "BOARD_STATE") {
@@ -119,5 +123,31 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 				ws.send(start);
 			}
 			
-
+			$scope.getMove = function(){
+				
+				$scope.test = $scope.moveChosen.id;
+				
+				if($scope.moveChosen.id == -1){
+					$scope.makingSuggetsion = true;
+				}else if($scope.moveChosen.id == -2){
+					//Making Accusation Not ready to handle that
+				}else{
+				
+					for (l in $scope.options.locations){
+						if(l.id == $scope.moveChosen.id){
+							if(l.room){
+								$scope.makingSuggestion = true;
+							}else{
+								//call submitMove with location
+							}
+						}
+					}
+					
+				}	
+			}
+			
+			$scope.submitMove = function(location, suggestion){
+				//send move back to server
+			}
+				
 		} ]);

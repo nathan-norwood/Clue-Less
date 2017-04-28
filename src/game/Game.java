@@ -192,7 +192,7 @@ public class Game {
 				current_player = players.get(0);
 			
 						/* start the game... */
-			return new Response(current_player.getSuspectId(), sendMove());
+			return new Response(current_player.getUniqueId(), sendMove());
 
 			
 		}else{
@@ -439,7 +439,8 @@ public class Game {
 		for(Location l:s.getLocation().getAvailableLocationMoves()){
 				array.add(Json.createObjectBuilder().add("id", l.getId()).add("name", l.getName()).add("room", l.isRoom()));
 		}
-		builder.add("location", array);
+		//NN changed to "locations" since I have a weird pet peeve about iterating over plurals haha
+		builder.add("locations", array);
 		builder.add("suggestion", (s.getLocation().isRoom() && s.wasMovedBySuggestion()) );
 		
 		JsonObject json = Json.createObjectBuilder().add("type", "TURN").add("options", builder).build();
