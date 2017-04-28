@@ -29,6 +29,9 @@ public class Suspect extends GameComponent{
 	public boolean wasMovedBySuggestion(){
 		return movedBySuggestion;
 	}
+	public void setMovedBySuggestion(boolean b) {
+		movedBySuggestion = b;
+	}
 
 	
 

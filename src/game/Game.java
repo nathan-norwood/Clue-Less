@@ -347,6 +347,8 @@ public class Game {
 			 * 3. If suggestion made, call make suggestion.
 			 */	
 			Suspect cur_suspect = board.getSuspectById(current_player.getSuspectId());
+			cur_suspect.setMovedBySuggestion(false);
+			
 			int l_id=cur_suspect.getLocation().getId();
 			if(turn.containsKey("location")){
 				l_id = turn.getInt("location");
@@ -387,6 +389,7 @@ public class Game {
 					if(!s.getLocation().isRoom()){
 						s.getLocation().setOccupied(true);
 					}
+					s.setMovedBySuggestion(true);
 					Weapon w = board.getWeaponById(suggest.getInt("weapon"));
 					w.setLocation(board.getLocationById(l_id));
 					
