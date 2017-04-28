@@ -3,15 +3,14 @@
 var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 		'ctrlr', [ '$scope', '$websocket', function($scope, $websocket) {
 
-			/* TODO Delete these once we are up and running */
+			
 			$scope.test = "Response from server: ";
+			/* Globals*/
 			$scope.selected_game = {id : undefined};
 			$scope.selected_suspect = {id: undefined};
-			$scope.isValid = function() {
-				return true;
-			}
-			/* End Delete section */
-
+			$scope.game_id = undefined;
+			$scope.game_in_lobby = false;
+			
 			/* Define WebSocket for Communication with Game */
 			var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
 			ws.onMessage(function(event) {
@@ -61,7 +60,7 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 				console.log("Sending Message");
 			}
 
-			$scope.game_id = undefined;
+		
 			/* On load, query for available games */
 			var setUp = {
 					type: "GET_SETUP"
@@ -75,7 +74,10 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 						suspect: suspect
 				}
 				ws.send(newGame);
-
+				//Will eventually receive game ID from GameManager, just want to test
+				//going to lobby
+				$scope.game_id  = 0;
+				$scope.game_in_lobby = true;
 			}
 			$scope.getAvailableSuspects = function(){
 				var request = {
@@ -92,6 +94,11 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 						suspect: suspect
 				}
 				ws.send(joinedGame)
+				//Will eventually receive game ID from GameManager, just want to test
+				//going to lobby
+				$scope.game_id  = 0;
+				$scope.game_in_lobby = true;
+				
 			}
 			
 

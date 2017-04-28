@@ -19,12 +19,9 @@
 
 
 	<div>{{test}}</div>
-	<form ng-submit="submit(input_text)">
-		<input type="text" ng-model="input_text">
-		<button type="submit">Send</button>
-	</form>
+	
 
-	<div id="gameSelect" ng-show="game_id == undefined">
+	<div id="gameSelect" ng-show="game_id == undefined && !game_in_Lobby">
 		<h1>Welcome to Clue-Less!</h1>
 		<p>Please select from the list of available games or create a new
 			one:</p>
@@ -90,8 +87,7 @@
 							<label>Choose Suspect: </label><select ng-model="suspect"
 								ng-options="s.id as s.name for s in avail_suspects"></select>
 							<button id="joinSubmit" type="submit" class="btn btn-success"
-								ng-disabled="!suspect"
-								onclick="$('joinGameModal').modal('hide')">Join</button>
+								ng-disabled="!suspect">Join</button>
 
 						</form>
 					</div>
@@ -103,8 +99,13 @@
 
 
 	</div>
-
-	<div id="gameDashboard" ng-show="game_id != undefined"></div>
+	<div id = "gameLobby" ng-show = "game_in_lobby && game_id != undefined">
+		Game Lobby for {{game_id}}
+	
+	</div>
+	<div id="gameDashboard" ng-show="game_id!= undefined &&  !game_in_lobby">
+		Game Dashboard for {{game_id}}
+	</div>
 
 </body>
 </html>
