@@ -39,10 +39,11 @@ public class Game {
 		initCaseFile();	// Must happen after card_deck is initialized
 		players = new Vector<Player>();
 		
+		available_suspects = board.getSuspects();
 		addPlayer(h_id, s_id);
 		
 		openGame = true;
-		available_suspects = board.getSuspects();
+		
 		//TODO Set Current Player
 	}
 	
@@ -52,7 +53,9 @@ public class Game {
 	public String getName() {
 		return name;
 	}
-
+	public HashMap<Integer, String> getAvailableSuspects(){
+		return available_suspects;
+	}
 	private void initCardDeck(){
 		card_deck = new Vector<Card>();
 		int id = 0;
@@ -118,7 +121,7 @@ public class Game {
 		 */
 		if(players.size()< 6){ 
 			players.add(new Player(playerID, suspectID));
-			
+			available_suspects.remove(suspectID);
 			if(players.size() == 6){
 				/* close game once max reached */
 				openGame = false;

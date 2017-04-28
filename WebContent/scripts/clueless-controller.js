@@ -5,7 +5,8 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 
 			/* TODO Delete these once we are up and running */
 			$scope.test = "Response from server: ";
-
+			$scope.selected_game = {id : undefined};
+			$scope.selected_suspect = {id: undefined};
 			$scope.isValid = function() {
 				return true;
 			}
@@ -29,6 +30,9 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 				} else if (data.type == "SUSPECTS") {
 					$scope.suspects = data.suspects;
 
+				} else if(data.type == "AVAIL_SUSPECTS"){
+					$scope.avail_suspects = data.suspects;
+					
 				} else if (data.type == "TURN") {
 					$scope.options = data.options;
 
@@ -73,5 +77,22 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 				ws.send(newGame);
 
 			}
+			$scope.getAvailableSuspects = function(){
+				var request = {
+						type: "GET_SUSPECTS",
+						game: $scope.selected_game.id
+				}
+				ws.send(request);
+			}
+			
+			$scope.joinGame = function(suspect){
+				var joinedGame = {
+						type: "JOIN",
+						game: $scope.selected_game.id,
+						suspect: suspect
+				}
+				ws.send(joinedGame)
+			}
+			
 
 		} ]);

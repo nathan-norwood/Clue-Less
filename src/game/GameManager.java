@@ -29,7 +29,7 @@ public class GameManager {
 	private GameManager(){
 		games = new Vector<Game>();
 		game_board = new GameBoard();
-		games.add(new Game(1 , "test", 1, 27));
+		games.add(new Game(0 , "test", 1, 27));
 	}
 	
 	public static GameManager getInstance(){
@@ -64,16 +64,15 @@ public class GameManager {
 	
 	public void addSession(Session session, int id){
 		this.playerSessions.put(session,id);
-		System.out.println("Added to BiMap" + playerSessions.get(session));
 	}
 
 	public void handleMessage(Session session, String message) {
 		
-		System.out.println("Game Manager handling: "+message);
+		System.out.println("Game Manager handling: "+message + "from player " + playerSessions.get(session) );
 		JsonReader reader = Json.createReader(new StringReader(message));
 		JsonObject input = reader.readObject();
 		
-		System.out.println("Game Manager JSON: "+input.getString("type"));
+		//System.out.println("Game Manager JSON: "+input.getString("type"));
 		
 		reader.close();
 		
@@ -122,11 +121,32 @@ public class GameManager {
 			
 		}else if(input.getString("type").equals("CREATE")){
 			games.add(new Game(id++, input.getString("name"), playerSessions.get(session), input.getInt("suspect")));
-			System.out.println(input.getInt("suspect"));
+			//System.out.println(input.getInt("suspect"));
+			
+		}else if(input.getString("type").equals("GET_SUSPECTS")){
+			Game g = games.get(Integer.parseInt(input.getString("game")));
+			
+			System.out.println(g.getAvailableSuspects());
+			JsonObjectBuilder obuilder = Json.createObjectBuilder();
+			JsonArrayBuilder abuilder = Json.createArrayBuilder();
+			obuilder.add("type","AVAIL_SUSPECTS");
+			for (Entry<Integer,String> e : g.getAvailableSuspects().entrySet()){
+				abuilder.add(Json.createObjectBuilder().add("id",e.getKey()).add("name", e.getValue()));
+				
+			}
+			obuilder.add("suspects", abuilder);
+			//System.out.println(obuilder.build().toString());
+			try {
+				session.getBasicRemote().sendText(obuilder.build().toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			
 		}else if(input.getString("type").equals("JOIN")){
-			
-		}else if(input.getString("type").equals("SELECT_SUSPECT")){
+			Game g = games.get(Integer.parseInt(input.getString("game")));
+			g.addPlayer(playerSessions.get(session), input.getInt("suspect"));
 			
 		}else if(input.getString("type").equals("MOVE")){
 			
