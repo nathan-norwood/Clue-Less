@@ -201,41 +201,59 @@ public class Game {
 	}
 	
 	/* ask Player to disprove a suggestion */
-	public Response sendDisproveSuggestion(){
-		if(disproving_player != null){
-			int index = players.indexOf(disproving_player);
-			disproving_player = players.get( (index+1)%players.size() );
-		
-			return new Response(disproving_player.getUniqueId(), Json.createObjectBuilder().add("type", "DISPROVE").add("suggestion", suggestion).build());
-		}
-		else{
-			//TODO Error!
-		}
-		return null;
-
-	}
+	
 	/* process disprove response */
-	public Response processDisproveResponse(int id){
+	public Vector<Response> processDisproveResponse(int id){
+		Vector<Response> responses = new Vector<Response>();
 		if(disproving_player != null){
-			int index = players.indexOf(disproving_player);
-			disproving_player = players.get( (index+1)%players.size() );
+			if(id != -1 && (suggestion.getInt("suspect") == id || suggestion.getInt("weapon") == id || suggestion.getInt("room") == id)){
+				// disprove successful
+				// Notify current_player of card that was successful & ask if they want to do an accusation
+				Card c = disproving_player.getCardById(id);
+				if(c != null){
+					responses.addElement( new Response(current_player.getUniqueId(), 
+							Json.createObjectBuilder().add("type", "TURN2").add("suspect", 
+									disproving_player.getSuspectId()).add("notice", 
+											"Card for "+c.getName()+" shown").build()) );
+					// Notify all players that it proving suspect ID disproved current_player ** need a new object
+					responses.add( new Response(0, Json.createObjectBuilder().add("type", "MSG").add("suspect", 
+							disproving_player.getSuspectId()).add("msg", 
+									"successfully disproved suggestion.").build()) );
+				}
+				else{
+					//TODO Error!
+				}
+			}else{
+				//Notify everyone that they cant disprove.
+				responses.add( new Response(0, Json.createObjectBuilder().add("type", "MSG").add("suspect",
+						disproving_player.getSuspectId()).add("msg", "cannot disprove.").build()) );
+				
+				int index = players.indexOf(disproving_player);
+				disproving_player = players.get( (index+1)%players.size() );
+				
+				if(!disproving_player.equals(current_player)){
+					responses.add(new Response(disproving_player.getUniqueId(), 
+							Json.createObjectBuilder().add("type", "DISPROVE").add("suggestion", 
+									suggestion).build() ));
+				}else{
+					//notify cannot be disproven
+					disproving_player = null;
+					suggestion = null;
+					responses.addElement( new Response(current_player.getUniqueId(), 
+							Json.createObjectBuilder().add("type", "TURN2").add("notice", 
+											"No one could disprove your suggestion!").build()) );
+					//Notify everyone that no disprove.
+					responses.add( new Response(0, Json.createObjectBuilder().add("type", "MSG").add("msg", 
+							"No one could disprove suggestion!").build()) );
+						
+				}
+			}
 			
-			/* TODO:
-			 * 0. Only if disproving_player != null, can disprove
-			 * 1. compare input to "Suggestion"
-			 * 2. Notify players based on response
-			 * 3. move to next player unless suggesting player reached
-			 * 4. if reached, set disproving player to null
-			 */
-			
-			/* If no suggestion made, send back option to accuse */
-			return new Response(disproving_player.getUniqueId(),Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build());
-
 		}
 		else{
 			//TODO Error!
 		}
-		return null;
+		return responses;
 
 	}
 	
@@ -314,8 +332,12 @@ public class Game {
 
 					//TODO Start Disprove Process
 					disproving_player = current_player;
+					int index = players.indexOf(disproving_player);
+					disproving_player = players.get( (index+1)%players.size() );
+					
 					this.suggestion = suggest;
-					responses.add(sendDisproveSuggestion());
+					responses.add(new Response(disproving_player.getUniqueId(), Json.createObjectBuilder().add("type", "DISPROVE").add("suggestion", suggestion).build() ));
+					
 					
 				}else{
 					//TODO Error!

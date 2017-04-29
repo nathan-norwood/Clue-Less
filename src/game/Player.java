@@ -39,4 +39,13 @@ public class Player {
 		active = false;
 	}
 
+	public Card getCardById(int id){
+		for(Card c:cards){
+			if(c.getId()==id){
+				return c;
+			}
+		}
+		return null;
+		
+	}
 }
