@@ -29,7 +29,7 @@
 		});
 	</script>
 
-	<div>{{options}}</div>
+	<div>{{test}}</div>
 
 
 	<div id="gameSelect" ng-show="game_id == undefined && !game_in_Lobby">
@@ -137,20 +137,9 @@
 		</div>
 		<div id="gameBoard"></div>
 		<div id="gameStatus"></div>
-		<div id="optionsModal" class="modal fade" role="dialog" ng-show = "options != undefined">
-			<div class="modal-dialog">
-
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Join Game</h4>
-					</div>
-					<div class="modal-body">
-						
-					</div>
-				</div>
-
-			</div>
+		<div id="optionsModal"  ng-show="options != undefined">
+			<p>Select Your Move</p>
+			{{options}}			
 		</div>
 		<div id="cards">
 			<p>Cards:</p>

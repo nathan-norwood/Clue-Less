@@ -48,6 +48,8 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 				} else if (data.type == "TURN") {
 					$scope.options = data.options;
 					
+					
+					
 
 				} else if (data.type == "BOARD_STATE") {
 					// $scope.board_state = data.

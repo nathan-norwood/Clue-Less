@@ -191,7 +191,7 @@ public class Game {
 				current_player = players.get(0);
 			
 						/* start the game... */
-			return new Response(current_player.getSuspectId(), sendMove());
+			return new Response(current_player.getUniqueId(), sendMove());
 
 			
 		}else{
