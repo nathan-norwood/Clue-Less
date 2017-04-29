@@ -317,6 +317,7 @@ public class Game {
 						suggest.containsKey("suspect") &&
 						suggest.containsKey("weapon") &&
 						l_id == suggest.getInt("location")){
+					
 					Suspect s= board.getSuspectById(suggest.getInt("suspect"));
 					s.getLocation().setOccupied(false);
 					s.setLocation(board.getLocationById(l_id));
@@ -328,7 +329,13 @@ public class Game {
 					
 					//TODO Notify Players of board updates & suggestion
 					responses.add(new Response(0, getBoardState()));
-					responses.add(new Response(0, suggest));
+					responses.add( new Response(0, Json.createObjectBuilder().add("type", "MSG").add("suspect", 
+							current_player.getSuspectId()).add("msg", 
+									"has made a suggestion: "+board.getSuspectById(suggest.getInt("suspect")).getName()+
+									", "+board.getWeaponById(suggest.getInt("weapon") ).getName()+
+									", "+board.getLocationById(suggest.getInt("room") ).getName()
+									).build()) );
+					
 
 					//TODO Start Disprove Process
 					disproving_player = current_player;
@@ -336,7 +343,9 @@ public class Game {
 					disproving_player = players.get( (index+1)%players.size() );
 					
 					this.suggestion = suggest;
-					responses.add(new Response(disproving_player.getUniqueId(), Json.createObjectBuilder().add("type", "DISPROVE").add("suggestion", suggestion).build() ));
+					responses.add(new Response(disproving_player.getUniqueId(), 
+							Json.createObjectBuilder().add("type", "DISPROVE").add("suggestion", 
+									suggestion).build() ));
 					
 					
 				}else{
@@ -346,7 +355,7 @@ public class Game {
 			}else{
 
 				/* If no suggestion made, send back option to accuse */
-				responses.add(new Response(current_player.getUniqueId(), Json.createObjectBuilder().add("type", "TURN").add("options", "{}").build()));
+				responses.add(new Response(current_player.getUniqueId(), Json.createObjectBuilder().add("type", "TURN2").build()));
 			}
 
 		}else{
