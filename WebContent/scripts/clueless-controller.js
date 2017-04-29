@@ -42,7 +42,7 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 					if($scope.player_is_host == undefined){
 						$scope.player_is_host = data.isHost;
 					}
-					
+					$scope.game_in_lobby = true;
 
 				} else if (data.type == "TURN") {
 					$scope.options = data.options;
@@ -87,10 +87,7 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 				}
 				$scope.selected_suspect = suspect;
 				ws.send(newGame);
-				//Will eventually receive game ID from GameManager, just want to test
-				//going to lobby
-				$scope.game_id  = 0;
-				$scope.game_in_lobby = true;
+
 			}
 			$scope.getAvailableSuspects = function(){
 				var request = {
