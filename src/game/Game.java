@@ -190,7 +190,7 @@ public class Game {
 				current_player = players.get(0);
 			
 						/* start the game... */
-			return new Response(current_player.getSuspectId(), getNextMove());
+			return new Response(current_player.getUniqueId(), getNextMove());
 			
 		}else{
 			/* not enough people to start the game */

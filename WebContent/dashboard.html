@@ -62,8 +62,7 @@
 										ng-options="s.id as s.name for s in suspects"></select></td>
 								</tr>
 							</table>
-							<br>
-							<br>
+							<br> <br>
 							<button id="createSubmit" type="submit" class="btn btn-success">Create</button>
 						</form>
 					</div>
@@ -133,18 +132,57 @@
 		ng-show="game_id!= undefined &&  !game_in_lobby">
 		<h1>Game Dashboard for Game {{game_name}}</h1>
 		<div id=playerSuspect>
-			<p>My Character: {{selected_suspect}} possibly a picture of the suspect...</p>
+			<p>My Character: {{selected_suspect}} possibly a picture of the
+				suspect...</p>
 		</div>
 		<div id="gameBoard"></div>
 		<div id="gameStatus"></div>
+		<div id="turnModal" class="modal fade" role="dialog" ng-show = "options">
+			<div class="modal-dialog">
 
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Join Game</h4>
+					</div>
+					<div class="modal-body">
+						
+					</div>
+				</div>
+
+			</div>
+		</div>
 		<div id="cards">
 			<p>Cards:</p>
 			<div ng-repeat="c in cards">{{c.name}}</div>
 		</div>
+		<div id="detectiveNotes">
+			<h2>DetectiveNotes</h2>
+			<table>
+				<tr>
+					<td>
+						<p>Suspects:</p>
+						<div ng-repeat="s in suspects">
+							<input type="checkbox"> {{s.name}}
+						</div>
+					</td>
+					<td>
+						<p>Weapons:</p>
+						<div ng-repeat="w in weapons">
+							<input type="checkbox"> {{w.name}}
+						</div>
+					</td>
+					<td>
+						<p>Rooms:</p>
+						<div ng-repeat="r in rooms">
+							<input type="checkbox"> {{r.name}}
+						</div>
+					</td>
+				</tr>
+
+			</table>
 
 
-	</div>
-
+		</div>
 </body>
 </html>

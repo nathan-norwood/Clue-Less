@@ -15,4 +15,13 @@
 	width:100%;
 	border-style:solid;	
 }
-
+#detectiveNotes{
+	width: 100%;
+	border-style:solid;
+	border-color: green;
+}
+#cards{
+	width: 100%;
+	border-style:solid;
+	border-color: green;
+}

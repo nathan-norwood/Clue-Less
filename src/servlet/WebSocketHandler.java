@@ -15,7 +15,7 @@ import game.GameManager;
 public class WebSocketHandler {
 	GameManager gameManager = GameManager.getInstance();
 	private Session session;
-	public static int baseID = 0;
+	public static int baseID = 1;
 	@OnOpen
 	public void onOpen(Session session){
 		this.session = session;
