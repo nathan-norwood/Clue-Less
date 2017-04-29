@@ -4,6 +4,8 @@ To User:
 { type: CARDS, cards:[ 5, 6 ] }
 { type: SETUP, games: [ {name: "My Game", id: 1}, {name: "My Game2", id: 2} ], suspects:[{id: 1, name: "Scarlet"}, ...],weapons:[{id: 6, name: "Knife"}, ...] , rooms:[{id: 12, name: "Kitchen"}, ...]  }
 { type: SUSPECTS, suspects:[ 5, 6 ] }
+{ type: AVAIL_SUSPECTS, suspects[5,6]}
+{ type: LOBBY, {gameId: 0, gameName: name, isHost: true, suspects : [{id: 27, name :"Ms. Scarlet"}]}
 { type: TURN, options:[ {}, {}, {} ] }
 { type: BOARD_STATE, ??? }
 { type: MSG, msg: "Text of the msg" }
@@ -13,7 +15,7 @@ From User:
 { type: GET_SETUP }
 { type: CREATE, name: "Game Name", suspect: 5 }
 { type: JOIN, game_id: 2 }
-{ type: SELECT_SUSPECT, suspect: 5, game_id: 2 }
+{ type:	GET_SUSPECTS, suspect: 5, game_id: 2 }
 { type: MOVE, location: 3, suggestion: [ 3, 12, 6], game_id: 2 }
 { type: DISPROVE, game_id: 2, card: 6 }
 { type: ACCUSE, game_id: 2, accusation: [3, 12, 6] }

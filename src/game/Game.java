@@ -13,9 +13,11 @@ public class Game {
 	private int unique_id;
 	private String name;
 	private GameBoard board;
+	
 	private Vector<Card> card_deck;
 	private Vector<Card> case_file;
 	private Vector<Player> players;
+	
 	
 	
 	/* TODO: Order of play is:
@@ -56,8 +58,14 @@ public class Game {
 	public String getName() {
 		return name;
 	}
+	public Vector<Player> getPlayers() {
+		return players;
+	}
 	public HashMap<Integer, String> getAvailableSuspects(){
 		return available_suspects;
+	}
+	public GameBoard getGameBoard() {
+		return board;
 	}
 	private void initCardDeck(){
 		card_deck = new Vector<Card>();

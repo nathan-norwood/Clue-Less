@@ -9,12 +9,16 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 			$scope.selected_game = {id : undefined};
 			$scope.selected_suspect = {id: undefined};
 			$scope.game_id = undefined;
+			$scope.game_name = undefined;
 			$scope.game_in_lobby = false;
+			$scope.suspects_in_lobby =  undefined;
+			$scope.player_is_host = undefined;
+			
 			
 			/* Define WebSocket for Communication with Game */
 			var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
 			ws.onMessage(function(event) {
-				$scope.test += event.data;
+				$scope.test = event.data;
 
 				var data = JSON.parse(event.data);
 				if (data.type == "SETUP") {
@@ -32,6 +36,15 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 				} else if(data.type == "AVAIL_SUSPECTS"){
 					$scope.avail_suspects = data.suspects;
 					
+				}else if (data.type == "LOBBY") {
+					$scope.game_id = data.gameId;
+					$scope.game_name = data.gameName;
+					$scope.suspects_in_lobby = data.suspects;
+					if($scope.player_is_host == undefined){
+						$scope.player_is_host = data.isHost;
+					}
+					
+
 				} else if (data.type == "TURN") {
 					$scope.options = data.options;
 

@@ -17,17 +17,16 @@
 	<script src="scripts/angular-websocket.js" type="text/javascript"></script>
 	<script src="scripts/clueless-controller.js" type="text/javascript"></script>
 	<script type="text/javascript">
-	$( document ).ready(function() {
-	    $('#createSubmit').click(function(){
-		       $('#newGameModal').modal('hide');
-		 });
-	    
-	    $('#joinSubmit').click(function(){
-		       $('#joinGameModal').modal('hide');
-		 });
-	    
-	   
-	});
+		$(document).ready(function() {
+			$('#createSubmit').click(function() {
+				$('#newGameModal').modal('hide');
+			});
+
+			$('#joinSubmit').click(function() {
+				$('#joinGameModal').modal('hide');
+			});
+
+		});
 	</script>
 
 	<div>{{test}}</div>
@@ -63,8 +62,8 @@
 										ng-options="s.id as s.name for s in suspects"></select></td>
 								</tr>
 							</table>
-							<br>
-							<button id = "createSubmit" type="submit" class="btn btn-success">Create</button>
+							<br><br>
+							<button id="createSubmit" type="submit" class="btn btn-success">Create</button>
 						</form>
 					</div>
 				</div>
@@ -95,8 +94,7 @@
 						<h4 class="modal-title">Join Game</h4>
 					</div>
 					<div class="modal-body">
-						<form ng-submit="joinGame(suspect)"
-							onsubmit=>
+						<form ng-submit="joinGame(suspect)" onsubmit=>
 							<label>Choose Suspect: </label><select ng-model="suspect"
 								ng-options="s.id as s.name for s in avail_suspects"></select>
 							<button id="joinSubmit" type="submit" class="btn btn-success"
@@ -113,7 +111,22 @@
 
 	</div>
 	<div id="gameLobby" ng-show="game_in_lobby && game_id != undefined">
-		Game Lobby for {{game_id}}</div>
+		<h1>Lobby for your game: {{game_name}}</h1>
+		<p>Suspects in the lobby:</p>
+		<div ng-repeat="s in suspects_in_lobby">
+			<label> {{s.name}}</label> <br>
+		</div>
+
+		<div ng-show="player_is_host">
+			<button id=type="button" class="btn btn-success"
+								ng-disabled="suspects_in_lobby.length < 2">Start</button>
+		</div>
+		
+		<div ng-show="!player_is_host">
+		<p>Waiting for the host player to Start the game</p>
+		</div>
+
+	</div>
 	<div id="gameDashboard"
 		ng-show="game_id!= undefined &&  !game_in_lobby">Game Dashboard
 		for {{game_id}}</div>

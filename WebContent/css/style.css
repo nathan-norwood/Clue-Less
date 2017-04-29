@@ -5,6 +5,12 @@
 	border-color: green;
 }
 
+#gameLobby{
+	width: 100%;
+	border-style:solid;
+	border-color: green;
+}
+
 #gameDashboard {
 	width:100%;
 	border-style:solid;	

@@ -29,7 +29,6 @@ public class GameManager {
 	private GameManager(){
 		games = new Vector<Game>();
 		game_board = new GameBoard();
-		games.add(new Game(0 , "test", 1, 27));
 	}
 	
 	public static GameManager getInstance(){
@@ -118,13 +117,33 @@ public class GameManager {
 			}
 			
 		}else if(input.getString("type").equals("CREATE")){
-			games.add(new Game(id++, input.getString("name"), playerSessions.get(session), input.getInt("suspect")));
+			JsonObjectBuilder obuilder = Json.createObjectBuilder();
+			JsonArrayBuilder abuilder = Json.createArrayBuilder();
+			Game g = new Game(id++, input.getString("name"), playerSessions.get(session), input.getInt("suspect"));
+			games.add(g);
+			obuilder.add("type","LOBBY");
+			obuilder.add("gameId", g.getId());
+			obuilder.add("gameName", g.getName());
+			obuilder.add("isHost", true);
+			
+			for(Player p : g.getPlayers()){
+				Suspect s = g.getGameBoard().getSuspectById(p.getSuspectId());
+				abuilder.add(Json.createObjectBuilder().add("id",s.getId()).add("name", s.getName()));
+			}
+			obuilder.add("suspects", abuilder);
+			//System.out.println(obuilder.build().toString());
+			try {
+				session.getBasicRemote().sendText(obuilder.build().toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//System.out.println(input.getInt("suspect"));
 			
 		}else if(input.getString("type").equals("GET_SUSPECTS")){
 			Game g = games.get(Integer.parseInt(input.getString("game")));
 			
-			System.out.println(g.getAvailableSuspects());
+			//System.out.println(g.getAvailableSuspects());
 			JsonObjectBuilder obuilder = Json.createObjectBuilder();
 			JsonArrayBuilder abuilder = Json.createArrayBuilder();
 			obuilder.add("type","AVAIL_SUSPECTS");
@@ -143,8 +162,34 @@ public class GameManager {
 			
 			
 		}else if(input.getString("type").equals("JOIN")){
+			JsonObjectBuilder obuilder = Json.createObjectBuilder();
+			JsonArrayBuilder abuilder = Json.createArrayBuilder();
 			Game g = games.get(Integer.parseInt(input.getString("game")));
 			g.addPlayer(playerSessions.get(session), input.getInt("suspect"));
+			obuilder.add("type","LOBBY");
+			obuilder.add("gameId", g.getId());
+			obuilder.add("gameName", g.getName());
+			obuilder.add("isHost", false);
+			
+			for(Player p : g.getPlayers()){
+				Suspect s = g.getGameBoard().getSuspectById(p.getSuspectId());
+				abuilder.add(Json.createObjectBuilder().add("id",s.getId()).add("name", s.getName()));
+			}
+			obuilder.add("suspects", abuilder);
+			String msg = obuilder.build().toString();
+			try {
+				for(Player p :g.getPlayers()){
+					Session ses = playerSessions.inverse().get(p.getUniqueId());
+					ses.getBasicRemote().sendText(msg);
+				}
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
 			
 		}else if(input.getString("type").equals("MOVE")){
 			// Send 'game' with each msg.
