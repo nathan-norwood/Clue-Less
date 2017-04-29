@@ -179,6 +179,13 @@ public class Game {
 			
 			System.out.println("Game Started!");
 			dealCards();
+			for(Player p :players){
+				if(p.getSuspectId()== board.getScarlet()){
+					current_player = p;
+				}
+			}
+			if(current_player == null)
+				current_player = players.get(0);
 			
 						/* start the game... */
 			// set current_player
