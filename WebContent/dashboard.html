@@ -79,7 +79,7 @@
 			</div>
 
 
-			<button type=submit class="btn btn-primary btn-lg"
+			<button type="submit" class="btn btn-primary btn-lg"
 				ng-disabled="!selected_game.id" data-toggle="modal"
 				data-target="#joinGameModal">Join Game</button>
 		</form>
@@ -118,7 +118,7 @@
 		</div>
 
 		<div ng-show="player_is_host">
-			<button id=type= "button" class="btn btn-success"
+			<button type= "button" class="btn btn-success"
 				ng-disabled="suspects_in_lobby.length < 2" ng-click="startGame()">Start
 				Game</button>
 		</div>
@@ -137,15 +137,33 @@
 		</div>
 		<div id="gameBoard"></div>
 		<div id="gameStatus"></div>
-		<div id="optionsModal"  ng-show="options != undefined">
-			<p>Select Your Move</p>
-			{{options}}			
+		<!-- Not a modal yet -->
+		<div id="optionsModal" ng-show="options != undefined">
+			<p>It's your Turn! Choose Your Move</p>
+			<form ng-submit="getMove(locationId)">
+				<div ng-show = options.suggestion>
+				<input type="radio" name="move" ng-model="locationId" value="-1">Make Suggestion
+				</div>
+				<div ng-repeat="l in options.locations">
+
+					<input type="radio" name="move" ng-model="locationId"
+						value="{{l.id}}" /> {{l.name}}
+				</div>
+				<input type="radio" name="move" ng-model="locationId" value="-2">Make
+				Accusation
+				<br>
+				<button type="submit" class="btn btn-success">Submit</button>
+			</form>
+			<div id = "makeSuggestion" ng-show = "makingSuggestion">
+				Making Suggestion
+			</div>
 		</div>
 		<div id="cards">
 			<p>Cards:</p>
 			<div ng-repeat="c in cards">{{c.name}}</div>
 		</div>
-		<div id="detectiveNotes">
+		
+		<div id="detectiveNotes" >
 			<h2>DetectiveNotes</h2>
 			<table>
 				<tr>
@@ -173,5 +191,6 @@
 
 
 		</div>
+	</div>
 </body>
 </html>
