@@ -17,9 +17,14 @@ public class Player {
 		cards = new Vector<Card>();
 	}
 	
+	
+
 	public void addCard( Card c ){
 		cards.add(c);
 		
+	}
+	public Vector<Card> getCards() {
+		return cards;
 	}
 	public int getUniqueId(){
 		return unique_id;

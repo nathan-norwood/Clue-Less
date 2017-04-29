@@ -188,7 +188,28 @@ public class GameManager {
 				e.printStackTrace();
 			}
 			
-			
+		}else if (input.getString("type").equals("START")){
+			JsonObjectBuilder obuilder = Json.createObjectBuilder();
+			JsonArrayBuilder abuilder = Json.createArrayBuilder();
+			Game g = games.get(input.getInt("game"));
+			g.startGame();
+			for(Player p : g.getPlayers()){
+				obuilder.add("type", "CARDS");
+				for(Card c : p.getCards()){
+					abuilder.add(Json.createObjectBuilder().add("id",c.getId()).add("name", c.getName()));
+				}
+				obuilder.add("cards", abuilder);
+				Session ses = playerSessions.inverse().get(p.getUniqueId());
+				try {
+					//obuilder.build() clears the obuilder
+					ses.getBasicRemote().sendText(obuilder.build().toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+			}
 			
 			
 		}else if(input.getString("type").equals("MOVE")){

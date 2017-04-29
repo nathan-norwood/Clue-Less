@@ -62,7 +62,8 @@
 										ng-options="s.id as s.name for s in suspects"></select></td>
 								</tr>
 							</table>
-							<br><br>
+							<br>
+							<br>
 							<button id="createSubmit" type="submit" class="btn btn-success">Create</button>
 						</form>
 					</div>
@@ -118,18 +119,32 @@
 		</div>
 
 		<div ng-show="player_is_host">
-			<button id=type="button" class="btn btn-success"
-								ng-disabled="suspects_in_lobby.length < 2">Start</button>
+			<button id=type= "button" class="btn btn-success"
+				ng-disabled="suspects_in_lobby.length < 2" ng-click="startGame()">Start
+				Game</button>
 		</div>
-		
+
 		<div ng-show="!player_is_host">
-		<p>Waiting for the host player to Start the game</p>
+			<p>Waiting for the host player to Start the game</p>
 		</div>
 
 	</div>
 	<div id="gameDashboard"
-		ng-show="game_id!= undefined &&  !game_in_lobby">Game Dashboard
-		for {{game_id}}</div>
+		ng-show="game_id!= undefined &&  !game_in_lobby">
+		<h1>Game Dashboard for Game {{game_name}}</h1>
+		<div id=playerSuspect>
+			<p>My Character: {{selected_suspect}} possibly a picture of the suspect...</p>
+		</div>
+		<div id="gameBoard"></div>
+		<div id="gameStatus"></div>
+
+		<div id="cards">
+			<p>Cards:</p>
+			<div ng-repeat="c in cards">{{c.name}}</div>
+		</div>
+
+
+	</div>
 
 </body>
 </html>

@@ -16,6 +16,7 @@ From User:
 { type: CREATE, name: "Game Name", suspect: 5 }
 { type: JOIN, game_id: 2 }
 { type:	GET_SUSPECTS, suspect: 5, game_id: 2 }
+{ type: START, game: 0}
 { type: MOVE, location: 3, suggestion: [ 3, 12, 6], game_id: 2 }
 { type: DISPROVE, game_id: 2, card: 6 }
 { type: ACCUSE, game_id: 2, accusation: [3, 12, 6] }

@@ -1,5 +1,3 @@
-//var clueless = angular.module('clueless', [ 'angular-websocket', 'ui.bootstrap']).controller(
-//		'ctrlr', [ '$scope', '$websocket','$modal', function($scope, $websocket, $modal) {
 var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 		'ctrlr', [ '$scope', '$websocket', function($scope, $websocket) {
 
@@ -7,7 +5,7 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 			$scope.test = "Response from server: ";
 			/* Globals*/
 			$scope.selected_game = {id : undefined};
-			$scope.selected_suspect = {id: undefined};
+			$scope.selected_suspect = undefined;
 			$scope.game_id = undefined;
 			$scope.game_name = undefined;
 			$scope.game_in_lobby = false;
@@ -29,6 +27,7 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 
 				} else if (data.type == "CARDS") {
 					$scope.cards = data.cards;
+					$scope.game_in_lobby = false;;
 
 				} else if (data.type == "SUSPECTS") {
 					$scope.suspects = data.suspects;
@@ -86,6 +85,7 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 						name : game_name,
 						suspect: suspect
 				}
+				$scope.selected_suspect = suspect;
 				ws.send(newGame);
 				//Will eventually receive game ID from GameManager, just want to test
 				//going to lobby
@@ -106,12 +106,17 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 						game: $scope.selected_game.id,
 						suspect: suspect
 				}
+				$scope.selected_suspect = suspect;
 				ws.send(joinedGame)
-				//Will eventually receive game ID from GameManager, just want to test
-				//going to lobby
-				$scope.game_id  = 0;
-				$scope.game_in_lobby = true;
 				
+			}
+			
+			$scope.startGame = function(){
+				var start = {
+						type: "START",
+						game: $scope.game_id
+				}
+				ws.send(start);
 			}
 			
 

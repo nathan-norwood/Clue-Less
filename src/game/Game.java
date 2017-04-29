@@ -17,7 +17,7 @@ public class Game {
 	private Vector<Card> card_deck;
 	private Vector<Card> case_file;
 	private Vector<Player> players;
-	
+	private HashMap<Integer, String> available_suspects;
 	
 	
 	/* TODO: Order of play is:
@@ -31,7 +31,7 @@ public class Game {
 	private boolean openGame = false;
 	private Player current_player;
 	private Player disproving_player = null;
-	private HashMap<Integer, String> available_suspects;
+	
 	
 	
 	public Game(int id, String n, int h_id, int s_id){
@@ -103,9 +103,13 @@ public class Game {
 		
 		Random randomDeck = new Random();
 		/*TODO: validate nextInt doesnt over reach index */
-		int next = randomDeck.nextInt(card_deck.size());
-		Card card = card_deck.remove(next);
-		return card;
+		if(card_deck.size() > 0){
+			int next = randomDeck.nextInt(card_deck.size());
+			Card card = card_deck.remove(next);
+			return card;
+		}else{
+			return null;
+		}
 	}
 	
 	/* TODO: Use this function to select the case file */
@@ -145,7 +149,7 @@ public class Game {
 	
 	}	
 	
-	public void configureGame(){
+	public void dealCards(){
 		/* TODO: Base logic is here, Validate this works! */
 		boolean cont = true;
 		do{
@@ -163,11 +167,14 @@ public class Game {
 	}
 	
 	public boolean startGame(){
-		
+		//Should never happen, validation on front end
 		if(players.size()>=2){
 			openGame = false;
 			
-			/* start the game... */
+			System.out.println("Game Started!");
+			dealCards();
+			
+						/* start the game... */
 			// set current_player
 			// call getNextMove() and send JSON to player
 			// on player callback, makeMove(). 
