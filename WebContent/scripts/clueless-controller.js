@@ -49,7 +49,7 @@ var clueless = angular
 									.filter(function(s) {
 										return s.id == $scope.selected_suspect;
 									}); 
-									
+									$scope.suspectName = $scope.suspectName[0].name;
 
 								} else if (data.type == "SUSPECTS") {
 									$scope.suspects = data.suspects;
