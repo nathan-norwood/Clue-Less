@@ -229,16 +229,13 @@ public class GameManager {
 			Vector<Response> responses;
 			Game g = games.get(input.getInt("game"));
 			responses = g.processMoveResponse(input.getJsonObject("selection"));
-			System.out.println(responses);
-			for(Response res: responses){
-				if(res.getSession_id() == 0){
-					sendToAllPlayers(res,g);		
-				}else{
-					sendToSpecificPlayer(res);
-				}
-			}
+			sendResponses(responses, g);
 			
 		}else if(input.getString("type").equals("DISPROVE")){
+			Vector<Response> responses;
+			Game g = games.get(input.getInt("game_id"));
+			responses = g.processDisproveResponse(Integer.parseInt(input.getString("card")));
+			//sendResponses(responses, g);
 			
 		}else if(input.getString("type").equals("ACCUSE")){
 			
@@ -272,6 +269,17 @@ public class GameManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}	
+	private void sendResponses(Vector<Response> responses, Game g){
+		for(Response res: responses){
+			if(res.getSession_id() == 0){
+				sendToAllPlayers(res,g);		
+			}else{
+				sendToSpecificPlayer(res);
+			}
+		}
+		
+	
 	}
 }
 

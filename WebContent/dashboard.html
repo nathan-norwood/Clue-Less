@@ -171,6 +171,24 @@
 				</form>
 			</div>
 		</div>
+		<div id = "disproveSuggestion" ng-show = "suggestion_to_disprove != undefined">
+		<p>Suggestion to Disprove:</p>
+		{{suggestion_to_disprove.suspect.name}}, {{suggestion_to_disprove.weapon.name}}, {{suggestion_to_disprove.room.name}}
+		<br>
+		<form ng-submit = sendDisprove()>
+			<div ng-show = "ways_to_disprove.length > 0">
+			<div ng-repeat = "w in ways_to_disprove">
+				<input type="radio" name="disprove" ng-model="disprove_choice.id"
+						value="{{w.id}}" /> {{w.name}}
+						<br>
+			</div>
+			</div>
+			<div ng-show = "ways_to_disprove.length == 0">
+				<input type="radio" name="disprove" ng-model="disprove_choice.id" value="-1">Cannot Disprove
+			</div>
+			<button type = "submit"  class="btn btn-success">Send Disprove Choice</button>
+		</form>
+		</div>
 		<div id="cards">
 			<p>Cards:</p>
 			<div ng-repeat="c in cards">{{c.name}}</div>

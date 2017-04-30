@@ -42,3 +42,8 @@
 	background-color :black;
 	color : white;
 }
+#disrpoveSuggestion{
+	width: 100%;
+	border-style:solid;
+	border-color: green;
+}
