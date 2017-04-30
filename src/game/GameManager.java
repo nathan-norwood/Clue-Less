@@ -196,8 +196,10 @@ public class GameManager {
 			JsonObjectBuilder obuilder = Json.createObjectBuilder();
 			JsonArrayBuilder abuilder = Json.createArrayBuilder();
 			Game g = games.get(input.getInt("game"));
-			Response res = g.startGame();
-			for(Player p : g.getPlayers()){
+			Vector<Response> responses = g.startGame();
+			sendResponses(responses, g);
+			
+			/*for(Player p : g.getPlayers()){
 				obuilder.add("type", "CARDS");
 				for(Card c : p.getCards()){
 					abuilder.add(Json.createObjectBuilder().add("id",c.getId()).add("name", c.getName()));
@@ -223,6 +225,7 @@ public class GameManager {
 				
 			}
 			sendToSpecificPlayer(res);
+			*/
 			
 		}else if(input.getString("type").equals("TURN")){
 			// Send 'game' with each msg.
@@ -235,7 +238,7 @@ public class GameManager {
 			Vector<Response> responses;
 			Game g = games.get(input.getInt("game_id"));
 			responses = g.processDisproveResponse(Integer.parseInt(input.getString("card")));
-			//sendResponses(responses, g);
+			sendResponses(responses, g);
 			
 		}else if(input.getString("type").equals("ACCUSE")){
 			

@@ -65,7 +65,7 @@ var clueless = angular
 									$scope.options = data.options;
 
 								} else if (data.type == "BOARD_STATE") {
-									// $scope.board_state = data.
+									 $scope.board_state = data.board;
 									
 								}else if(data.type == "DISPROVE"){
 									
@@ -254,7 +254,7 @@ var clueless = angular
 									game_id: $scope.game_id,
 									card: $scope.disprove_choice.id
 							}
-							
+							$scope.suggestion_to_disrpove = undefined;
 							ws.send(disprove);
 						}
 						

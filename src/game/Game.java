@@ -179,24 +179,44 @@ public class Game {
 			
 	}
 	
-	public Response startGame(){
+	public Vector<Response> startGame(){
 		//Should never happen, validation on front end
 
 		if(players.size()>=2){
 			openGame = false;
-			
+			Vector<Response> responses = new Vector<Response>();
 			System.out.println("Game Started!");
+			
+			JsonObjectBuilder obuilder = Json.createObjectBuilder();
+			JsonArrayBuilder abuilder = Json.createArrayBuilder();
 			dealCards();
 			for(Player p :players){
 				if(p.getSuspectId()== board.getScarlet()){
 					current_player = p;
 				}
+				obuilder.add("type", "CARDS");
+				for(Card c : p.getCards()){
+					abuilder.add(Json.createObjectBuilder().add("id",c.getId()).add("name", c.getName()));
+				}
+				obuilder.add("cards", abuilder);
+				Response r = new Response(p.getUniqueId(), obuilder.build());
+				responses.add(r);
+				
 			}
 			if(current_player == null)
 				current_player = players.get(0);
 			
+			obuilder.add("type", "MSG");
+			obuilder.add("suspect", current_player.getSuspectId());
+			obuilder.add("msg", " will have the first move.");
+			Response r = new Response(0, obuilder.build());
+			
+			responses.add(r);
+			responses.add(new Response (0, getBoardState()));
+			responses.add(new Response(current_player.getUniqueId(), sendMove()));
+			
 						/* start the game... */
-			return new Response(current_player.getUniqueId(), sendMove());
+			return responses;
 
 			
 		}else{

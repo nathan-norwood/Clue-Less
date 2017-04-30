@@ -135,9 +135,12 @@
 			<p>My Character: {{suspectName}}</p>
 		</div>
 		<div id = "messageBoard">
-		<h3>Message Panel</h3>{{msgs}}
+		<h3>Game State Panel</h3>{{msgs}}
 		</div>
-		<div id="gameBoard"></div>
+		<div id="gameBoard">
+			Game Board
+		{{board_state}}
+		</div>
 		<div id="gameStatus"></div>
 		<!-- Not a modal yet -->
 		<div id="optionsModal" ng-show="options != undefined">
