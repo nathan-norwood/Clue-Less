@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -257,18 +258,46 @@ public class Game {
 
 	}
 	
-	public boolean processAccusationReponse(JsonObject turn){
-		boolean successful = false;
+	
+	public Vector<Response> processAccusationReponse(JsonArray accusation){
+		//accusation: [3, 12, 6] 
+		Vector<Response> responses =new Vector<Response>();
+		boolean successful = true;
 		/* TODO:
 		 * 0. Only if disproving_player == null, can make a accusation
 		 * 1. Compare accusation against case file
 		 * 2. if valid, end game, notify players of win
 		 * 3. if invalid, deactivate player, notify players of deactivation
 		 */
-		
+		if(disproving_player == null){
+			for(Card c:case_file){
+				if(!accusation.contains(c.getId())){
+					successful = false;
+				}
+			}
+			if(successful){
+				String win = "";
+						
+				for(Card c:case_file){
+					win += c.getName()+" ";
+				}
+				responses.add( new Response(0, Json.createObjectBuilder().add("type", "ENDGAME").add("suspect", 
+						current_player.getSuspectId()).add("msg", 
+								"has won the game! Solution:"+win).build()) );
+				//end game
+			}else{
+				current_player.setInactive();
+				responses.add( new Response(0, Json.createObjectBuilder().add("type", "MSG").add("suspect", 
+						current_player.getSuspectId()).add("msg", 
+								"has made an incorrect accusation - they are now inactive").build()) );
+				responses.add(new Response(nextPlayer().getUniqueId(), sendMove()));
+				current_player = nextPlayer();
+				
+			}
+			
+		}
 		//All turns end with accusation - get next player
-		current_player = nextPlayer();
-		return successful;
+		return responses;
 
 	}
 	
