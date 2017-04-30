@@ -132,22 +132,25 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 				}else if($scope.moveChosen.id == -2){
 					//Making Accusation Not ready to handle that
 				}else{
-				
-					for (l in $scope.options.locations){
-						if(l.id == $scope.moveChosen.id){
-							if(l.room){
-								$scope.makingSuggestion = true;
-							}else{
-								//call submitMove with location
-							}
-						}
+					$scope.test = $scope.options.locations + "only getting to HERE";
+					$scope.chosenLocation = $scope.options.locations.filter(function(l){
+						return l.id == moveChosen.id;});
+					
+					$scope.chosenLocation = $scope.chosenLocation[0];
+					if($scope.chosenLocation.room){
+						$makingSuggestion = true;
+					}else{
+						//call submitMove() with hallway location
+						
 					}
+					
 					
 				}	
 			}
 			
 			$scope.submitMove = function(location, suggestion){
 				//send move back to server
+				
 			}
 				
 		} ]);
