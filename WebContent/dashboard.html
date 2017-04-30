@@ -153,11 +153,12 @@
 				Accusation
 				<br>
 				<button type="submit" class="btn btn-success">Submit</button>
-			</form ng-submit = "submitMove(suspect, weapon)">
+			</form>
+			
 			<div id = "makeSuggestion" ng-show = "makingSuggestion">
 				<p>Make Suggestion</p>
 				<p>Room: {{chosenLocation.name}}
-				<form>
+				<form ng-submit = "submitMove(suspect, weapon)">
 					<label>Suspect: </label><select ng-model="suspect"
 										ng-options="s.id as s.name for s in suspects"></select></td>
 					<label>Weapon: </label><select ng-model="weapon"
