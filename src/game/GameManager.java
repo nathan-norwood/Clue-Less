@@ -199,33 +199,7 @@ public class GameManager {
 			Vector<Response> responses = g.startGame();
 			sendResponses(responses, g);
 			
-			/*for(Player p : g.getPlayers()){
-				obuilder.add("type", "CARDS");
-				for(Card c : p.getCards()){
-					abuilder.add(Json.createObjectBuilder().add("id",c.getId()).add("name", c.getName()));
-				}
-				obuilder.add("cards", abuilder);
-				String cards = obuilder.build().toString();
-				int currentSuspect = g.getCurrent_player().getSuspectId();
-				obuilder.add("type", "MSG");
-				obuilder.add("suspect", currentSuspect);
-				obuilder.add("msg", " will have the first move.");
-				String welcomeMessage = obuilder.build().toString();
-				Session ses = playerSessions.inverse().get(p.getUniqueId());
-				try {
-					//obuilder.build() clears the obuilder
-					ses.getBasicRemote().sendText(cards);
-					ses.getBasicRemote().sendText(welcomeMessage);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				
-				
-			}
-			sendToSpecificPlayer(res);
-			*/
+			
 			
 		}else if(input.getString("type").equals("TURN")){
 			// Send 'game' with each msg.

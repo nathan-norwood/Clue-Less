@@ -239,7 +239,7 @@ public class Game {
 					responses.addElement( new Response(current_player.getUniqueId(), 
 							Json.createObjectBuilder().add("type", "TURN2").add("suspect", 
 									disproving_player.getSuspectId()).add("notice", 
-											"Card for "+c.getName()+" shown").build()) );
+											"Card for "+c.getName()+" shown by").build()) );
 					// Notify all players that it proving suspect ID disproved current_player ** need a new object
 					responses.add( new Response(0, Json.createObjectBuilder().add("type", "MSG").add("suspect", 
 							disproving_player.getSuspectId()).add("msg", 

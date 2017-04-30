@@ -25,16 +25,12 @@
 	border-style:solid;
 	border-color: green;
 }
-#optionsModal{
+#turn{
 	width: 100%;
 	border-style:solid;
 	border-color: green;
 }
-#makeSuggestion{
-	width: 100%;
-	border-style:solid;
-	border-color: green;
-}
+
 #messageBoard{
 	width: 100%;
 	border-style:solid;

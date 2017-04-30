@@ -26,9 +26,10 @@ var clueless = angular
 							$scope.disprove_choice = {
 									id: undefined
 							}
-							
+							$scope.disprove_response = undefined;
 							$scope.suggestion_to_disrpove = undefined;
 							$scope.msgs = "The game is started! "
+							$scope.is_turn = false;
 							/* Define WebSocket for Communication with Game */
 							var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
 							ws.onMessage(function(event) {
@@ -44,7 +45,11 @@ var clueless = angular
 								} else if (data.type == "CARDS") {
 									$scope.cards = data.cards;
 									$scope.game_in_lobby = false;
-									;
+									$scope.suspectName = $scope.suspects
+									.filter(function(s) {
+										return s.id == $scope.selected_suspect;
+									}); 
+									
 
 								} else if (data.type == "SUSPECTS") {
 									$scope.suspects = data.suspects;
@@ -63,6 +68,14 @@ var clueless = angular
 
 								} else if (data.type == "TURN") {
 									$scope.options = data.options;
+									$scope.is_turn = true;
+								} else if (data.type == "TURN2") {
+									if(data.suspect != null){
+										var suspect = $scope.getSuspectById(data.suspect)
+										$scope.disprove_response = data.notice + suspect.name;
+									}else{
+										$scope.disprove_response = data.notice;
+									}
 
 								} else if (data.type == "BOARD_STATE") {
 									 $scope.board_state = data.board;
@@ -130,11 +143,7 @@ var clueless = angular
 									suspect : suspect
 								}
 								$scope.selected_suspect = suspect;
-								$scope.suspectName = $scope.suspects
-								.filter(function(s) {
-									return s.id == $scope.selected_suspect;
-								});   
-								$scope.suspectName = $scope.suspectName[0].name;
+								  
 								ws.send(newGame);
 
 							}
@@ -177,6 +186,7 @@ var clueless = angular
 								} else if ($scope.moveChosen.id == -2) {
 									// Making Accusation Not ready to handle
 									// that
+									$scope.makeAccusation();
 								} else {
 									$scope.chosenLocation = $scope.options.locations
 											.filter(function(l) {
@@ -228,7 +238,7 @@ var clueless = angular
 												game : $scope.game_id
 											}	
 										
-										
+										$scope.disprove_response = "Waiting for other players to disprove";
 									//Player Moved to Hallway
 									} else {
 										turn = {
@@ -238,12 +248,13 @@ var clueless = angular
 											},
 											game : $scope.game_id
 										}
-
+										$scope.is_turn = false;
 									}
+									
 								}
 							$scope.makingSuggestion = false;
 							$scope.options = undefined;
-							$scope.test = turn;
+							
 							ws.send(turn);	
 						}
 							
@@ -254,10 +265,23 @@ var clueless = angular
 									game_id: $scope.game_id,
 									card: $scope.disprove_choice.id
 							}
-							$scope.suggestion_to_disrpove = undefined;
+							$scope.suggestion_to_disprove = undefined;
 							ws.send(disprove);
 						}
 						
+						$scope.endTurn = function(){
+							var end = {
+									type :"ACCUSE",
+									accusation: []
+							}
+							$scope.is_turn = false;
+							ws.send(end);
+						}
+						
+						$scope.makeAccusation = function(){
+							//TODO
+							
+						}
 						$scope.getSuspectById = function(id){
 							var suspect = $scope.suspects
 							.filter(function(s) {
