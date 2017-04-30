@@ -85,7 +85,7 @@ var clueless = angular
 									$scope.suggestion_to_disprove = {
 											suspect: $scope.getSuspectById(data.suggestion.suspect),
 											weapon: $scope.getWeaponById(data.suggestion.weapon),
-											room: $scope.getRoomById(data.suggestion.location)
+											room: $scope.getRoomById(data.suggestion.room)
 									}
 									
 									
@@ -216,7 +216,7 @@ var clueless = angular
 											suggestion :{
 												suspect: suspect,
 												weapon: weapon,
-												location: "??",
+												room: "??",
 											},
 											game : $scope.game_id
 										}
@@ -232,7 +232,7 @@ var clueless = angular
 													suggestion :{
 														suspect: suspect,
 														weapon: weapon,
-														location: $scope.chosenLocation.id,
+														room: $scope.chosenLocation.id,
 													}
 												},
 												game : $scope.game_id
@@ -272,6 +272,7 @@ var clueless = angular
 						$scope.endTurn = function(){
 							var end = {
 									type :"ACCUSE",
+									game_id: $scope.game_id,
 									accusation: []
 							}
 							$scope.is_turn = false;

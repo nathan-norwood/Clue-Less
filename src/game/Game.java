@@ -239,11 +239,12 @@ public class Game {
 					responses.addElement( new Response(current_player.getUniqueId(), 
 							Json.createObjectBuilder().add("type", "TURN2").add("suspect", 
 									disproving_player.getSuspectId()).add("notice", 
-											"Card for "+c.getName()+" shown by").build()) );
+											"Card for "+c.getName()+" shown by ").build()) );
 					// Notify all players that it proving suspect ID disproved current_player ** need a new object
 					responses.add( new Response(0, Json.createObjectBuilder().add("type", "MSG").add("suspect", 
 							disproving_player.getSuspectId()).add("msg", 
 									"successfully disproved suggestion.").build()) );
+					disproving_player = null;
 				}
 				else{
 					//TODO Error!
@@ -369,15 +370,16 @@ public class Game {
 					responses.add(new Response(0, getBoardState()));
 				}else{
 					//TODO Error!
+					System.out.println("Should not be here, player made invalid move");
 				}
 			}
 			if(turn.containsKey("suggestion")){
 				JsonObject suggest = turn.getJsonObject("suggestion");
 				
-				if(suggest.containsKey("location") && 
+				if(suggest.containsKey("room") && 
 						suggest.containsKey("suspect") &&
 						suggest.containsKey("weapon") &&
-						l_id == suggest.getInt("location")){
+						l_id == suggest.getInt("room")){
 					
 					Suspect s= board.getSuspectById(suggest.getInt("suspect"));
 					s.getLocation().setOccupied(false);
@@ -394,7 +396,7 @@ public class Game {
 							current_player.getSuspectId()).add("msg", 
 									"has made a suggestion: "+board.getSuspectById(suggest.getInt("suspect")).getName()+
 									", "+board.getWeaponById(suggest.getInt("weapon") ).getName()+
-									", "+board.getLocationById(suggest.getInt("location") ).getName()
+									", "+board.getLocationById(suggest.getInt("room") ).getName()
 									).build()) );
 					
 
@@ -411,7 +413,7 @@ public class Game {
 					
 				}else{
 					//TODO Error!
-
+					System.out.println("Malformed JSON object selection");
 				}
 			}else{
 
@@ -421,6 +423,7 @@ public class Game {
 
 		}else{
 			//TODO Error!
+			System.out.println("Disproving Player is not null");
 		}
 				
 		return responses;

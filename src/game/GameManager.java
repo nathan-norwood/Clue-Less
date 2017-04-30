@@ -215,7 +215,10 @@ public class GameManager {
 			sendResponses(responses, g);
 			
 		}else if(input.getString("type").equals("ACCUSE")){
-			
+			Vector<Response> responses;
+			Game g = games.get(input.getInt("game_id"));
+			responses = g.processAccusationReponse(input.getJsonArray("accusation"));
+			sendResponses(responses, g);
 		}else{
 			System.out.println("Bad JSON"  + input);
 		}
