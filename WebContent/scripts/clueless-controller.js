@@ -13,6 +13,7 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 			$scope.player_is_host = undefined;
 			$scope.options = undefined;
 			$scope.makingSuggestion = false;
+			$scope.moveChosen = {id : undefined};
 			
 			
 			/* Define WebSocket for Communication with Game */
@@ -122,22 +123,20 @@ var clueless = angular.module('clueless', [ 'angular-websocket' ]).controller(
 				ws.send(start);
 			}
 			
-			$scope.getMove = function(locationId){
-				if(locationId = undefined){
-					$scope.test = "WTF";
-				}else{
-					$scope.test = locationId;
-				}
-				if(locationId == -1){
+			$scope.getMove = function(){
+				
+				$scope.test = $scope.moveChosen.id;
+				
+				if($scope.moveChosen.id == -1){
 					$scope.makingSuggetsion = true;
-				}else if(locationId == -2){
+				}else if($scope.moveChosen.id == -2){
 					//Making Accusation Not ready to handle that
 				}else{
 				
 					for (l in $scope.options.locations){
-						if(l.id = locationId){
+						if(l.id == $scope.moveChosen.id){
 							if(l.room){
-								$scope.makingSuggestion;
+								$scope.makingSuggestion = true;
 							}else{
 								//call submitMove with location
 							}

@@ -140,16 +140,16 @@
 		<!-- Not a modal yet -->
 		<div id="optionsModal" ng-show="options != undefined">
 			<p>It's your Turn! Choose Your Move</p>
-			<form ng-submit="getMove(locationId)">
+			<form ng-submit="getMove()">
 				<div ng-show = options.suggestion>
-				<input type="radio" name="move" ng-model="locationId" value="-1">Make Suggestion
+				  <input type="radio" name="move" ng-model="moveChosen.id" value="-1">Make Suggestion
 				</div>
 				<div ng-repeat="l in options.locations">
 
-					<input type="radio" name="move" ng-model="locationId"
+					<input type="radio" name="move" ng-model="moveChosen.id"
 						value="{{l.id}}" /> {{l.name}}
 				</div>
-				<input type="radio" name="move" ng-model="locationId" value="-2">Make
+				<input type="radio" name="move" ng-model="moveChosen.id" value="-2">Make
 				Accusation
 				<br>
 				<button type="submit" class="btn btn-success">Submit</button>
