@@ -203,10 +203,17 @@ public class GameManager {
 					abuilder.add(Json.createObjectBuilder().add("id",c.getId()).add("name", c.getName()));
 				}
 				obuilder.add("cards", abuilder);
+				String cards = obuilder.build().toString();
+				int currentSuspect = g.getCurrent_player().getSuspectId();
+				obuilder.add("type", "MSG");
+				obuilder.add("suspect", currentSuspect);
+				obuilder.add("msg", " will have the first move.");
+				String welcomeMessage = obuilder.build().toString();
 				Session ses = playerSessions.inverse().get(p.getUniqueId());
 				try {
 					//obuilder.build() clears the obuilder
-					ses.getBasicRemote().sendText(obuilder.build().toString());
+					ses.getBasicRemote().sendText(cards);
+					ses.getBasicRemote().sendText(welcomeMessage);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -215,20 +222,21 @@ public class GameManager {
 				
 				
 			}
-			Session ses = playerSessions.inverse().get(res.getSession_id());
-			System.out.println(res.getMsgs());
-			try {
-				//obuilder.build() clears the obuilder
-				ses.getBasicRemote().sendText(res.getMsgs().toString());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			sendToSpecificPlayer(res);
 			
 		}else if(input.getString("type").equals("TURN")){
 			// Send 'game' with each msg.
-			Game g = games.get(Integer.parseInt(input.getString("game")));
-			g.processMoveResponse(input.getJsonObject("selection"));
+			Vector<Response> responses;
+			Game g = games.get(input.getInt("game"));
+			responses = g.processMoveResponse(input.getJsonObject("selection"));
+			System.out.println(responses);
+			for(Response res: responses){
+				if(res.getSession_id() == 0){
+					sendToAllPlayers(res,g);		
+				}else{
+					sendToSpecificPlayer(res);
+				}
+			}
 			
 		}else if(input.getString("type").equals("DISPROVE")){
 			
@@ -240,4 +248,30 @@ public class GameManager {
 		
 		
 	}
+	
+	private void sendToAllPlayers(Response res, Game g){
+		for(Player p :g.getPlayers()){
+			Session ses = playerSessions.inverse().get(p.getUniqueId());
+			try {
+				//obuilder.build() clears the obuilder
+				ses.getBasicRemote().sendText(res.getMsgs().toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void sendToSpecificPlayer(Response res){
+		Session ses = playerSessions.inverse().get(res.getSession_id());
+		System.out.println(res.getMsgs());
+		try {
+			//obuilder.build() clears the obuilder
+			ses.getBasicRemote().sendText(res.getMsgs().toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
+

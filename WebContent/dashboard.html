@@ -132,8 +132,10 @@
 		ng-show="game_id!= undefined &&  !game_in_lobby">
 		<h1>Game Dashboard for Game {{game_name}}</h1>
 		<div id=playerSuspect>
-			<p>My Character: {{selected_suspect}} possibly a picture of the
-				suspect...</p>
+			<p>My Character: {{suspectName}}</p>
+		</div>
+		<div id = "messageBoard">
+		<h3>Message Panel</h3>{{msgs}}
 		</div>
 		<div id="gameBoard"></div>
 		<div id="gameStatus"></div>
@@ -147,7 +149,8 @@
 				<div ng-repeat="l in options.locations">
 
 					<input type="radio" name="move" ng-model="moveChosen.id"
-						value="{{l.id}}" /> {{l.name}}
+						value="{{l.id}}" />Move To {{l.name}}
+						<br>
 				</div>
 				<input type="radio" name="move" ng-model="moveChosen.id" value="-2">Make
 				Accusation
@@ -164,7 +167,7 @@
 					<label>Weapon: </label><select ng-model="weapon"
 										ng-options="w.id as w.name for w in weapons"></select></td>
 					
-					
+					<button type="submit" class="btn btn-success">Make Suggestion</button>
 				</form>
 			</div>
 		</div>

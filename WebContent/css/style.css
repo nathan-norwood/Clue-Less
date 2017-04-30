@@ -35,3 +35,10 @@
 	border-style:solid;
 	border-color: green;
 }
+#messageBoard{
+	width: 100%;
+	border-style:solid;
+	border-color: green;
+	background-color :black;
+	color : white;
+}

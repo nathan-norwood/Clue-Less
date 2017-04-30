@@ -38,6 +38,7 @@ public class Game {
 	/* State variables */
 	private boolean openGame = false;
 	private Player current_player;
+	
 	private Player disproving_player = null;
 	private JsonObject suggestion;
 	
@@ -75,6 +76,9 @@ public class Game {
 	}
 	public GameBoard getGameBoard() {
 		return board;
+	}
+	public Player getCurrent_player() {
+		return current_player;
 	}
 	private void initCardDeck(){
 		card_deck = new Vector<Card>();
@@ -340,6 +344,8 @@ public class Game {
 						cur_suspect.getLocation().setOccupied(true);
 					}
 					//TODO: Notify Players of board
+					//NN - Commented out b/c it was causing null pointer
+					//and we aren't handling BOARD_STATE messages in the front
 					responses.add(new Response(0, getBoardState()));
 				}else{
 					//TODO Error!

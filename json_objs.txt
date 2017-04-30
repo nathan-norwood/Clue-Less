@@ -20,6 +20,7 @@ From User:
 { type: JOIN, game_id: 2 }
 { type:	GET_SUSPECTS, suspect: 5, game_id: 2 }
 { type: START, game: 0}
+{ type: TURN, {location : 3, game:1}
 { type: TURN, selection:{ location: 3, suggestion:{suspect: 2, weapon:5, location:12}  , game_id: 2  }
 { type: TURN, selection:{ suggestion:{suspect: 2, weapon:5, location:12}  , game_id: 2  } //MOVE w/o a location is just a suggestion
 { type: DISPROVE, game_id: 2, card: 6 }
