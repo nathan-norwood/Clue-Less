@@ -132,7 +132,7 @@
 		ng-show="game_id!= undefined &&  !game_in_lobby">
 		<h1>Game Dashboard for Game {{game_name}}</h1>
 		<div id=playerSuspect>
-			<p>My Character: {{suspectName}}</p>
+			<p>My Character: {{current_suspect.name}}</p>
 		</div>
 		<div id="messageBoard">
 			<h3>Game State Panel</h3>
@@ -174,9 +174,9 @@
 					</form>
 				</div>
 			</div>
-			<div ng-show="disprove_response != undefined">
-				{{disprove_response}}
-				<div ng-show = "disprove_response != 'Waiting for other players to disprove'">
+			<div ng-show="move_response != undefined">
+				{{move_response}}
+				<div ng-show = "move_response != 'Waiting for other players to disprove'">
 					<button type = button ng-click = "endTurn()">End Turn</button>
 					<button type = button ng-click =  "makeAccusation()">Make Accusation</button>
 				</div>	
