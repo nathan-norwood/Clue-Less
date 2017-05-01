@@ -8,6 +8,7 @@
 
 </head>
 <body ng-controller="ctrlr">
+	<div id="header">Clue-Less</div>
 	<script src="scripts/angular.min.js" type="text/javascript"></script>
 	<script src="scripts/angular-cookies.js" type="text/javascript"></script>
 	<script
@@ -29,15 +30,14 @@
 		});
 	</script>
 
-	<div>{{test}}</div>
-
 
 	<div id="gameSelect" ng-show="game_id == undefined && !game_in_Lobby">
-		<h1>Welcome to Clue-Less!</h1>
-		<p>Please select from the list of available games or create a new
+	<div id="welcome">
+		<h1 class="wtext">Welcome to Clue-Less!</h1>
+		<p class="wtext">Please select from the list of available games or create a new
 			one:</p>
-		<button type="button" class="btn btn-primary btn-lg"
-			data-toggle="modal" data-target="#newGameModal">Create Game
+		<button type="button" class="btn btn-primary btn-lg" style="background-color: #69686B; border-color:#404042;"
+			data-toggle="modal" data-target="#newGameModal">Create New Game
 		</button>
 		<div id="newGameModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
@@ -71,18 +71,18 @@
 			</div>
 		</div>
 
-		<br> <label>Available Games:</label>
-		<form ng-submit="getAvailableSuspects()">
-			<div ng-repeat="g in games">
-				<input type="radio" name="select_game" ng-model="selected_game.id"
-					value="{{g.id}}" /> {{g.name}}
-			</div>
-
-
-			<button type="submit" class="btn btn-primary btn-lg"
-				ng-disabled="!selected_game.id" data-toggle="modal"
-				data-target="#joinGameModal">Join Game</button>
-		</form>
+			<br> <label class="wtext">Available Games:</label>
+			<form ng-submit="getAvailableSuspects()">
+				<div ng-repeat="g in games">
+					<input type="radio" name="select_game" ng-model="selected_game.id"
+						value="{{g.id}}" /> <label class="wtext">{{g.name}}</label>
+				</div>
+	
+	
+				<button type="submit" class="btn btn-primary btn-lg" style="background-color: #69686B; border-color:#404042;"
+					ng-disabled="!selected_game.id" data-toggle="modal"
+					data-target="#joinGameModal">Join Game</button>
+			</form>
 
 		<div id="joinGameModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
@@ -109,6 +109,7 @@
 
 
 
+	</div>
 	</div>
 	<div id="gameLobby" ng-show="game_in_lobby && game_id != undefined">
 		<h1>Lobby for your game: {{game_name}}</h1>
@@ -239,6 +240,10 @@
 
 
 		</div>
+		
 	</div>
+	<div>{{test}}</div>
+
+	
 </body>
 </html>
