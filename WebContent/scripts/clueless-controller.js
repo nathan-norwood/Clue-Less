@@ -30,6 +30,7 @@ var clueless = angular
 							$scope.suggestion_to_disrpove = undefined;
 							$scope.msgs = "The game is started! "
 							$scope.is_turn = false;
+							$scope.making_accusation = false;
 							
 							/* Define WebSocket for Communication with Game */
 							var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
@@ -301,7 +302,7 @@ var clueless = angular
 						}
 						
 						$scope.makeAccusation = function(){
-							//TODO
+							$scope.making_accusation = true;
 							
 						}
 						$scope.getSuspectById = function(id){

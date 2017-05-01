@@ -182,7 +182,19 @@
 				</div>	
 			
 			</div>
-		
+			<div ng-show = "making_accusation">
+				<form ng-submit = "submitAccusation(suspect, weapon, room)">
+					<label>Suspect</label><select ng-model="suspect"
+										ng-options="s.id as s.name for s in suspects"></select>
+					<label>Weapon</label><select ng-model="weapon"
+										ng-options="w.id as w.name for w in weapons"></select>
+					<label>Room</label><select ng-model="room"
+										ng-options="r.id as r.name for r in rooms"></select>
+					
+					<button type = "submit">Submit Accusation</button>										
+															
+				</form>
+			</div>
 		</div>
 		<div id="disproveSuggestion"
 			ng-show="suggestion_to_disprove != undefined">
