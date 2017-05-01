@@ -305,6 +305,16 @@ var clueless = angular
 							$scope.making_accusation = true;
 							
 						}
+						$scope.submitAccusation = function (suspect, weapon, room){
+							var acc = {
+									type : "ACCUSE",
+									game_id: $scope.game_id,
+									accusation: [suspect, weapon, room]		
+							}
+							
+							$scope.test = acc;
+							ws.send(acc);
+						}
 						$scope.getSuspectById = function(id){
 							var suspect = $scope.suspects
 							.filter(function(s) {
