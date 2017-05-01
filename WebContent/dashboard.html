@@ -146,22 +146,22 @@
 
 				<form ng-submit="getMove()">
 					<div ng-show=options.suggestion>
-						<input type="radio" name="move" ng-model="moveChosen.id"
-							value="-1">Make Suggestion
+						<input type="radio" name="move" ng-model="move_chosen.id"
+							value="-1">Make Suggestion in {{chosen_location.name}}
 					</div>
 					<div ng-repeat="l in options.locations">
 
-						<input type="radio" name="move" ng-model="moveChosen.id"
+						<input type="radio" name="move" ng-model="move_chosen.id"
 							value="{{l.id}}" />Move To {{l.name}} <br>
 					</div>
-					<input type="radio" name="move" ng-model="moveChosen.id" value="-2">Make
+					<input type="radio" name="move" ng-model="move_chosen.id" value="-2">Make
 					Accusation <br>
 					<button type="submit" class="btn btn-success">Submit</button>
 				</form>
 
-				<div id="makeSuggestion" ng-show="makingSuggestion">
+				<div id="makeSuggestion" ng-show="making_suggestion">
 					<p>Make Suggestion</p>
-					<p>Room: {{chosenLocation.name}}
+					<p>Room: {{chosen_location.name}}
 					<form ng-submit="submitMove(suspect, weapon)">
 						<label>Suspect: </label><select ng-model="suspect"
 							ng-options="s.id as s.name for s in suspects"></select>

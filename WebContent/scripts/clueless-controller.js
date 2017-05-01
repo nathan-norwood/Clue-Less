@@ -19,8 +19,8 @@ var clueless = angular
 							$scope.suspects_in_lobby = undefined;
 							$scope.player_is_host = undefined;
 							$scope.options = undefined;
-							$scope.makingSuggestion = false;
-							$scope.moveChosen = {
+							$scope.making_suggestion = false;
+							$scope.move_chosen = {
 								id : undefined
 							};
 							$scope.disprove_choice = {
@@ -70,6 +70,13 @@ var clueless = angular
 								} else if (data.type == "TURN") {
 									$scope.options = data.options;
 									$scope.is_turn = true;
+									//setting chosen location to current location of suspect 
+									//if they can Make Suggestion without moving
+									var stateObj = $scope.board_state.filter(function(s){
+										return s.id == $scope.current_suspect.id;
+									});
+									
+									$scope.chosen_location = $scope.getRoomById(stateObj[0].r_id);
 								} else if (data.type == "TURN2") {
 									if(data.suspect != null){
 										var suspect = $scope.getSuspectById(data.suspect)
@@ -182,32 +189,32 @@ var clueless = angular
 
 							$scope.getMove = function() {
 
-								$scope.test = $scope.moveChosen.id;
+								$scope.test = $scope.move_chosen.id;
 
-								if ($scope.moveChosen.id == -1) {
+								if ($scope.move_chosen.id == -1) {
 									$scope.makingSuggetsion = true;
 									// Need to get the current location of the
 									// suspect somehow
 									var stateObj = $scope.board_state.filter(function(s){
-										return s.suspect != null && s.suspect == $scope.current_suspect.id;
+										return s.id == $scope.current_suspect.id;
 									});
 									$scope.test = stateObj.length;
-									 $scope.chosenLocation = $scope.getRoomById(stateObj[0].r_id);
-									 $scope.test = $scope.chosenLocation;
-									 $scope.makingSuggestion = true;
-								} else if ($scope.moveChosen.id == -2) {
+									 $scope.chosen_location = $scope.getRoomById(stateObj[0].r_id);
+									
+									 $scope.making_suggestion = true;
+								} else if ($scope.move_chosen.id == -2) {
 									// Making Accusation Not ready to handle
 									// that
 									$scope.makeAccusation();
 								} else {
-									$scope.chosenLocation = $scope.options.locations
+									$scope.chosen_location = $scope.options.locations
 											.filter(function(l) {
-												return l.id == $scope.moveChosen.id;
+												return l.id == $scope.move_chosen.id;
 											});
 
-									$scope.chosenLocation = $scope.chosenLocation[0];
-									if ($scope.chosenLocation.room) {
-										$scope.makingSuggestion = true;
+									$scope.chosen_location = $scope.chosen_location[0];
+									if ($scope.chosen_location.room) {
+										$scope.making_suggestion = true;
 									} else {
 										// call submitMove() with hallway
 	
@@ -221,30 +228,31 @@ var clueless = angular
 								// send move back to server
 								var turn = null;
 								//Player in room at start of turn and makes suggestion
-								if ($scope.moveChosen.id == -1 ) {
+								if ($scope.move_chosen.id == -1 ) {
 									turn = {
 										type : "TURN",
 										selection : {
 											suggestion :{
 												suspect: suspect,
 												weapon: weapon,
-												room: $scope.chosenLocation.id,
-											},
-											game : $scope.game_id
-										}
+												room: $scope.chosen_location.id,
+											}
+											
+										},
+									game : $scope.game_id
 									}
-								
+									$scope.move_response = "Waiting for other players to disprove";
 								}else{
 									//Player Moved to Room and Made Suggestion
-									if($scope.chosenLocation.room){
+									if($scope.chosen_location.room){
 										turn = {
 												type : "TURN",
 												selection : {			
-													location: $scope.chosenLocation.id,
+													location: $scope.chosen_location.id,
 													suggestion :{
 														suspect: suspect,
 														weapon: weapon,
-														room: $scope.chosenLocation.id,
+														room: $scope.chosen_location.id,
 													}
 												},
 												game : $scope.game_id
@@ -256,15 +264,16 @@ var clueless = angular
 										turn = {
 											type : "TURN",
 											selection : {
-												location : $scope.chosenLocation.id,
+												location : $scope.chosen_location.id,
 											},
 											game : $scope.game_id
 										}
 									}
 									
 								}
-							$scope.makingSuggestion = false;
+							$scope.making_suggestion = false;
 							$scope.options = undefined;
+							
 							
 							ws.send(turn);	
 						}
@@ -287,6 +296,7 @@ var clueless = angular
 									accusation: []
 							}
 							$scope.is_turn = false;
+							$scope.move_response = undefined;
 							ws.send(end);
 						}
 						
