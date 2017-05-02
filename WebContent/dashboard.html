@@ -31,7 +31,7 @@
 	</script>
 
 
-	<div id="gameSelect" ng-show="game_id == undefined && !game_in_Lobby" class="mainpage">
+	<div id="gameSelect" ng-show="game_id == undefined && !game_in_Lobby && end_game == undefined" class="mainpage">
 		<div id="welcome" class="maincontent">
 			<h1 class="wtext">Welcome to Clue-Less!</h1>
 			<p class="wtext">Please select from the list of available games
@@ -270,7 +270,10 @@
 
 	</div>
 	<div>{{test}}</div>
-
-
+	<div ng-show = "end_game != undefined">
+		Game Over!
+		{{end_game}}
+		
+	</div>
 </body>
 </html>

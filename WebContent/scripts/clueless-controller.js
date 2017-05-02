@@ -5,7 +5,8 @@ var clueless = angular
 				[
 						'$scope',
 						'$websocket',
-						function($scope, $websocket) {
+						'$window',
+						function($scope, $websocket, $window) {
 
 							
 							/* Globals */
@@ -125,8 +126,15 @@ var clueless = angular
 									$scope.msgs = $scope.msgs + "\n"+
 									suspectName[0].name +" "+ data.msg;
 
-								} else {
+								} else if (data.type = "ENDGAME"){
+									var name = $scope.getSuspectById(data.suspect).name
+									$scope.end_game =  name + data.msg;
+									$scope.game_id = undefined
+									
+									//
 
+								}else{
+									
 								}
 
 							});
@@ -313,6 +321,8 @@ var clueless = angular
 							}
 							
 							$scope.test = acc;
+							$scope.making_accusation = false;
+							$scope.is_turn = false;
 							ws.send(acc);
 						}
 						$scope.getSuspectById = function(id){
