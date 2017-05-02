@@ -44,4 +44,9 @@ public class Card {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "Card [type=" + type + ", unique_id=" + unique_id + ", name=" + name + "]";
+	}
+
 }
