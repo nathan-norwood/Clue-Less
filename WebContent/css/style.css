@@ -9,30 +9,14 @@
 	background-color: #15260F;
 }
 #gameSelect {
-	width: 100%;
-	height: 100vh;
-	
-	padding: 50px 50px 50px 50px;
-	font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
-	font-variant: normal;
-	
-	text-align: center;
-	border-style:solid;
-	border-color: #15260F;
 	background-image:url(../images/BackgroundBoard.jpg);
-	background-size: cover;
+
 }
 button{
 	background-color: #69686B;
 }
 #welcome {
-	border-style:solid;
-	border-color:white;
-	border-width: 10px;
-	padding: 50px 50px 50px 50px;
-	background: rgba(0,0,0,0.6);
-	width:75%;
-	margin:auto;
+
 }
 .wtext{
 	color: white;
@@ -41,12 +25,35 @@ button{
 #availableGames{
 	
 }
+.mainpage{
+	width: 100%;
+	height: 100vh;
+	padding: 50px 50px 50px 50px;
+	font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+	font-variant: normal;
+	
+	text-align: center;
+	border-style:solid;
+	border-color: #15260F;
+	background-size: cover;
+}
+.maincontent{
+	border-style:solid;
+	border-color:white;
+	border-width: 10px;
+	padding: 50px 50px 50px 50px;
+	background: rgba(0,0,0,0.6);
+	width:75%;
+	margin:auto;
+}
 #gameLobby{
 	width: 100%;
 	border-style:solid;
-	border-color: green;
+	border-color: #15260F;
 }
+#gameDetails {
 
+}
 #gameDashboard {
 	width:100%;
 	border-style:solid;	
@@ -54,34 +61,34 @@ button{
 #detectiveNotes{
 	width: 100%;
 	border-style:solid;
-	border-color: green;
+	border-color: #15260F;
 }
 #cards{
 	width: 100%;
 	border-style:solid;
-	border-color: green;
+	border-color: #15260F;
 }
 #turn{
 	width: 100%;
 	border-style:solid;
-	border-color: green;
+	border-color: #15260F;
 }
 
 #messageBoard{
 	width: 100%;
 	border-style:solid;
-	border-color: green;
+	border-color: #15260F;
 	background-color :black;
 	color : white;
 }
 #disrpoveSuggestion{
 	width: 100%;
 	border-style:solid;
-	border-color: green;
+	border-color: #15260F;
 }
 
 #gameBoard{
 	width: 100%;
 	border-style:solid;
-	border-color: green;
+	border-color: #15260F;
 }

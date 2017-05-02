@@ -31,8 +31,8 @@
 	</script>
 
 
-	<div id="gameSelect" ng-show="game_id == undefined && !game_in_Lobby">
-		<div id="welcome">
+	<div id="gameSelect" ng-show="game_id == undefined && !game_in_Lobby" class="mainpage">
+		<div id="welcome" class="maincontent">
 			<h1 class="wtext">Welcome to Clue-Less!</h1>
 			<p class="wtext">Please select from the list of available games
 				or create a new one.</p>
@@ -117,20 +117,24 @@
 
 		</div>
 	</div>
-	<div id="gameLobby" ng-show="game_in_lobby && game_id != undefined">
-		<h1>Welcome to the lobby for your game: {{game_name}}</h1>
+	<div id="gameLobby" ng-show="game_in_lobby && game_id != undefined" class="mainpage">
+		<div id="gameDetails"  class="maincontent wtext">
+		<h1>Welcome to the Lobby!</h1>
+		<h3>Current Game: {{game_name}}</h3>
 		<div ng-show="!player_is_host">
-			<p>You must wait for the host player to Start the game</p>
+			<p>You must wait for the host player to start the game...</p>
 		</div>
-		<p>Suspects in the lobby:</p>
+		
+		<h3>Suspects in the lobby:</h3>
 		<div ng-repeat="s in suspects_in_lobby">
-			<label> {{s.name}}</label> <br>
+			{{s.name}}<br />
 		</div>
 
 		<div ng-show="player_is_host">
 			<button type="button" class="btn btn-success"
 				ng-disabled="suspects_in_lobby.length < 2" ng-click="startGame()">Start
 				Game</button>
+		</div>
 		</div>
 
 		
