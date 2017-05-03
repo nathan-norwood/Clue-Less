@@ -126,8 +126,11 @@ var clueless = angular
 									.filter(function(s) {
 										return s.id == data.suspect;
 									});  
-									
-									$scope.msgs.push(suspectName[0].name +" "+ data.msg);
+									if(suspectName.length>0){
+										$scope.msgs.push(suspectName[0].name +" "+ data.msg);
+									}else{
+										$scope.msgs.push(data.msg);
+									}
 
 								} else if (data.type = "ENDGAME"){
 									var name = $scope.getSuspectById(data.suspect).name

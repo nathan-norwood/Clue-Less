@@ -10,6 +10,7 @@
 }
 #gameSelect {
 	background-image:url(../images/BackgroundBoard.jpg);
+	height: 100vh;
 
 }
 button{
@@ -49,6 +50,7 @@ button{
 #gameLobby{
 	
 	background-image:url(../images/lobby3.jpg);
+	height: 100vh;
 }
 #gameDetails {
 
@@ -109,5 +111,6 @@ button{
 }
 #gameOver{
 	background-image:url(../images/BackgroundBoard.jpg);
+	height: 100vh;
 }
 
