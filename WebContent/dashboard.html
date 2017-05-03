@@ -31,13 +31,15 @@
 	</script>
 
 
-	<div id="gameSelect" ng-show="game_id == undefined && !game_in_Lobby && end_game == undefined" class="mainpage">
+	<div id="gameSelect"
+		ng-show="game_id == undefined && !game_in_Lobby && end_game == undefined"
+		class="mainpage">
 		<div id="welcome" class="maincontent">
 			<h1 class="wtext">Welcome to Clue-Less!</h1>
 			<p class="wtext">Please select from the list of available games
 				or create a new one.</p>
 			<div ng-show="games.length>0">
-				<br />  <label class="wtext">Available Games:</label>
+				<br /> <label class="wtext">Available Games:</label>
 				<form ng-submit="getAvailableSuspects()">
 					<div ng-repeat="g in games">
 						<input type="radio" name="select_game" ng-model="selected_game.id"
@@ -74,7 +76,9 @@
 					</div>
 				</div>
 			</div>
-			<div ng-show="games.length==0" class="wtext" style="font-size:20px;">Oh no! There are no open games!<br/><br/></div>
+			<div ng-show="games.length==0" class="wtext" style="font-size: 20px;">
+				Oh no! There are no open games!<br /> <br />
+			</div>
 
 			<br />
 			<button type="button" class="btn btn-primary btn-lg"
@@ -117,163 +121,165 @@
 
 		</div>
 	</div>
-	<div id="gameLobby" ng-show="game_in_lobby && game_id != undefined" class="mainpage">
-		<div id="gameDetails"  class="maincontent wtext">
-		<h1>Welcome to the Lobby!</h1>
-		<h3>Current Game: {{game_name}}</h3>
-		<div ng-show="!player_is_host">
-			<p>You must wait for the host player to start the game...</p>
-		</div>
-		
-		<h3>Suspects in the lobby:</h3>
-		<div ng-repeat="s in suspects_in_lobby">
-			{{s.name}}<br />
+	<div id="gameLobby" ng-show="game_in_lobby && game_id != undefined"
+		class="mainpage">
+		<div id="gameDetails" class="maincontent wtext">
+			<h1>Welcome to the Lobby!</h1>
+			<h3>Current Game: {{game_name}}</h3>
+			<div ng-show="!player_is_host">
+				<p>You must wait for the host player to start the game...</p>
+			</div>
+
+			<h3>Suspects in the Lobby:</h3>
+			<div ng-repeat="s in suspects_in_lobby">
+				{{s.name}}<br />
+			</div>
+
+			<div ng-show="player_is_host">
+				<button type="button" class="btn btn-success"
+					ng-disabled="suspects_in_lobby.length < 2" ng-click="startGame()">Start
+					Game</button>
+			</div>
 		</div>
 
-		<div ng-show="player_is_host">
-			<button type="button" class="btn btn-success"
-				ng-disabled="suspects_in_lobby.length < 2" ng-click="startGame()">Start
-				Game</button>
-		</div>
-		</div>
 
-		
 
 	</div>
-	<div id="gameDashboard"
+	<div id="gameDashboard" class="mainpage" style="padding: 20px;"
 		ng-show="game_id!= undefined &&  !game_in_lobby">
-		<h1>Game Dashboard for Game {{game_name}}</h1>
-		<div id=playerSuspect>
-			<p>My Character: {{current_suspect.name}}</p>
-		</div>
-		<div id="messageBoard">
-			<h3>Game State Panel</h3>
-			{{msgs}}
-		</div>
-		<div id="gameBoard">Game Board {{board_state}}</div>
-		<!-- Not a modal yet -->
-		<div id="turn" ng-show="is_turn">
-			<p>It's your Turn! Choose Your Move</p>
-			<div id="firstTurnOptions" ng-show="options != undefined">
-
-				<form ng-submit="getMove()">
-					<div ng-show=options.suggestion>
-						<input type="radio" name="move" ng-model="move_chosen.id"
-							value="-1">Make Suggestion in {{chosen_location.name}}
-					</div>
-					<div ng-repeat="l in options.locations">
-
-						<input type="radio" name="move" ng-model="move_chosen.id"
-							value="{{l.id}}" />Move To {{l.name}} <br>
-					</div>
-					<input type="radio" name="move" ng-model="move_chosen.id"
-						value="-2">Make Accusation <br>
-					<button type="submit" class="btn btn-success">Submit</button>
-				</form>
-
-				<div id="makeSuggestion" ng-show="making_suggestion">
-					<p>Make Suggestion</p>
-					<p>Room: {{chosen_location.name}}
-					<form ng-submit="submitMove(suspect, weapon)">
-						<label>Suspect: </label><select ng-model="suspect"
-							ng-options="s.id as s.name for s in suspects"></select> <label>Weapon:
-						</label><select ng-model="weapon"
-							ng-options="w.id as w.name for w in weapons"></select>
-
-
-						<button type="submit" class="btn btn-success">Make
-							Suggestion</button>
-					</form>
+		<h1>Dashboard for Game: {{game_name}}</h1>
+		<div class="container">
+			<div class="components">
+				<div id="cards" class="component">
+					<p>Cards:</p>
+					<div ng-repeat="c in cards">{{c.name}}</div>
+				</div>
+				<div id="messageBoard" class="component">
+					<h3>Game State Panel</h3>
+					{{msgs}}
 				</div>
 			</div>
-			<div ng-show="move_response != undefined">
-				{{move_response}}
-				<div
-					ng-show="move_response != 'Waiting for other players to disprove'">
-					<button type=button ng-click="endTurn()">End Turn</button>
-					<button type=button ng-click="makeAccusation()">Make
-						Accusation</button>
+			<div class="components">
+				<div class="component">
+					<div id=playerSuspect>
+						<p>My Character: {{current_suspect.name}}</p>
+					</div>
+					<div id="gameBoard">Game Board {{board_state}}</div>
 				</div>
 
-			</div>
+				<!-- Not a modal yet -->
+				<div class="component">
+					<div id="turn" ng-show="is_turn">
+						<p>It's your Turn! Choose Your Move</p>
+						<div id="firstTurnOptions" ng-show="options != undefined">
 
-			<div ng-show = "making_accusation">
-				<form ng-submit = "submitAccusation(suspect, weapon, room)">
-					<label>Suspect</label><select ng-model="suspect"
-										ng-options="s.id as s.name for s in suspects"></select>
-					<label>Weapon</label><select ng-model="weapon"
+							<form ng-submit="getMove()">
+								<div ng-show=options.suggestion>
+									<input type="radio" name="move" ng-model="move_chosen.id"
+										value="-1">Make Suggestion in {{chosen_location.name}}
+								</div>
+								<div ng-repeat="l in options.locations">
+
+									<input type="radio" name="move" ng-model="move_chosen.id"
+										value="{{l.id}}" />Move To {{l.name}} <br>
+								</div>
+								<input type="radio" name="move" ng-model="move_chosen.id"
+									value="-2">Make Accusation <br>
+								<button type="submit" class="btn btn-success">Submit</button>
+							</form>
+
+							<div id="makeSuggestion" ng-show="making_suggestion">
+								<p>Make Suggestion</p>
+								<p>Room: {{chosen_location.name}}
+								<form ng-submit="submitMove(suspect, weapon)">
+									<label>Suspect: </label><select ng-model="suspect"
+										ng-options="s.id as s.name for s in suspects"></select> <label>Weapon:
+									</label><select ng-model="weapon"
 										ng-options="w.id as w.name for w in weapons"></select>
-					<label>Room</label><select ng-model="room"
-										ng-options="r.id as r.name for r in rooms"></select>
-					
-					<button type = "submit">Submit Accusation</button>										
-															
-				</form>
-			</div>
 
-		</div>
-		<div id="disproveSuggestion"
-			ng-show="suggestion_to_disprove != undefined">
-			<p>Suggestion to Disprove:</p>
-			{{suggestion_to_disprove.suspect.name}},
-			{{suggestion_to_disprove.weapon.name}},
-			{{suggestion_to_disprove.room.name}} <br>
-			<form ng-submit=sendDisprove()>
-				<div ng-show="ways_to_disprove.length > 0">
-					<div ng-repeat="w in ways_to_disprove">
-						<input type="radio" name="disprove" ng-model="disprove_choice.id"
-							value="{{w.id}}" /> {{w.name}} <br>
+
+									<button type="submit" class="btn btn-success">Make
+										Suggestion</button>
+								</form>
+							</div>
+						</div>
+						<div ng-show="move_response != undefined">
+							{{move_response}}
+							<div
+								ng-show="move_response != 'Waiting for other players to disprove'">
+								<button type=button ng-click="endTurn()">End Turn</button>
+								<button type=button ng-click="makeAccusation()">Make
+									Accusation</button>
+							</div>
+
+						</div>
+
+						<div ng-show="making_accusation">
+							<form ng-submit="submitAccusation(suspect, weapon, room)">
+								<label>Suspect</label><select ng-model="suspect"
+									ng-options="s.id as s.name for s in suspects"></select> <label>Weapon</label><select
+									ng-model="weapon" ng-options="w.id as w.name for w in weapons"></select>
+								<label>Room</label><select ng-model="room"
+									ng-options="r.id as r.name for r in rooms"></select>
+
+								<button type="submit">Submit Accusation</button>
+
+							</form>
+						</div>
+
+					</div>
+					<div id="disproveSuggestion"
+						ng-show="suggestion_to_disprove != undefined">
+						<p>Suggestion to Disprove:</p>
+						{{suggestion_to_disprove.suspect.name}},
+						{{suggestion_to_disprove.weapon.name}},
+						{{suggestion_to_disprove.room.name}} <br>
+						<form ng-submit=sendDisprove()>
+							<div ng-show="ways_to_disprove.length > 0">
+								<div ng-repeat="w in ways_to_disprove">
+									<input type="radio" name="disprove"
+										ng-model="disprove_choice.id" value="{{w.id}}" /> {{w.name}}
+									<br>
+								</div>
+							</div>
+							<div ng-show="ways_to_disprove.length == 0">
+								<input type="radio" name="disprove"
+									ng-model="disprove_choice.id" value="-1">Cannot
+								Disprove
+							</div>
+							<button type="submit" class="btn btn-success">Send
+								Disprove Choice</button>
+						</form>
 					</div>
 				</div>
-				<div ng-show="ways_to_disprove.length == 0">
-					<input type="radio" name="disprove" ng-model="disprove_choice.id"
-						value="-1">Cannot Disprove
+			</div>
+			
+			<div id="detectiveNotes" class="components" style="text-align: left;">
+				<h3>DetectiveNotes</h3>
+				<p>Suspects:</p>
+				<div ng-repeat="s in suspects">
+					<input type="checkbox"> {{s.name}}
 				</div>
-				<button type="submit" class="btn btn-success">Send Disprove
-					Choice</button>
-			</form>
-		</div>
+				<p>Weapons:</p>
+				<div ng-repeat="w in weapons">
+					<input type="checkbox"> {{w.name}}
+				</div>
+				<p>Rooms:</p>
+				<div ng-repeat="r in rooms">
+					<input type="checkbox"> {{r.name}}
+				</div>
 
-		<div id="cards">
-			<p>Cards:</p>
-			<div ng-repeat="c in cards">{{c.name}}</div>
-		</div>
-
-		<div id="detectiveNotes">
-			<h2>DetectiveNotes</h2>
-			<table>
-				<tr>
-					<td>
-						<p>Suspects:</p>
-						<div ng-repeat="s in suspects">
-							<input type="checkbox"> {{s.name}}
-						</div>
-					</td>
-					<td>
-						<p>Weapons:</p>
-						<div ng-repeat="w in weapons">
-							<input type="checkbox"> {{w.name}}
-						</div>
-					</td>
-					<td>
-						<p>Rooms:</p>
-						<div ng-repeat="r in rooms">
-							<input type="checkbox"> {{r.name}}
-						</div>
-					</td>
-				</tr>
-
-			</table>
-
-
+			</div>
 		</div>
 
 	</div>
+	<div id="gameOver" ng-show="end_game != undefined" class="mainpage">
+		<div class="maincontent wtext">
+			<h1>Game Over!</h1>
+			<h3>{{end_game}}</h3>
+		</div>
+	</div>
+
 	<div>{{test}}</div>
-	<div ng-show = "end_game != undefined">
-		Game Over!
-		{{end_game}}
-		
-	</div>
 </body>
 </html>

@@ -47,9 +47,8 @@ button{
 	margin:auto;
 }
 #gameLobby{
-	width: 100%;
-	border-style:solid;
-	border-color: #15260F;
+	
+	background-image:url(../images/lobby3.jpg);
 }
 #gameDetails {
 
@@ -91,4 +90,21 @@ button{
 	width: 100%;
 	border-style:solid;
 	border-color: #15260F;
+	background-image:url(../images/Board.jpg);
+	
+}
+.container{
+	display:flex;
+	flex-direction:row;
+}
+.components{
+	flex-grow: 1;
+	display:flex;
+	flex-direction:column;
+}
+.component{
+	flex-grow:1;
+}
+#gameOver{
+	background-image:url(../images/BackgroundBoard.jpg);
 }

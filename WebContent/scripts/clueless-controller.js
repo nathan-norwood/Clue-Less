@@ -123,12 +123,12 @@ var clueless = angular
 										return s.id == data.suspect;
 									});  
 									
-									$scope.msgs = $scope.msgs + "\n"+
+									$scope.msgs = $scope.msgs + " <br /> " +
 									suspectName[0].name +" "+ data.msg;
 
 								} else if (data.type = "ENDGAME"){
 									var name = $scope.getSuspectById(data.suspect).name
-									$scope.end_game =  name + data.msg;
+									$scope.end_game =  name +" "+ data.msg;
 									$scope.game_id = undefined
 									
 									//
