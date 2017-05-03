@@ -4,10 +4,12 @@ public abstract class GameComponent {
 
 	private int unique_id;
 	private String name;
+	private String img_name;
 	
-	public GameComponent(int i, String s) {
+	public GameComponent(int i, String n, String in) {
 		unique_id =i;
-		name = s;
+		name = n;
+		img_name = in;
 	}
 
 	public boolean hasID(int id) {
@@ -23,5 +25,8 @@ public abstract class GameComponent {
 	
 	public String getName(){
 		return name;
+	}
+	public String getImgName(){
+		return img_name;
 	}
 }

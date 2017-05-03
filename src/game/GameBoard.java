@@ -23,12 +23,12 @@ public class GameBoard {
 		int id = 0;
 
 		weapons = new Vector<Weapon>();
-		weapons.add(new Weapon(id++, "Rope"));
-		weapons.add(new Weapon(id++, "Lead Pipe"));
-		weapons.add(new Weapon(id++, "Knife"));
-		weapons.add(new Weapon(id++, "Wrench"));
-		weapons.add(new Weapon(id++, "Candlestick"));
-		weapons.add(new Weapon(id++, "Revolver"));
+		weapons.add(new Weapon(id++, "Rope", "rope.jpg"));
+		weapons.add(new Weapon(id++, "Lead Pipe", "leadpipe.jpg"));
+		weapons.add(new Weapon(id++, "Knife", "knife.jpg"));
+		weapons.add(new Weapon(id++, "Wrench","wrench.jpg"));
+		weapons.add(new Weapon(id++, "Candlestick", "candlestick.jpg"));
+		weapons.add(new Weapon(id++, "Revolver", "revolver.jpg"));
 		
 		setupBoard(id);
 		
@@ -86,45 +86,45 @@ public class GameBoard {
 		 * IDs... either way.
 		 */
 		int id = i;
-		Location study = new Location(id++, "Study");
+		Location study = new Location(id++, "Study", "study.jpg");
 		study.setIsRoom();
 		
-		Location hall  = new Location(id++, "Hall");
+		Location hall  = new Location(id++, "Hall", "hall.jpg");
 		hall.setIsRoom();
 		
-		Location lounge = new Location(id++, "Lounge");
+		Location lounge = new Location(id++, "Lounge", "lounge.jpg");
 		lounge.setIsRoom();
 		
-		Location library = new Location(id++, "Library");
+		Location library = new Location(id++, "Library", "library.jpg");
 		library.setIsRoom();
 		
-		Location billiard = new Location(id++, "Billiard Room");
+		Location billiard = new Location(id++, "Billiard Room", "billiardroom.jpg");
 		billiard.setIsRoom();
 		
-		Location dining = new Location(id++, "Dining Room");
+		Location dining = new Location(id++, "Dining Room", "diningroom.jpg");
 		dining.setIsRoom();
 		
-		Location conservatory = new Location(id++, "Conservatory");
+		Location conservatory = new Location(id++, "Conservatory", "conservatory.jpg");
 		conservatory.setIsRoom();
 		
-		Location ballroom = new Location(id++, "Ballroom");
+		Location ballroom = new Location(id++, "Ballroom", "ballroom.jpg");
 		ballroom.setIsRoom();
 		
-		Location kitchen = new Location(id++, "Kitchen");
+		Location kitchen = new Location(id++, "Kitchen", "kitchen.jpg");
 		kitchen.setIsRoom();
 		
-		Location h1 = new Location(id++, "H1");
-		Location h2 = new Location(id++, "H2");
-		Location h3 = new Location(id++, "H3");
-		Location h4 = new Location(id++, "H4");
-		Location h5 = new Location(id++, "H5");
-		Location h6 = new Location(id++, "H6");
-		Location h7 = new Location(id++, "H7");
-		Location h8 = new Location(id++, "H8");
-		Location h9 = new Location(id++, "H9");
-		Location h10 = new Location(id++, "H10");
-		Location h11 = new Location(id++, "H11");
-		Location h12 = new Location(id++, "H12");
+		Location h1 = new Location(id++, "H1", "");
+		Location h2 = new Location(id++, "H2", "");
+		Location h3 = new Location(id++, "H3", "");
+		Location h4 = new Location(id++, "H4", "");
+		Location h5 = new Location(id++, "H5", "");
+		Location h6 = new Location(id++, "H6", "");
+		Location h7 = new Location(id++, "H7", "");
+		Location h8 = new Location(id++, "H8", "");
+		Location h9 = new Location(id++, "H9", "");
+		Location h10 = new Location(id++, "H10", "");
+		Location h11 = new Location(id++, "H11", "");
+		Location h12 = new Location(id++, "H12", "");
 		
 		study.addLocation(h1);
 		study.addLocation(h3);
@@ -220,33 +220,33 @@ public class GameBoard {
 		kitchen.addLocation(study);
 		locations.add(kitchen);
 		
-		Suspect scarlet = new Suspect(id++, "Miss Scarlet"); 
+		Suspect scarlet = new Suspect(id++, "Miss Scarlet", "scarlet.jpg"); 
 		scarlet.setLocation(h2);
 		suspects.add(scarlet);
 		h2.setOccupied(true);
 		this.scarlet = scarlet;
 		
-		Suspect mustard = new Suspect(id++, "Colonel Mustard");
+		Suspect mustard = new Suspect(id++, "Colonel Mustard", "mustard.jpg");
 		mustard.setLocation(h5);
 		suspects.add(mustard);
 		h5.setOccupied(true);
 		
-		Suspect plum = new Suspect(id++, "Professor Plum");
+		Suspect plum = new Suspect(id++, "Professor Plum", "plum.jpg");
 		plum.setLocation(h3);
 		suspects.add(plum);
 		h3.setOccupied(true);
 		
-		Suspect green = new Suspect(id++, "Mr. Green");
+		Suspect green = new Suspect(id++, "Mr. Green", "green.jpg");
 		green.setLocation(h11);
 		suspects.add(green);
 		h11.setOccupied(true);
 		
-		Suspect white = new Suspect(id++, "Mrs. White");
+		Suspect white = new Suspect(id++, "Mrs. White", "white.jpg");
 		white.setLocation(h12);
 		suspects.add(white);
 		h12.setOccupied(true);
 		
-		Suspect peacock = new Suspect(id++, "Mrs. Peacock");
+		Suspect peacock = new Suspect(id++, "Mrs. Peacock", "peacock.jpg");
 		peacock.setLocation(h8);
 		suspects.add(peacock);
 		h8.setOccupied(true);
@@ -295,6 +295,15 @@ public class GameBoard {
 	}
 	public Vector<Weapon> getWeaponSet(){
 		return weapons;
+	}
+	public Vector<Location> getRoomSet(){
+		Vector<Location> rooms = new Vector<Location>();
+		for(Location l: locations){
+			if(l.isRoom()){
+				rooms.add(l);
+			}
+		}
+		return rooms;
 	}
 	public Vector<Suspect> getSuspectSet(){
 		return suspects;

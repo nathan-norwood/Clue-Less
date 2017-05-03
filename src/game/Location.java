@@ -7,8 +7,8 @@ public class Location extends GameComponent{
 	private boolean occupied = false;
 	private boolean isRoom = false;
 	
-	public Location(int i, String s){
-		super(i,s);
+	public Location(int i, String s, String n){
+		super(i,s, n);
 		reachableLocations = new Vector<Location>();
 	}
 

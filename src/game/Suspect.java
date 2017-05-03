@@ -6,9 +6,8 @@ public class Suspect extends GameComponent{
 	private boolean movedBySuggestion = false;
 
 	
-	public Suspect(int i, String s) {
-
-		super(i, s);
+	public Suspect(int i, String s, String n){
+		super(i,s, n);
 	}
 	public void setLocationBySuggestion(Location l) {
 		currentLocation = l;

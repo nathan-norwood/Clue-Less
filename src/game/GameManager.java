@@ -93,22 +93,22 @@ public class GameManager {
 			obuilder.add("games", abuilder);
 			abuilder = Json.createArrayBuilder();
 			
-			for(Entry<Integer, String> e: game_board.getSuspects().entrySet()){	
-				abuilder.add(Json.createObjectBuilder().add("id",e.getKey()).add("name", e.getValue()));
+			for(Suspect s:game_board.getSuspectSet()){	
+				abuilder.add(Json.createObjectBuilder().add("id",s.getId()).add("name", s.getName()).add("img", s.getImgName()));
 				
 			}
 			obuilder.add("suspects", abuilder);
 			abuilder = Json.createArrayBuilder();
 
-			for(Entry<Integer, String> e: game_board.getWeapons().entrySet()){
-				abuilder.add(Json.createObjectBuilder().add("id",e.getKey()).add("name", e.getValue()));
+			for(Weapon w: game_board.getWeaponSet()){
+				abuilder.add(Json.createObjectBuilder().add("id",w.getId()).add("name", w.getName()).add("img", w.getImgName()));
 				
 			}
 			obuilder.add("weapons", abuilder);
 			abuilder = Json.createArrayBuilder();
 
-			for(Entry<Integer, String> e: game_board.getRooms().entrySet()){
-				abuilder.add(Json.createObjectBuilder().add("id",e.getKey()).add("name", e.getValue()));
+			for(Location l:game_board.getRoomSet()){
+				abuilder.add(Json.createObjectBuilder().add("id",l.getId()).add("name", l.getName()).add("img", l.getImgName()));
 				
 			}
 			obuilder.add("rooms", abuilder);

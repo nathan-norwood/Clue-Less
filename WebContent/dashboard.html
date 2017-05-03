@@ -258,16 +258,17 @@
 			
 			<div id="detectiveNotes" class="sidecomponents">
 				<h3 style="text-align:center;">Detective Notes</h3>
+				
 				<p><b>Suspects:</b></p>
 				<div ng-repeat="s in suspects">
 					<input type="checkbox"> {{s.name}}
 				</div>
-				
+				<hr>
 				<p><b>Weapons:</b></p>
 				<div ng-repeat="w in weapons">
 					<input type="checkbox"> {{w.name}}
 				</div>
-				<br />
+				<hr>
 				
 				<p><b>Rooms:</b></p>
 				<div ng-repeat="r in rooms">
