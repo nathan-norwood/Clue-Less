@@ -149,22 +149,24 @@
 		ng-show="game_id!= undefined &&  !game_in_lobby">
 		<h1>Dashboard for Game: {{game_name}}</h1>
 		<div class="container">
-			<div class="components">
+			<div class="sidecomponents">
 				<div id="cards" class="component">
-					<p>Cards:</p>
+					<h3 style="text-align:center;">Cards</h3>
 					<div ng-repeat="c in cards">{{c.name}}</div>
 				</div>
 				<div id="messageBoard" class="component">
-					<h3>Game State Panel</h3>
-					{{msgs}}
+					<h3>Game Log</h3>
+					<div ng-repeat="m in msgs">{{m}}</div>
 				</div>
 			</div>
-			<div class="components">
+			<div class="midcomponents">
 				<div class="component">
 					<div id=playerSuspect>
-						<p>My Character: {{current_suspect.name}}</p>
+						<h3>My Character: {{current_suspect.name}}</h3>
 					</div>
-					<div id="gameBoard">Game Board {{board_state}}</div>
+					<div id="gameBoard">
+						<canvas id="canvas"></canvas>
+					</div>
 				</div>
 
 				<!-- Not a modal yet -->
@@ -254,17 +256,20 @@
 				</div>
 			</div>
 			
-			<div id="detectiveNotes" class="components" style="text-align: left;">
-				<h3>DetectiveNotes</h3>
-				<p>Suspects:</p>
+			<div id="detectiveNotes" class="sidecomponents">
+				<h3 style="text-align:center;">Detective Notes</h3>
+				<p><b>Suspects:</b></p>
 				<div ng-repeat="s in suspects">
 					<input type="checkbox"> {{s.name}}
 				</div>
-				<p>Weapons:</p>
+				
+				<p><b>Weapons:</b></p>
 				<div ng-repeat="w in weapons">
 					<input type="checkbox"> {{w.name}}
 				</div>
-				<p>Rooms:</p>
+				<br />
+				
+				<p><b>Rooms:</b></p>
 				<div ng-repeat="r in rooms">
 					<input type="checkbox"> {{r.name}}
 				</div>
@@ -280,6 +285,6 @@
 		</div>
 	</div>
 
-	<div>{{test}}</div>
+	<!--  div>{{test}}</div -->
 </body>
 </html>

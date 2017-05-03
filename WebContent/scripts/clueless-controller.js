@@ -29,9 +29,13 @@ var clueless = angular
 							}
 							$scope.move_response = undefined;
 							$scope.suggestion_to_disrpove = undefined;
-							$scope.msgs = "The game is started! "
+							$scope.msgs = ["The game is started! "];
 							$scope.is_turn = false;
 							$scope.making_accusation = false;
+							
+							
+							var objDiv = document.getElementById("messageBoard");
+							objDiv.scrollTop = objDiv.scrollHeight;
 							
 							/* Define WebSocket for Communication with Game */
 							var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
@@ -123,8 +127,7 @@ var clueless = angular
 										return s.id == data.suspect;
 									});  
 									
-									$scope.msgs = $scope.msgs + " <br /> " +
-									suspectName[0].name +" "+ data.msg;
+									$scope.msgs.push(suspectName[0].name +" "+ data.msg);
 
 								} else if (data.type = "ENDGAME"){
 									var name = $scope.getSuspectById(data.suspect).name
@@ -352,4 +355,58 @@ var clueless = angular
 							return room[0];
 						}
 						
+						
+						var canvas = document.getElementById('canvas');
+					    var context = canvas.getContext('2d');
+					    
+					    $scope.img1= new Image();
+					    $scope.img1.src="images/Board.jpg"
+					   
+					    $scope.img1.onload = function(){
+					    	context.drawImage($scope.img1,1,1,600,600);
+					    }
+					    $scope.movePoint = function(point) {
+					        console.log(point);
+					        var match = $scope.data.filter(function(p){return p.id == point.id;});
+					        console.log(match[0].id);
+					        match[0].x = match[0].x + 100;
+					        match[0].y = match[0].y + 100;
+					        /*for(var i=0; i<$scope.data.length; i++) {
+					            if($scope.data[i].id === point.id) {
+					                console.log("removing item at position: "+i);
+					                $scope.data.splice(i, 1);    
+					            }
+					        }
+					        */
+					        context.clearRect(0,0,600,400);
+					        draw($scope.data);
+					        console.log($scope.data);
+					    }
+					    
+					    function draw(data) {
+					    	context.drawImage($scope.img1,1,1,600,600);
+					        for(var i=0; i<data.length; i++) {
+					            drawDot(data[i]);
+					        }
+					    }
+					    
+					    function drawDot(data) {
+					        context.beginPath();
+					        context.arc(data.x, data.y, data.amount, 0, 2*Math.PI, false);
+					        context.fillStyle = "#ccddff";
+					        context.fill();
+					        context.lineWidth = 1;
+					        context.strokeStyle = "#666666";
+					        context.stroke();  
+					    }
+					    $scope.data = [
+					       
+					    ];
+					    canvas.width = 600;
+					    canvas.height = 600;
+					    context.globalAlpha = 1.0;
+					    context.beginPath();
+					    draw($scope.data);  
+					    
+					    
 	} ]);
