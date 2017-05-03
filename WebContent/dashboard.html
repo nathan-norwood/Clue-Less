@@ -150,19 +150,20 @@
 		<h1>Dashboard for Game: {{game_name}}</h1>
 		<div class="container">
 			<div class="sidecomponents">
+				<div id=playerSuspect>
+					<p style="text-align: center;">My Character: {{current_suspect.name}}</p>
+				</div>
 				<div id="cards" class="component">
-					<h3 style="text-align:center;">Cards</h3>
+					<p style="text-align: center;">My Cards</p>
 					<div ng-repeat="c in cards">{{c.name}}</div>
 				</div>
-				<div id="messageBoard" class="component">
-					<h3>Game Log</h3>
-					<div ng-repeat="m in msgs">{{m}}</div>
-				</div>
+
 			</div>
 			<div class="midcomponents">
+
 				<div class="component">
-					<div id=playerSuspect>
-						<h3>My Character: {{current_suspect.name}}</h3>
+					<div id="messageBoard">
+						<div ng-repeat="m in msgs | reverse">{{m}}</div>
 					</div>
 					<div id="gameBoard">
 						<canvas id="canvas"></canvas>
@@ -255,22 +256,28 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="detectiveNotes" class="sidecomponents">
-				<h3 style="text-align:center;">Detective Notes</h3>
-				
-				<p><b>Suspects:</b></p>
+				<h3 style="text-align: center;">Detective Notes</h3>
+
+				<p>
+					<b>Suspects:</b>
+				</p>
 				<div ng-repeat="s in suspects">
 					<input type="checkbox"> {{s.name}}
 				</div>
 				<hr>
-				<p><b>Weapons:</b></p>
+				<p>
+					<b>Weapons:</b>
+				</p>
 				<div ng-repeat="w in weapons">
 					<input type="checkbox"> {{w.name}}
 				</div>
 				<hr>
-				
-				<p><b>Rooms:</b></p>
+
+				<p>
+					<b>Rooms:</b>
+				</p>
 				<div ng-repeat="r in rooms">
 					<input type="checkbox"> {{r.name}}
 				</div>

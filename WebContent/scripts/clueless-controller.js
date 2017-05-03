@@ -33,10 +33,6 @@ var clueless = angular
 							$scope.is_turn = false;
 							$scope.making_accusation = false;
 							
-							
-							var objDiv = document.getElementById("messageBoard");
-							objDiv.scrollTop = objDiv.scrollHeight;
-							
 							/* Define WebSocket for Communication with Game */
 							var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
 							ws.onMessage(function(event) {
@@ -412,4 +408,8 @@ var clueless = angular
 					    draw($scope.data);  
 					    
 					    
-	} ]);
+	} ]).filter('reverse', function() {
+		  return function(items) {
+			    return items.slice().reverse();
+			  };
+			});;

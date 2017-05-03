@@ -71,7 +71,8 @@ button{
 }
 
 #messageBoard{
-	overflow:scroll;
+	overflow-y:auto;
+	height: 60px;
 	width: 100%;
 }
 #disrpoveSuggestion{
