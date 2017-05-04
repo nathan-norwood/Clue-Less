@@ -33,6 +33,32 @@ var clueless = angular
 							$scope.is_turn = false;
 							$scope.making_accusation = false;
 							
+							$scope.pos = [
+								{id:6, x:45, y:45, gcomp:[27]},
+								{id:6, x:45, y:45, gcomp:[27]},
+								{id:7, x:300, y:45, gcomp:[27]},
+								{id:8, x:580, y:45, gcomp:[27]},
+								{id:9, x:45, y:300, gcomp:[27]},
+								{id:10, x:300, y:300, gcomp:[27]},
+								{id:11, x:500, y:300, gcomp:[27]},
+								{id:12, x:45, y:580, gcomp:[27]},
+								{id:13, x:300, y:580, gcomp:[27]},
+								{id:14, x:580, y:580, gcomp:[27]},
+								
+								{id:15, x:215, y:75, gcomp:[27]},
+								{id:16, x:485, y:75, gcomp:[27]},
+								{id:17, x:85, y:200, gcomp:[27]},
+								{id:18, x:345, y:200, gcomp:[27]},
+								{id:19, x:615, y:200, gcomp:[27]},
+								{id:20, x:215, y:430, gcomp:[27]},
+								{id:21, x:485, y:430, gcomp:[27]},
+								{id:22, x:85, y:470, gcomp:[27]},
+								{id:23, x:345, y:470, gcomp:[27]},
+								{id:24, x:615, y:470, gcomp:[27]},
+								{id:25, x:215, y:600, gcomp:[27]},
+								{id:26, x:485, y:600, gcomp:[27]},
+								];
+							
 							/* Define WebSocket for Communication with Game */
 							var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
 							ws.onMessage(function(event) {
@@ -46,6 +72,12 @@ var clueless = angular
 									$scope.rooms = data.rooms;
 
 								} else if (data.type == "CARDS") {
+									canvas.width = 600;
+								    canvas.height = 600;
+								    context.globalAlpha = 1.0;
+								    context.beginPath();
+								    draw(); 
+								    
 									$scope.cards = data.cards;
 									
 									$scope.game_in_lobby = false;
@@ -333,8 +365,12 @@ var clueless = angular
 							.filter(function(s) {
 								return s.id == id;
 							}); 
-							
+							if(suspect != undefined){
 							return suspect[0];
+							}else{
+								return undefined;
+							}
+							
 						}
 						
 						$scope.getWeaponById = function (id){
@@ -342,7 +378,11 @@ var clueless = angular
 						.filter(function(w) {
 							return w.id == id
 						}); 
+						if(weapon != undefined){
 						return weapon[0];
+						}else{
+							return undefined;
+						}
 						
 						}	
 						
@@ -351,8 +391,11 @@ var clueless = angular
 							.filter(function(r) {
 								return r.id == id;
 							}); 
-							
+							if(room != undefined){
 							return room[0];
+							}else{
+								return undefined;
+							}
 						}
 						
 					
@@ -362,53 +405,36 @@ var clueless = angular
 					    var context = canvas.getContext('2d');
 					    
 					    $scope.img1= new Image();
-					    $scope.img1.src="images/Board.jpg"
+					    $scope.img1.src="images/newboard.png"
 					   
 					    $scope.img1.onload = function(){
 					    	context.drawImage($scope.img1,1,1,600,600);
 					    }
-					    $scope.movePoint = function(point) {
-					        console.log(point);
-					        var match = $scope.data.filter(function(p){return p.id == point.id;});
-					        console.log(match[0].id);
-					        match[0].x = match[0].x + 100;
-					        match[0].y = match[0].y + 100;
-					        /*for(var i=0; i<$scope.data.length; i++) {
-					            if($scope.data[i].id === point.id) {
-					                console.log("removing item at position: "+i);
-					                $scope.data.splice(i, 1);    
-					            }
-					        }
-					        */
-					        context.clearRect(0,0,600,400);
-					        draw($scope.data);
-					        console.log($scope.data);
-					    }
 					    
-					    function draw(data) {
+					    
+					    function draw() {
 					    	context.drawImage($scope.img1,1,1,600,600);
-					        for(var i=0; i<data.length; i++) {
-					            drawDot(data[i]);
+					        for(var i=0; i<$scope.pos.length; i++) {
+					        	for(var j=0; j<$scope.pos[i].gcomp.length;j++){
+					        		var comp = $scope.getSuspectById($scope.pos[i].gcomp[j]);
+					        	
+					        		if( comp == undefined){
+					        			comp = $scope.getWeaponById($scope.pos[i].gcomp[j]);
+					        		}
+					        		if( comp != undefined){
+					        			var comp_img =new Image();
+					        			comp_img.src = "images/icons/"+comp.img;
+						        		context.drawImage(comp_img,
+						        				$scope.pos[i].x,
+						        				$scope.pos[i].y,
+						        				30,
+						        				30);
+					        		}
+					        		
+					        	}
 					        }
 					    }
-					    
-					    function drawDot(data) {
-					        context.beginPath();
-					        context.arc(data.x, data.y, data.amount, 0, 2*Math.PI, false);
-					        context.fillStyle = "#ccddff";
-					        context.fill();
-					        context.lineWidth = 1;
-					        context.strokeStyle = "#666666";
-					        context.stroke();  
-					    }
-					    $scope.data = [
-					       
-					    ];
-					    canvas.width = 600;
-					    canvas.height = 600;
-					    context.globalAlpha = 1.0;
-					    context.beginPath();
-					    draw($scope.data);  
+					     
 					    
 					    
 	} ]).filter('reverse', function() {
