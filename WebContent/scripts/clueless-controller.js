@@ -32,115 +32,119 @@ var clueless = angular
 							$scope.is_turn = false;
 							$scope.making_accusation = false;
 
-							$scope.pos = [ {
+							var pos = [];
+							var posReset = function(){
+								pos = [ {
 								id : 6,
 								x : 55,
 								y : 43,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 7,
 								x : 303,
 								y : 43,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 8,
 								x : 510,
 								y : 43,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 9,
 								x : 45,
 								y : 262,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 10,
 								x : 303,
 								y : 262,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 11,
 								x : 510,
 								y : 262,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 12,
 								x : 45,
 								y : 500,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 13,
 								x : 303,
 								y : 500,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 14,
 								x : 510,
 								y : 500,
-								gcomp : [ 27 ]
+								gcomp : []
 							},
 
 							{
 								id : 15,
 								x : 160,
 								y : 43,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 16,
 								x : 400,
 								y : 43,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 17,
 								x : 55,
 								y : 155,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 18,
 								x : 283,
 								y : 155,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 19,
 								x : 510,
 								y : 155,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 20,
 								x : 160,
 								y : 262,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 21,
 								x : 400,
 								y : 262,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 22,
 								x : 55,
 								y : 380,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 23,
 								x : 303,
 								y : 380,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 24,
 								x : 510,
 								y : 380,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 25,
 								x : 160,
 								y : 510,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, {
 								id : 26,
 								x : 400,
 								y : 510,
-								gcomp : [ 27 ]
+								gcomp : []
 							}, ];
 
+							};
+							
 							/* Define WebSocket for Communication with Game */
 							var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
 							ws
@@ -155,8 +159,6 @@ var clueless = angular
 											$scope.rooms = data.rooms;
 
 										} else if (data.type == "CARDS") {
-
-											draw();
 
 											$scope.cards = data.cards;
 
@@ -213,6 +215,14 @@ var clueless = angular
 
 										} else if (data.type == "BOARD_STATE") {
 											$scope.board_state = data.board;
+											posReset();
+											for(var i =0; i<pos.length;i++){
+												var match = $scope.board_state.filter(function(o){return pos[i].id === o.r_id;});
+												for(j=0;j<match.length;j++){
+													pos[i].gcomp.push(match[j].id);
+												}
+											}
+											draw();
 
 										} else if (data.type == "DISPROVE") {
 
@@ -507,22 +517,32 @@ var clueless = angular
 
 							var draw = function() {
 								context.drawImage($scope.img1, 1, 1, 600, 600);
-								for (var i = 0; i < $scope.pos.length; i++) {
-									for (var j = 0; j < $scope.pos[i].gcomp.length; j++) {
+								for (var i = 0; i < pos.length; i++) {
+									for (var j = 0; j < pos[i].gcomp.length; j++) {
 										var comp = $scope
-												.getSuspectById($scope.pos[i].gcomp[j]);
+												.getSuspectById(pos[i].gcomp[j]);
 
 										if (comp == undefined) {
 											comp = $scope
-													.getWeaponById($scope.pos[i].gcomp[j]);
+													.getWeaponById(pos[i].gcomp[j]);
 										}
 										if (comp != undefined) {
 											var comp_img = new Image();
 											comp_img.src = "images/icons/"
 													+ comp.img;
-											context.drawImage(comp_img,
-													$scope.pos[i].x,
-													$scope.pos[i].y, 20, 25);
+											if(j>6){
+												context.drawImage(comp_img,
+														pos[i].x+((j%3)*25),
+														pos[i].y+70, 20, 25);
+											}else if(j>3){
+												context.drawImage(comp_img,
+														pos[i].x+((j%3)*25),
+														pos[i].y+35, 20, 25);
+											}else{
+												context.drawImage(comp_img,
+														pos[i].x+(j*25),
+														pos[i].y, 20, 25);
+											}
 										}
 
 									}
