@@ -58,14 +58,14 @@ button{
 #gameDashboard {
 	width:100%;
 	border-style:solid;	
+	background-color :#9bd59f
 }
 #detectiveNotes{
 	width: 100%;
 }
 #cards{
 	width: 100%;
-	background-color: #15260F;
-	color : white;
+	
 
 }
 #turn{
@@ -76,6 +76,7 @@ button{
 	overflow-y:auto;
 	height: 60px;
 	width: 100%;
+	text-align: left
 }
 #disrpoveSuggestion{
 	width: 100%;
@@ -87,6 +88,10 @@ button{
 	/*background-image:url(../images/Board.jpg);
 	background-size: 100% auto;*/
 	
+}
+#hourGlass{
+	height: 40%;
+	width: 40%;
 }
 .container{
 	display:flex;
@@ -100,7 +105,10 @@ button{
 	text-align:left;
 	padding: 20px;
 	border-style:solid;
-	border-color: #15260F;
+	border-color: white;
+	background-color: #15260F;
+	color : #f0f0f0;
+	background: rgba(0,0,0,0.6);
 }
 .midcomponents{
 	flex-grow: 2;
@@ -112,12 +120,22 @@ button{
 }
 .component{
 	flex-grow:1;
+	background-color: #15260F ;
+	color : #f0f0f0;;
+	border-style:solid;
+	border-color: white;
+	background: rgba(0,0,0,0.6);
 	
 }
 .cardImg{
-	height: 50%
-	width: 50%
+	height: 110%;
+	width: 110%;
 	
+}
+
+.boardSelect{
+	color: #15260F;
+	backgournd-color: #9bd59f;
 }
 
 #gameOver{

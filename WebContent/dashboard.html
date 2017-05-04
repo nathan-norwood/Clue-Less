@@ -154,7 +154,7 @@
 					<p style="text-align: center;">My Character:
 						{{current_suspect.name}}</p>
 				</div>
-				<div id="cards" class="component">
+				<div id="cards">
 					<p style="text-align: center;">My Cards</p>
 					<div class="row">
 
@@ -162,7 +162,7 @@
 						<div ng-repeat="c in cards">
 							<div class="clearfix" ng-if="$index % 2 == 0"></div>
 							<div class="col-sm-5">
-								<img ng-src="{{c.img}}" class = "cardImg"/>
+								<img ng-src="{{c.img}}" class="cardImg" />
 							</div>
 						</div>
 					</div>
@@ -206,18 +206,21 @@
 								<p>Room: {{chosen_location.name}}
 								<form ng-submit="submitMove(suspect, weapon)">
 									<label>Suspect: </label><select ng-model="suspect"
-										ng-options="s.id as s.name for s in suspects"></select> <label>Weapon:
-									</label><select ng-model="weapon"
-										ng-options="w.id as w.name for w in weapons"></select>
+										ng-options="s.id as s.name for s in suspects"
+										class="boardSelect"></select> <label>Weapon: </label><select
+										ng-model="weapon" ng-options="w.id as w.name for w in weapons"
+										class="boardSelect"></select>
 
 
-									<button type="submit" class="btn btn-success">Make
-										Suggestion</button>
+									<button type="submit" class="button">Make Suggestion</button>
 								</form>
 							</div>
 						</div>
 						<div ng-show="move_response != undefined">
-							{{move_response}}
+							{{move_response}}<br>
+							<div ng-show="move_response == 'Waiting for other players to disprove'">
+							 <img id = "hourGlass" src="images/hourglass.gif" />
+							</div>
 							<div
 								ng-show="move_response != 'Waiting for other players to disprove'">
 								<button type=button ng-click="endTurn()">End Turn</button>
@@ -230,12 +233,14 @@
 						<div ng-show="making_accusation">
 							<form ng-submit="submitAccusation(suspect, weapon, room)">
 								<label>Suspect</label><select ng-model="suspect"
-									ng-options="s.id as s.name for s in suspects"></select> <label>Weapon</label><select
-									ng-model="weapon" ng-options="w.id as w.name for w in weapons"></select>
-								<label>Room</label><select ng-model="room"
-									ng-options="r.id as r.name for r in rooms"></select>
+									ng-options="s.id as s.name for s in suspects"
+									class="boardSelect"></select> <label>Weapon</label><select
+									ng-model="weapon" ng-options="w.id as w.name for w in weapons"
+									class="boardSelect"></select> <label>Room</label><select
+									ng-model="room" ng-options="r.id as r.name for r in rooms"
+									class="boardSelect"></select>
 
-								<button type="submit">Submit Accusation</button>
+								<button type="submit" class="button">Submit Accusation</button>
 
 							</form>
 						</div>
@@ -260,8 +265,8 @@
 									ng-model="disprove_choice.id" value="-1">Cannot
 								Disprove
 							</div>
-							<button type="submit" class="btn btn-success">Send
-								Disprove Choice</button>
+							<button type="submit" class="button">Send Disprove
+								Choice</button>
 						</form>
 					</div>
 				</div>

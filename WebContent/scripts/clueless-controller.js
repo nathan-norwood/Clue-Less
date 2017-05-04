@@ -5,8 +5,8 @@ var clueless = angular
 				[
 						'$scope',
 						'$websocket',
-						'$window',
-						function($scope, $websocket, $window) {
+						'$filter',
+						function($scope, $websocket, $filter) {
 
 							
 							/* Globals */
@@ -118,13 +118,14 @@ var clueless = angular
 									
 									
 								} else if (data.type == "MSG") {
-									
+									var date = new Date();
+									var timestamp = $filter('date')(date, "hh:mm:ss");
 									var suspectName = $scope.suspects
 									.filter(function(s) {
 										return s.id == data.suspect;
 									});  
 									if(suspectName.length>0){
-										$scope.msgs.push(suspectName[0].name +" "+ data.msg);
+										$scope.msgs.push("(" + timestamp +")"+ suspectName[0].name +" "+ data.msg);
 									}else{
 										$scope.msgs.push(data.msg);
 									}
