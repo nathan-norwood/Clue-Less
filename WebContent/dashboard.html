@@ -198,6 +198,7 @@
 								</div>
 								<input type="radio" name="move" ng-model="move_chosen.id"
 									value="-2">Make Accusation <br>
+									<br>
 								<button type="submit" class="btn btn-success">Submit</button>
 							</form>
 
@@ -211,7 +212,7 @@
 										ng-model="weapon" ng-options="w.id as w.name for w in weapons"
 										class="boardSelect"></select>
 
-
+									<br>
 									<button type="submit" class="button">Make Suggestion</button>
 								</form>
 							</div>
@@ -240,6 +241,7 @@
 									ng-model="room" ng-options="r.id as r.name for r in rooms"
 									class="boardSelect"></select>
 
+								<br>
 								<button type="submit" class="button">Submit Accusation</button>
 
 							</form>
@@ -265,6 +267,7 @@
 									ng-model="disprove_choice.id" value="-1">Cannot
 								Disprove
 							</div>
+							<br>
 							<button type="submit" class="button">Send Disprove
 								Choice</button>
 						</form>
