@@ -203,7 +203,8 @@ public class Game {
 				}
 				obuilder.add("type", "CARDS");
 				for (Card c : p.getCards()) {
-					abuilder.add(Json.createObjectBuilder().add("id", c.getId()).add("name", c.getName()));
+					abuilder.add(Json.createObjectBuilder().add("id", c.getId()).add("name", c.getName()).add("img",
+							getCardSrcById(c.getId())));
 				}
 				obuilder.add("cards", abuilder);
 				Response r = new Response(p.getUniqueId(), obuilder.build());
@@ -229,6 +230,17 @@ public class Game {
 			/* not enough people to start the game */
 			return null;
 		}
+	}
+
+	private String getCardSrcById(int id) {
+		String imgSrc = "images/cards/";
+		for (GameComponent gc : board.getGameComponenets()) {
+			if (gc.getId() == id) {
+				imgSrc += gc.getImgName();
+			}
+		}
+
+		return imgSrc;
 	}
 
 	/* ask Player to disprove a suggestion */

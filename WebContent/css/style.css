@@ -64,7 +64,7 @@ button{
 }
 #cards{
 	width: 100%;
-	background-color: #15260F;
+
 }
 #turn{
 	width: 100%;
@@ -110,7 +110,14 @@ button{
 }
 .component{
 	flex-grow:1;
+	
 }
+.cardImg{
+	height: 70%
+	width: 70%
+	
+}
+
 #gameOver{
 	background-image:url(../images/BackgroundBoard.jpg);
 	height: 100vh;

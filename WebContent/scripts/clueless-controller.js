@@ -47,6 +47,7 @@ var clueless = angular
 
 								} else if (data.type == "CARDS") {
 									$scope.cards = data.cards;
+									
 									$scope.game_in_lobby = false;
 									$scope.current_suspect = $scope.suspects
 									.filter(function(s) {
@@ -353,6 +354,8 @@ var clueless = angular
 							
 							return room[0];
 						}
+						
+					
 						
 						
 						var canvas = document.getElementById('canvas');

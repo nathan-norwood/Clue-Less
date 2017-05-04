@@ -8,7 +8,7 @@
 
 </head>
 <body ng-controller="ctrlr">
-	<div id="header">Clue-Less</div>
+
 	<script src="scripts/angular.min.js" type="text/javascript"></script>
 	<script src="scripts/angular-cookies.js" type="text/javascript"></script>
 	<script
@@ -29,7 +29,7 @@
 
 		});
 	</script>
-
+	<div id="header" ng-show="!(game_id!= undefined && !game_in_lobby)">Clue-Less</div>
 
 	<div id="gameSelect"
 		ng-show="game_id == undefined && !game_in_Lobby && end_game == undefined"
@@ -151,11 +151,21 @@
 		<div class="container">
 			<div class="sidecomponents">
 				<div id=playerSuspect>
-					<p style="text-align: center;">My Character: {{current_suspect.name}}</p>
+					<p style="text-align: center;">My Character:
+						{{current_suspect.name}}</p>
 				</div>
 				<div id="cards" class="component">
 					<p style="text-align: center;">My Cards</p>
-					<div ng-repeat="c in cards">{{c.name}}</div>
+					<div class="row">
+
+
+						<div ng-repeat="c in cards">
+							<div class="clearfix" ng-if="$index % 2 == 0"><</div>
+							<div class="col-sm-5">
+								<img ng-src="{{c.img}}" class = "cardImg"/>
+							</div>
+						</div>
+					</div>
 				</div>
 
 			</div>
