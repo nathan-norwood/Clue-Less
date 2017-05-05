@@ -227,6 +227,7 @@ public class GameManager {
 	}
 	
 	private void sendToAllPlayers(Response res, Game g){
+		System.out.println(res.getMsgs());
 		for(Player p :g.getPlayers()){
 			Session ses = playerSessions.inverse().get(p.getUniqueId());
 			try {

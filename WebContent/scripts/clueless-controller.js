@@ -508,15 +508,16 @@ var clueless = angular
 							context.globalAlpha = 1.0;
 							context.beginPath();
 
-							$scope.img1 = new Image();
-							$scope.img1.src = "images/newboard.png"
+							var img1 = new Image();
+							img1.src = "images/newboard.png"
 
-							$scope.img1.onload = function() {
-								context.drawImage($scope.img1, 1, 1, 600, 600);
-							}
+							/*img1.onload = function() {
+								context.drawImage(img1, 1, 1, 600, 600);
+							}*/
 
 							var draw = function() {
-								context.drawImage($scope.img1, 1, 1, 600, 600);
+								context.clearRect(0,0,600,600);
+								context.drawImage(img1, 1, 1, 600, 600);
 								for (var i = 0; i < pos.length; i++) {
 									for (var j = 0; j < pos[i].gcomp.length; j++) {
 										var comp = $scope
@@ -543,6 +544,8 @@ var clueless = angular
 														pos[i].x+(j*25),
 														pos[i].y, 20, 25);
 											}
+										}else{
+											alert("couldnt find object in suspects or weapons");
 										}
 
 									}

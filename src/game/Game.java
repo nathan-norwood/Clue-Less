@@ -211,14 +211,15 @@ public class Game {
 				responses.add(r);
 
 			}
-			if (current_player == null)
+			if (current_player == null){
 				current_player = players.get(0);
+			}
 
 			obuilder.add("type", "MSG");
 			obuilder.add("suspect", current_player.getSuspectId());
 			obuilder.add("msg", " will have the first move.");
+			
 			Response r = new Response(0, obuilder.build());
-
 			responses.add(r);
 			responses.add(new Response(0, getBoardState()));
 			responses.add(new Response(current_player.getUniqueId(), sendMove()));
