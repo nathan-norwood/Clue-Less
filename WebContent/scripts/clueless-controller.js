@@ -144,7 +144,8 @@ var clueless = angular
 							}, ];
 
 							};
-							
+							var images=[];
+							var loadedImgCnt=0;
 							/* Define WebSocket for Communication with Game */
 							var ws = $websocket('ws://localhost:8080/Clue-Less/socket');
 							ws
@@ -157,6 +158,26 @@ var clueless = angular
 											$scope.suspects = data.suspects;
 											$scope.weapons = data.weapons;
 											$scope.rooms = data.rooms;
+											var x;
+											for( x in $scope.suspects){
+												images.push({"id":$scope.suspects[x].id, "url":$scope.suspects[x].img});
+											}
+											for( x in $scope.weapons){
+												images.push({"id":$scope.weapons[x].id, "url":$scope.weapons[x].img});
+											}
+											for(var i=0; i<images.length;i++){
+												images[i].img = new Image();
+												images[i].img.src = "images/icons/"+images[i].url;
+												images[i].img.onload = function(){
+													loadedImgCnt++;
+													if(loadedImgCnt >= images.length){
+														draw();
+													}
+												};
+												
+											
+											}
+											
 
 										} else if (data.type == "CARDS") {
 
@@ -511,48 +532,42 @@ var clueless = angular
 							var img1 = new Image();
 							img1.src = "images/newboard.png"
 
-							/*img1.onload = function() {
+							img1.onload = function() {
 								context.drawImage(img1, 1, 1, 600, 600);
-							}*/
+							}
 
 							var draw = function() {
 								context.clearRect(0,0,600,600);
 								context.drawImage(img1, 1, 1, 600, 600);
 								for (var i = 0; i < pos.length; i++) {
 									for (var j = 0; j < pos[i].gcomp.length; j++) {
-										var comp = $scope
-												.getSuspectById(pos[i].gcomp[j]);
-
-										if (comp == undefined) {
-											comp = $scope
-													.getWeaponById(pos[i].gcomp[j]);
-										}
-										if (comp != undefined) {
-											var comp_img = new Image();
-											comp_img.src = "images/icons/"
-													+ comp.img;
+										
+										var match = images.filter(function(img){return img.id == pos[i].gcomp[j];})
+										if(match != undefined){
 											if(j>6){
-												context.drawImage(comp_img,
+												context.drawImage(match[0].img,
 														pos[i].x+((j%3)*25),
 														pos[i].y+70, 20, 25);
 											}else if(j>3){
-												context.drawImage(comp_img,
+												context.drawImage(match[0].img,
 														pos[i].x+((j%3)*25),
 														pos[i].y+35, 20, 25);
 											}else{
-												context.drawImage(comp_img,
+												context.drawImage(match[0].img,
 														pos[i].x+(j*25),
 														pos[i].y, 20, 25);
 											}
-										}else{
-											alert("couldnt find object in suspects or weapons");
 										}
+									
 
 									}
 								}
 							}
+						
 
-						} ]).filter('reverse', function() {
+						}
+						
+						]).filter('reverse', function() {
 			return function(items) {
 				return items.slice().reverse();
 			};
