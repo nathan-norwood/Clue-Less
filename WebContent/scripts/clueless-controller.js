@@ -36,17 +36,17 @@ var clueless = angular
 							var posReset = function(){
 								pos = [ {
 								id : 6,
-								x : 55,
+								x : 45,
 								y : 43,
 								gcomp : []
 							}, {
 								id : 7,
-								x : 303,
+								x : 293,
 								y : 43,
 								gcomp : []
 							}, {
 								id : 8,
-								x : 510,
+								x : 500,
 								y : 43,
 								gcomp : []
 							}, {
@@ -56,12 +56,12 @@ var clueless = angular
 								gcomp : []
 							}, {
 								id : 10,
-								x : 303,
+								x : 293,
 								y : 262,
 								gcomp : []
 							}, {
 								id : 11,
-								x : 510,
+								x : 500,
 								y : 262,
 								gcomp : []
 							}, {
@@ -71,12 +71,12 @@ var clueless = angular
 								gcomp : []
 							}, {
 								id : 13,
-								x : 303,
+								x : 293,
 								y : 500,
 								gcomp : []
 							}, {
 								id : 14,
-								x : 510,
+								x : 500,
 								y : 500,
 								gcomp : []
 							},
@@ -544,14 +544,14 @@ var clueless = angular
 										
 										var match = images.filter(function(img){return img.id == pos[i].gcomp[j];})
 										if(match != undefined){
-											if(j>6){
+											if(j>=6){
 												context.drawImage(match[0].img,
 														pos[i].x+((j%3)*25),
-														pos[i].y+70, 20, 25);
-											}else if(j>3){
+														pos[i].y+60, 20, 25);
+											}else if(j>=3){
 												context.drawImage(match[0].img,
 														pos[i].x+((j%3)*25),
-														pos[i].y+35, 20, 25);
+														pos[i].y+30, 20, 25);
 											}else{
 												context.drawImage(match[0].img,
 														pos[i].x+(j*25),
