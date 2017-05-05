@@ -206,15 +206,7 @@ public class GameManager {
 			// Send 'game' with each msg.
 			Vector<Response> responses;
 			Game g = games.get(input.getInt("game"));
-			if (input.getJsonObject("selection").containsKey("location")) {
-				JsonObjectBuilder obuilder = Json.createObjectBuilder();
-
-				obuilder.add("Type", "MSG").add("suspect", g.getCurrent_player().getSuspectId()).add("msg",
-						"moved to " + g.getGameBoard()
-								.getLocationById(input.getJsonObject("selection").getInt("location")).getName());
-				Response r = new Response(0, obuilder.build());
-				sendToAllPlayers(r, g);
-			}
+			
 
 			responses = g.processMoveResponse(input.getJsonObject("selection"));
 			sendResponses(responses, g);
