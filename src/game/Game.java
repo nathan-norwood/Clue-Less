@@ -408,6 +408,17 @@ public class Game {
 					// NN - Commented out b/c it was causing null pointer
 					// and we aren't handling BOARD_STATE messages in the front
 					responses.add(new Response(0, getBoardState()));
+					
+					
+//					if (input.getJsonObject("selection").containsKey("location")) {
+//						JsonObjectBuilder obuilder = Json.createObjectBuilder();
+//
+//						obuilder.add("Type", "MSG").add("suspect", g.getCurrent_player().getSuspectId()).add("msg",
+//								"moved to " + g.getGameBoard()
+//										.getLocationById(input.getJsonObject("selection").getInt("location")).getName());
+//						Response r = new Response(0, obuilder.build());
+//						sendToAllPlayers(r, g);
+//					}
 				} else {
 					// TODO Error!
 					System.out.println("Should not be here, player made invalid move");

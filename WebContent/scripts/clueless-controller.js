@@ -358,7 +358,7 @@ var clueless = angular
 											.filter(function(l) {
 												return l.id == $scope.move_chosen.id;
 											});
-
+									
 									$scope.chosen_location = $scope.chosen_location[0];
 									if ($scope.chosen_location.room) {
 										$scope.making_suggestion = true;
